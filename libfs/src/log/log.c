@@ -105,6 +105,7 @@ void init_log()
 	pthread_mutexattr_t attr;
 	char* env;
 
+	// taijing: Note that the log header must be less than a block size for crash consistency.
 	if (sizeof(struct logheader) > g_block_size_bytes) {
 		printf("log header size %lu block size %lu\n",
 				sizeof(struct logheader), g_block_size_bytes);
@@ -130,6 +131,7 @@ void init_log()
 	g_fs_log->id = g_self_id;
 	g_fs_log->nloghdr = 0;
 
+	// taijing: shared mem
 	ret = pipe((int*)g_fs_log->digest_fd);
 	if (ret < 0) 
 		panic("cannot create pipe for digest\n");
@@ -362,12 +364,15 @@ inline addr_t log_alloc(uint32_t nr_blocks)
 	//mlfs_assert(g_fs_log->avail_version - g_fs_log->start_version < 2);
 
 	// Log is getting full. make asynchronous digest request.
+	// taijing: if not digesting
 	if (!g_fs_log->digesting) {
 		addr_t nr_used_blk = 0;
 		if (g_fs_log->avail_version == g_fs_log->start_version) {
 			mlfs_assert(g_fs_log->next_avail_header >= g_fs_log->start_blk);
 			nr_used_blk = g_fs_log->next_avail_header - g_fs_log->start_blk; 
 		} else {
+			// taijing: g_fs_log->size = g_fs_log->log_sb_blk + g_log_size;
+			// therefore, nr_used_blk =  g_fs_log->log_sb_blk
 			nr_used_blk = (g_fs_log->size - g_fs_log->start_blk);
 			nr_used_blk += (g_fs_log->next_avail_header - g_fs_log->log_sb_blk);
 		}
@@ -383,6 +388,7 @@ inline addr_t log_alloc(uint32_t nr_blocks)
 	pthread_mutex_lock(g_fs_log->shared_log_lock);
 
 	// next_avail_header reaches the end of log. 
+	// taijng: wrap around
 	//if (g_fs_log->next_avail_header + nr_blocks > g_fs_log->log_sb_blk + g_fs_log->size) {
 	if (g_fs_log->next_avail_header + nr_blocks > g_fs_log->size) {
 		atomic_store(&g_log_sb->end, g_fs_log->next_avail_header - 1);

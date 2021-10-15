@@ -42,7 +42,7 @@ NVML_DIR := $(abspath $(CURDIR)/lib/nvml/src)
 JEMALLOC_DIR := $(abspath $(CURDIR)/lib/jemalloc-4.5.0)
 RDMA_DIR := $(abspath $(CURDIR)/lib/rdma)
 RDMA_CORE_DIR := $(abspath $(CURDIR)/lib/rdma-core)
-SYSCALL_INTERCEPT_DIR := $(abspath $(CURDIR)/lib/syscall_intercept/install/)
+SYSCALL_INTERCEPT_DIR := $(abspath $(CURDIR)/lib/syscall_intercept)
 
 INCLUDES  := $(addprefix -I,src/ $(RDMA_CORE_DIR)/build/include $(RDMA_DIR) $(NVML_DIR)/include $(SYSCALL_INTERCEPT_DIR)/include)
 
