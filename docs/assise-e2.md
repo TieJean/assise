@@ -94,7 +94,7 @@ make_digest_request_async(100);
 wait_on_digesting();
 ```
 
-From gdb, we know it goes through 4 functions:
+From gdb, we know it goes through 5 functions:
 
 In libfs/src/log/log.h:
 
@@ -185,6 +185,7 @@ void init_rdma_agent(char *listen_port, struct mr_context *regions,
 		app_conn_cb_fn app_connect,
 		app_disc_cb_fn app_disconnect,
 		app_recv_cb_fn app_receive);
+	// port is listen_port
 	// if(ch_type == CH_TYPE_LOCAL || ch_type == CH_TYPE_ALL)
 			// pthread_create(&comm_thread, NULL, local_server_loop, port);
 int add_connection(char* ip, char *port, int app_type, pid_t pid, int ch_type, int polling_loop);
@@ -196,9 +197,12 @@ int add_connection(char* ip, char *port, int app_type, pid_t pid, int ch_type, i
 
 ```c
 void * local_server_loop(void *port);
+	// *sock_arg = shmem_chan_add(atoi(port), newSocket, -1, -1, 1);
 	// if(pthread_create(&ctx->cq_poller_thread, NULL, local_server_thread, sock_arg) != 0 )
 			// mp_die("Failed to create thread");
+int shmem_chan_add(int portno, int realfd, int app_type, pid_t pid, int polling);
 void * local_server_thread(void *arg);
+	// int sockfd = *((int *)arg);
 	// shmem_chan_setup(sockfd, send_addr, recv_addr);
 	// shmem_poll_loop(sockfd);
 void * local_client_thread(void *arg);
