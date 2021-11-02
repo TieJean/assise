@@ -48,7 +48,7 @@ All of them calls `add_to_log`, which is defined in  libfs/src/filesystem/fs.c:
 int add_to_log(struct inode *ip, uint8_t *data, offset_t off, uint32_t size, uint8_t ltype);
 ```
 
-In this function, I noticed following lines (**question**: how/where does loghdr_meta become persistent?):
+In this function, I noticed following lines:
 
 ```c
 loghdr_meta = get_loghdr_meta(); // get header
@@ -70,7 +70,7 @@ struct logheader_meta *get_loghdr_meta(void)
 }
 ```
 
-- This function also calls `add_to_loghdr`defined in libfs/src/log/log.c, so we don't need to worry about metadata information after calling it.
+- This function also calls `add_to_loghdr`defined in libfs/src/log/log.c, so we don't need to worry about metadata information after calling it. 
 
 ```c
 /* FIXME: Use of parameter and name of that are very confusing.
@@ -81,9 +81,61 @@ struct logheader_meta *get_loghdr_meta(void)
  *	file_inode - file size 
  *	dir_inode - offset in directory
  */
-void add_to_loghdr(uint8_t type, struct inode *inode, offset_t data, 
-		uint32_t length, void *extra, uint16_t extra_len);
+void add_to_loghdr(uint8_t type, struct inode *inode, offset_t data, uint32_t length, void *extra, uint16_t extra_len);
 ```
+
+Logs become persistent after `commit_log_tx` (defined in libfs/src/log/log.c):
+
+```c
+/* called at the end of each FS system call.
+ * commits if this was the last outstanding operation. */
+void commit_log_tx(void);
+	// commit_log();
+static void commit_log(void);
+	// persist_log_blocks(loghdr_meta);
+	// persist_log_header(loghdr_meta, loghdr_meta->hdr_blkno);
+static void persist_log_blocks(struct logheader_meta *loghdr_meta);
+	// persist_log_file(loghdr_meta, i, n_iovec);
+/* Write in-memory log header to disk.
+ * This is the true point at which the
+ * current transaction commits. */
+static void persist_log_header(struct logheader_meta *loghdr_meta, addr_t hdr_blkno);
+/* This is a critical path for write performance.
+ * Stay optimized and need to be careful when modifying it */
+static int persist_log_file(struct logheader_meta *loghdr_meta, uint32_t idx, uint8_t n_iovec);
+	// mlfs_write(log_bh);
+```
+
+ `mlfs_write` is the function writing to persistent memory.
+
+```c
+int mlfs_write(struct buffer_head *b); // write to storage_engine = g_bdev[b->b_dev]->storage_engine 
+```
+
+We can find `storage_engine` information under libfs/src/storage. For example, if the `storage_engine` is dax, then when we do mlfs_write, it calls either `write_unaligned` or `write` defined in storage_dax.c
+
+In `mlfs_write`:
+
+```c
+if (b->b_offset)
+		ret = storage_engine->write_unaligned(b->b_dev, b->b_data,
+				b->b_blocknr, b->b_offset, b->b_size);
+	else
+		ret = storage_engine->write(b->b_dev, b->b_data, b->b_blocknr, b->b_size);
+```
+
+In libfs/storage/storage_dax.c:
+
+```c
+/* optimization: instead of calling sfence every write,
+ * dax_write just does memory copy. When libmlfs commits transaction,
+ * it call dax_commit to drain changes (like pmem_memmove_persist) */
+int dax_write(uint8_t dev, uint8_t *buf, addr_t blockno, uint32_t io_size);
+
+int dax_write_unaligned(uint8_t dev, uint8_t *buf, addr_t blockno, uint32_t offset, uint32_t io_size);
+```
+
+
 
 ### digest log
 
@@ -119,10 +171,10 @@ rpc_forward_msg(g_kernfs_peers[g_kernfs_id]->sockfd[SOCK_BG], cmd); // line:1620
 mlfs_do_rdigest(g_fs_log->n_digest_req); // line:1622
 ```
 
-`write_log_superblock` writes using `mlfs_write`, which is defined in libfs/src/io/block_io.c (**question**: which storage engine is this? can we avoid copying by changing storage engine?):
+`write_log_superblock` writes using `mlfs_write`, which is defined in libfs/src/io/block_io.c.
 
 ```c
-int mlfs_write(struct buffer_head *b); // write to storage_engine = g_bdev[b->b_dev]->storage_engine
+int mlfs_write(struct buffer_head *b); // write to storage_engine = g_bdev[b->b_dev]->storage_engine 
 ```
 
 `rpc_forward_msg` is defined in libfs/src/distributed/rpc_interface.c:
@@ -145,7 +197,7 @@ Here's the order how different functions are called. Note that there's one `sign
 
 1. **libfs/src/filesystem/fs.c:** 
 
-**question**: what is this port?? (I know it's hardcoded)
+**question**: what is this port?? (I know it's hardcoded) 
 
 ```c
 void init_fs(void);
@@ -209,7 +261,39 @@ void * local_client_thread(void *arg);
 	// shmem_chan_setup(sockfd, send_addr, recv_addr);
 	// shmem_poll_loop(sockfd);
 void shmem_poll_loop(int sockfd);
+	// recv_msg = shmem_recv(ctx);
 ```
+
+5. **libfs/lib/rdma/shmeme_ch.h**:
+
+```c
+static inline volatile struct message *shmem_recv(struct conn_context *ctx);
+	// volatile struct message *msg = shmem_poll(ctx);
+static inline volatile struct message *shmem_poll(struct conn_context *ctx);
+	// struct conn_context *ctx = get_channel_ctx(sockfd);
+	// if (ctrl_used && ctrl_ready)
+		// return ctx->msg_rcv[ctx->rcv_idx];
+```
+
+6. **libfs/lib/rdma/core_ch.h**:
+
+```c
+__attribute__((visibility ("hidden"))) 
+struct conn_context* get_channel_ctx(int sockfd)
+{
+	if(sockfd > MAX_CONNECTIONS)
+		mp_die("invalid sockfd; must be less than MAX_CONNECTIONS");
+
+	if(s_conn_bitmap[sockfd])
+		return s_conn_ctx[sockfd];
+	else {
+		debug_print("[warning]: channel with uid %d does not exist\n", sockfd);
+		return NULL;
+	}
+}
+```
+
+
 
 ## Kernfs
 
@@ -235,9 +319,51 @@ int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_in
 
 ## Misc
 
-In libfs/filesystem/fs.c:
+In libfs/src/filesystem/fs.c:
 
 ```c
 static void cache_init(void); 
+```
+
+In libfs/src/storage/storage_dax.c:
+
+```c
+/* optimization: instead of calling sfence every write,
+ * dax_write just does memory copy. When libmlfs commits transaction,
+ * it call dax_commit to drain changes (like pmem_memmove_persist) */
+int dax_write(uint8_t dev, uint8_t *buf, addr_t blockno, uint32_t io_size)
+{
+	addr_t addr = (addr_t)dax_addr[dev] + (blockno << g_block_size_shift);
+
+	//copy and flush data to pmem.
+	pmem_memmove_persist((void *)addr, buf, io_size);
+	//PERSISTENT_BARRIER();
+
+	//memmove(dax_addr[dev] + (blockno * g_block_size_bytes), buf, io_size);
+	//perfmodel_add_delay(0, io_size);
+
+	mlfs_muffled("write block number %lu, address %lu size %u\n", 
+			blockno, (blockno * g_block_size_bytes), io_size);
+
+	return io_size;
+}
+
+int dax_write_unaligned(uint8_t dev, uint8_t *buf, addr_t blockno, uint32_t offset, 
+		uint32_t io_size)
+{
+	addr_t addr = (addr_t)dax_addr[dev] + (blockno << g_block_size_shift) + offset;
+
+	//copy and flush data to pmem.
+	pmem_memmove_persist((void *)addr, buf, io_size);
+	//PERSISTENT_BARRIER();
+	
+	//memmove(dax_addr[dev] + (blockno * g_block_size_bytes) + offset, buf, io_size);
+	//perfmodel_add_delay(0, io_size);
+
+	mlfs_muffled("write block number %lu, address %lu size %u\n", 
+			blockno, (blockno * g_block_size_bytes) + offset, io_size);
+
+	return io_size;
+}
 ```
 
