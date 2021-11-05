@@ -589,7 +589,7 @@ int shim_do_getdents64(int fd, struct linux_dirent64 *buf, size_t count, size_t*
 
 }
 
-
+// taijing: if intercepted by assise, will call this func first
 static int
 hook(long syscall_number,
      long arg0, long arg1,

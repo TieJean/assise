@@ -1,0 +1,5012 @@
+dev-dax engine is initialized: dev_path /dev/dax0.0 size 4096 MB
+fetching node's IP address..
+Process pid is 121912
+ip address on interface 'lo' is 127.0.0.1
+cluster settings:
+--- node 0 - ip:127.0.0.1
+Connecting to KernFS instance 0 [ip: 127.0.0.1]
+[Local-Client] Creating connection (pid:121912, app_type:0, status:pending) to 127.0.0.1:12345 on sockfd 0
+[Local-Client] Creating connection (pid:121912, app_type:1, status:pending) to 127.0.0.1:12345 on sockfd 1
+[Local-Client] Creating connection (pid:121912, app_type:2, status:pending) to 127.0.0.1:12345 on sockfd 2
+In thread
+In thread
+In thread
+SEND --> MSG_INIT [pid 0|121912]
+SEND --> MSG_INIT [pid 1|121912]
+SEND --> MSG_INIT [pid 2|121912]
+RECV <-- MSG_SHM [paths: /shm_recv_0|/shm_send_0]
+[add_peer_socket():97] Established connection with 127.0.0.1 on sock:0 of type:0 and peer:0x56351bc7ef90
+start shmem_poll_loop for sockfd 0
+RECV <-- MSG_SHM [paths: /shm_recv_1|/shm_send_1]
+[add_peer_socket():97] Established connection with 127.0.0.1 on sock:2 of type:2 and peer:0x56351bc7ef90
+start shmem_poll_loop for sockfd 2
+RECV <-- MSG_SHM [paths: /shm_recv_2|/shm_send_2]
+[add_peer_socket():97] Established connection with 127.0.0.1 on sock:1 of type:1 and peer:0x56351bc7ef90
+start shmem_poll_loop for sockfd 1
+[signal_callback():1373] Assigned LibFS ID=1
+MLFS cluster initialized
+init log dev 1 start_blk 916481 end 949248
+--- Write initial data 
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4|916481|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4|916489|0|0|
+[handle_digest_response():1653] |complete |1|1|4|916489|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 1.064 ms
+--- verify large buffer (after digest)
+inode allocation  : 0.000 ms
+bcache search     : 0.000 ms
+search l0 tree    : 0.000 ms
+search lsm tree   : 0.002 ms
+log commit        : 0.007 ms
+  log writes      : 0.005 ms
+  loghdr writes   : 0.001 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 0.004 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+verifying buffer.. [31mdata is corrupted : sum 18446744073709375131 - expect 8192
+[0m[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|1|916489|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|1|916491|0|0|
+[handle_digest_response():1653] |complete |1|1|1|916491|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 1.064 ms
+inode allocation  : 0.000 ms
+bcache search     : 0.000 ms
+search l0 tree    : 0.000 ms
+search lsm tree   : 0.002 ms
+log commit        : 0.007 ms
+  log writes      : 0.005 ms
+  loghdr writes   : 0.001 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 0.004 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+dev-dax engine is initialized: dev_path /dev/dax0.0 size 4096 MB
+fetching node's IP address..
+Process pid is 121995
+ip address on interface 'lo' is 127.0.0.1
+cluster settings:
+--- node 0 - ip:127.0.0.1
+Connecting to KernFS instance 0 [ip: 127.0.0.1]
+[Local-Client] Creating connection (pid:121995, app_type:0, status:pending) to 127.0.0.1:12345 on sockfd 0
+[Local-Client] Creating connection (pid:121995, app_type:1, status:pending) to 127.0.0.1:12345 on sockfd 1
+[Local-Client] Creating connection (pid:121995, app_type:2, status:pending) to 127.0.0.1:12345 on sockfd 2
+In thread
+In thread
+In thread
+SEND --> MSG_INIT [pid 2|121995]
+SEND --> MSG_INIT [pid 0|121995]
+SEND --> MSG_INIT [pid 1|121995]
+RECV <-- MSG_SHM [paths: /shm_recv_0|/shm_send_0]
+[add_peer_socket():97] Established connection with 127.0.0.1 on sock:2 of type:2 and peer:0x558209597f90
+start shmem_poll_loop for sockfd 2
+RECV <-- MSG_SHM [paths: /shm_recv_1|/shm_send_1]
+[add_peer_socket():97] Established connection with 127.0.0.1 on sock:0 of type:0 and peer:0x558209597f90
+start shmem_poll_loop for sockfd 0
+RECV <-- MSG_SHM [paths: /shm_recv_2|/shm_send_2]
+[add_peer_socket():97] Established connection with 127.0.0.1 on sock:1 of type:1 and peer:0x558209597f90
+start shmem_poll_loop for sockfd 1
+[signal_callback():1373] Assigned LibFS ID=1
+MLFS cluster initialized
+init log dev 1 start_blk 916481 end 949248
+--- Write initial data 
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4|916481|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4|916489|0|0|
+[handle_digest_response():1653] |complete |1|1|4|916489|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 1.014 ms
+--- verify large buffer (after digest)
+inode allocation  : 0.000 ms
+bcache search     : 0.000 ms
+search l0 tree    : 0.000 ms
+search lsm tree   : 0.002 ms
+log commit        : 0.005 ms
+  log writes      : 0.003 ms
+  loghdr writes   : 0.001 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 0.003 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+verifying buffer.. [31mdata is corrupted : sum 18446744073709379918 - expect 8192
+[0m[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|1|916489|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|1|916491|0|0|
+[handle_digest_response():1653] |complete |1|1|1|916491|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 1.014 ms
+inode allocation  : 0.000 ms
+bcache search     : 0.000 ms
+search l0 tree    : 0.000 ms
+search lsm tree   : 0.002 ms
+log commit        : 0.005 ms
+  log writes      : 0.003 ms
+  loghdr writes   : 0.001 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 0.003 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+dev-dax engine is initialized: dev_path /dev/dax0.0 size 4096 MB
+fetching node's IP address..
+Process pid is 122311
+ip address on interface 'lo' is 127.0.0.1
+cluster settings:
+--- node 0 - ip:127.0.0.1
+Connecting to KernFS instance 0 [ip: 127.0.0.1]
+[Local-Client] Creating connection (pid:122311, app_type:0, status:pending) to 127.0.0.1:12345 on sockfd 0
+[Local-Client] Creating connection (pid:122311, app_type:1, status:pending) to 127.0.0.1:12345 on sockfd 1
+[Local-Client] Creating connection (pid:122311, app_type:2, status:pending) to 127.0.0.1:12345 on sockfd 2
+In thread
+In thread
+In thread
+SEND --> MSG_INIT [pid 0|122311]
+SEND --> MSG_INIT [pid 2|122311]
+SEND --> MSG_INIT [pid 1|122311]
+RECV <-- MSG_SHM [paths: /shm_recv_1|/shm_send_1]
+[add_peer_socket():97] Established connection with 127.0.0.1 on sock:2 of type:2 and peer:0x560062b5df90
+start shmem_poll_loop for sockfd 2
+RECV <-- MSG_SHM [paths: /shm_recv_0|/shm_send_0]
+[add_peer_socket():97] Established connection with 127.0.0.1 on sock:1 of type:1 and peer:0x560062b5df90
+start shmem_poll_loop for sockfd 1
+RECV <-- MSG_SHM [paths: /shm_recv_2|/shm_send_2]
+[add_peer_socket():97] Established connection with 127.0.0.1 on sock:0 of type:0 and peer:0x560062b5df90
+start shmem_poll_loop for sockfd 0
+[signal_callback():1373] Assigned LibFS ID=1
+MLFS cluster initialized
+init log dev 1 start_blk 916481 end 949248
+--- Write initial data 
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4|916481|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4|916490|0|0|
+[handle_digest_response():1653] |complete |1|1|4|916490|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 0.000 ms
+inode allocation  : 0.000 ms
+bcache search     : 0.000 ms
+search l0 tree    : 0.000 ms
+search lsm tree   : 0.002 ms
+log commit        : 0.006 ms
+  log writes      : 0.003 ms
+  loghdr writes   : 0.001 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 0.003 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 0 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|916490|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|926322|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|926322|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 0.221 ms
+search l0 tree    : 0.190 ms
+search lsm tree   : 0.002 ms
+log commit        : 3.814 ms
+  log writes      : 2.536 ms
+  loghdr writes   : 0.959 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 2.277 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|926322|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|936154|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|936154|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 0.442 ms
+search l0 tree    : 0.381 ms
+search lsm tree   : 0.002 ms
+log commit        : 20.093 ms
+  log writes      : 17.540 ms
+  loghdr writes   : 1.917 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 4.578 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|936154|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|945986|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|945986|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 0.663 ms
+search l0 tree    : 0.572 ms
+search lsm tree   : 0.002 ms
+log commit        : 46.740 ms
+  log writes      : 42.720 ms
+  loghdr writes   : 2.871 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 18.769 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4915|945986|916481|949247
+[signal_callback():1432] peer recv: |complete |1|1|4915|923049|1|0|
+[handle_digest_response():1653] |complete |1|1|4915|923049|1|0|
+[handle_digest_response():1671] -- log head is rotated: new start 923049 new end 949247 start_version 1 avail_version 1
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 0.917 ms
+search l0 tree    : 0.766 ms
+search lsm tree   : 0.002 ms
+log commit        : 58.399 ms
+  log writes      : 53.073 ms
+  loghdr writes   : 3.858 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 21.392 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|923049|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|932881|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|932881|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 1.138 ms
+search l0 tree    : 0.959 ms
+search lsm tree   : 0.002 ms
+log commit        : 67.889 ms
+  log writes      : 61.273 ms
+  loghdr writes   : 4.829 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 23.923 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|932881|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|942713|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|942713|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 1.360 ms
+search l0 tree    : 1.150 ms
+search lsm tree   : 0.002 ms
+log commit        : 81.248 ms
+  log writes      : 73.356 ms
+  loghdr writes   : 5.788 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 26.500 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4915|942713|916481|949246
+[signal_callback():1432] peer recv: |complete |1|1|4915|919777|1|0|
+[handle_digest_response():1653] |complete |1|1|4915|919777|1|0|
+[handle_digest_response():1671] -- log head is rotated: new start 919777 new end 949246 start_version 2 avail_version 2
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 1.581 ms
+search l0 tree    : 1.344 ms
+search lsm tree   : 0.002 ms
+log commit        : 94.811 ms
+  log writes      : 85.634 ms
+  loghdr writes   : 6.755 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 29.024 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|919777|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|929609|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|929609|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 1.802 ms
+search l0 tree    : 1.538 ms
+search lsm tree   : 0.002 ms
+log commit        : 115.766 ms
+  log writes      : 105.307 ms
+  loghdr writes   : 7.719 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 31.595 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|929609|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|939441|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|939441|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 2.023 ms
+search l0 tree    : 1.731 ms
+search lsm tree   : 0.002 ms
+log commit        : 126.462 ms
+  log writes      : 114.674 ms
+  loghdr writes   : 8.729 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 34.068 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4915|939441|916481|949246
+[signal_callback():1432] peer recv: |complete |1|1|4915|916505|1|0|
+[handle_digest_response():1653] |complete |1|1|4915|916505|1|0|
+[handle_digest_response():1671] -- log head is rotated: new start 916505 new end 949246 start_version 3 avail_version 3
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 2.244 ms
+search l0 tree    : 1.924 ms
+search lsm tree   : 0.002 ms
+log commit        : 139.237 ms
+  log writes      : 126.173 ms
+  loghdr writes   : 9.687 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 36.597 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|916505|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|926337|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|926337|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 2.467 ms
+search l0 tree    : 2.120 ms
+search lsm tree   : 0.002 ms
+log commit        : 160.722 ms
+  log writes      : 146.364 ms
+  loghdr writes   : 10.663 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 39.583 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|926337|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|936169|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|936169|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 2.692 ms
+search l0 tree    : 2.313 ms
+search lsm tree   : 0.002 ms
+log commit        : 170.272 ms
+  log writes      : 154.633 ms
+  loghdr writes   : 11.625 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 42.201 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|936169|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|946001|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|946001|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 2.923 ms
+search l0 tree    : 2.506 ms
+search lsm tree   : 0.002 ms
+log commit        : 185.204 ms
+  log writes      : 168.286 ms
+  loghdr writes   : 12.587 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 44.704 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4915|946001|916481|949246
+[signal_callback():1432] peer recv: |complete |1|1|4915|923065|1|0|
+[handle_digest_response():1653] |complete |1|1|4915|923065|1|0|
+[handle_digest_response():1671] -- log head is rotated: new start 923065 new end 949246 start_version 4 avail_version 4
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 3.153 ms
+search l0 tree    : 2.699 ms
+search lsm tree   : 0.002 ms
+log commit        : 201.075 ms
+  log writes      : 182.876 ms
+  loghdr writes   : 13.549 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 47.176 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|923065|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|932897|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|932897|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 3.384 ms
+search l0 tree    : 2.892 ms
+search lsm tree   : 0.002 ms
+log commit        : 222.083 ms
+  log writes      : 202.543 ms
+  loghdr writes   : 14.573 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 49.692 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|932897|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|942729|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|942729|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 3.614 ms
+search l0 tree    : 3.083 ms
+search lsm tree   : 0.002 ms
+log commit        : 231.332 ms
+  log writes      : 210.509 ms
+  loghdr writes   : 15.538 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 52.051 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4915|942729|916481|949246
+[signal_callback():1432] peer recv: |complete |1|1|4915|919793|1|0|
+[handle_digest_response():1653] |complete |1|1|4915|919793|1|0|
+[handle_digest_response():1671] -- log head is rotated: new start 919793 new end 949246 start_version 5 avail_version 5
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 3.848 ms
+search l0 tree    : 3.279 ms
+search lsm tree   : 0.002 ms
+log commit        : 240.805 ms
+  log writes      : 218.687 ms
+  loghdr writes   : 16.504 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 54.557 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|919793|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|929625|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|929625|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 4.079 ms
+search l0 tree    : 3.472 ms
+search lsm tree   : 0.002 ms
+log commit        : 255.530 ms
+  log writes      : 232.112 ms
+  loghdr writes   : 17.486 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 57.032 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|929625|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|939457|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|939457|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 4.301 ms
+search l0 tree    : 3.676 ms
+search lsm tree   : 0.002 ms
+log commit        : 276.512 ms
+  log writes      : 251.810 ms
+  loghdr writes   : 18.451 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 59.631 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4915|939457|916481|949246
+[signal_callback():1432] peer recv: |complete |1|1|4915|916521|1|0|
+[handle_digest_response():1653] |complete |1|1|4915|916521|1|0|
+[handle_digest_response():1671] -- log head is rotated: new start 916521 new end 949246 start_version 6 avail_version 6
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 4.523 ms
+search l0 tree    : 3.877 ms
+search lsm tree   : 0.002 ms
+log commit        : 287.193 ms
+  log writes      : 261.211 ms
+  loghdr writes   : 19.413 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 62.161 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|916521|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|926353|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|926353|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 4.744 ms
+search l0 tree    : 4.071 ms
+search lsm tree   : 0.002 ms
+log commit        : 298.992 ms
+  log writes      : 271.729 ms
+  loghdr writes   : 20.373 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 65.772 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|926353|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|936185|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|936185|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 4.969 ms
+search l0 tree    : 4.264 ms
+search lsm tree   : 0.002 ms
+log commit        : 308.556 ms
+  log writes      : 280.012 ms
+  loghdr writes   : 21.337 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 68.104 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|936185|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|946017|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|946017|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 5.331 ms
+search l0 tree    : 4.608 ms
+search lsm tree   : 0.002 ms
+log commit        : 338.356 ms
+  log writes      : 307.402 ms
+  loghdr writes   : 23.210 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 72.976 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4915|946017|916481|949246
+[signal_callback():1432] peer recv: |complete |1|1|4915|923081|1|0|
+[handle_digest_response():1653] |complete |1|1|4915|923081|1|0|
+[handle_digest_response():1671] -- log head is rotated: new start 929567 new end 949246 start_version 7 avail_version 7
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 5.558 ms
+search l0 tree    : 4.828 ms
+search lsm tree   : 0.002 ms
+log commit        : 355.568 ms
+  log writes      : 310.737 ms
+  loghdr writes   : 36.760 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 76.036 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|923081|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|932913|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|932913|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 5.775 ms
+search l0 tree    : 5.062 ms
+search lsm tree   : 0.002 ms
+log commit        : 378.997 ms
+  log writes      : 332.575 ms
+  loghdr writes   : 38.038 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 97.611 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|932913|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|942745|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|942745|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 5.887 ms
+search l0 tree    : 5.163 ms
+search lsm tree   : 0.002 ms
+log commit        : 381.095 ms
+  log writes      : 334.024 ms
+  loghdr writes   : 38.525 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 98.920 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4915|942745|916481|949246
+[signal_callback():1432] peer recv: |complete |1|1|4915|919809|1|0|
+[handle_digest_response():1653] |complete |1|1|4915|919809|1|0|
+[handle_digest_response():1671] -- log head is rotated: new start 923863 new end 949246 start_version 8 avail_version 8
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 6.179 ms
+search l0 tree    : 5.440 ms
+search lsm tree   : 0.002 ms
+log commit        : 401.549 ms
+  log writes      : 337.832 ms
+  loghdr writes   : 54.767 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 102.391 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|919809|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|929641|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|929641|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 6.464 ms
+search l0 tree    : 5.786 ms
+search lsm tree   : 0.002 ms
+log commit        : 429.506 ms
+  log writes      : 363.289 ms
+  loghdr writes   : 56.868 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 127.415 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|929641|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|939473|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|939473|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 6.606 ms
+search l0 tree    : 5.934 ms
+search lsm tree   : 0.002 ms
+log commit        : 432.449 ms
+  log writes      : 365.290 ms
+  loghdr writes   : 57.593 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 129.246 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4915|939473|916481|949246
+[signal_callback():1432] peer recv: |complete |1|1|4915|916537|1|0|
+[handle_digest_response():1653] |complete |1|1|4915|916537|1|0|
+[handle_digest_response():1671] -- log head is rotated: new start 923195 new end 949246 start_version 9 avail_version 9
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 6.906 ms
+search l0 tree    : 6.229 ms
+search lsm tree   : 0.002 ms
+log commit        : 462.351 ms
+  log writes      : 374.555 ms
+  loghdr writes   : 77.773 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 133.138 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|916537|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|926369|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|926369|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 7.066 ms
+search l0 tree    : 6.386 ms
+search lsm tree   : 0.002 ms
+log commit        : 476.662 ms
+  log writes      : 376.807 ms
+  loghdr writes   : 89.601 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 135.195 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|926369|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|936201|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|936201|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 7.201 ms
+search l0 tree    : 6.524 ms
+search lsm tree   : 0.002 ms
+log commit        : 490.667 ms
+  log writes      : 378.582 ms
+  loghdr writes   : 90.174 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 136.814 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|936201|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|946033|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|946033|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 7.422 ms
+search l0 tree    : 6.734 ms
+search lsm tree   : 0.002 ms
+log commit        : 499.062 ms
+  log writes      : 385.709 ms
+  loghdr writes   : 91.124 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 139.270 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4915|946033|916481|949246
+[signal_callback():1432] peer recv: |complete |1|1|4915|923097|1|0|
+[handle_digest_response():1653] |complete |1|1|4915|923097|1|0|
+[handle_digest_response():1671] -- log head is rotated: new start 923097 new end 949246 start_version 10 avail_version 10
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 7.644 ms
+search l0 tree    : 6.938 ms
+search lsm tree   : 0.002 ms
+log commit        : 512.576 ms
+  log writes      : 397.953 ms
+  loghdr writes   : 92.074 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 141.839 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|923097|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|932929|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|932929|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 7.866 ms
+search l0 tree    : 7.152 ms
+search lsm tree   : 0.002 ms
+log commit        : 529.855 ms
+  log writes      : 413.956 ms
+  loghdr writes   : 93.028 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 144.416 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|932929|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|942761|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|942761|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 8.087 ms
+search l0 tree    : 7.355 ms
+search lsm tree   : 0.002 ms
+log commit        : 541.368 ms
+  log writes      : 421.057 ms
+  loghdr writes   : 97.119 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 146.901 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4915|942761|916481|949246
+[signal_callback():1432] peer recv: |complete |1|1|4915|919825|1|0|
+[handle_digest_response():1653] |complete |1|1|4915|919825|1|0|
+[handle_digest_response():1671] -- log head is rotated: new start 919825 new end 949246 start_version 11 avail_version 11
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 8.309 ms
+search l0 tree    : 7.552 ms
+search lsm tree   : 0.002 ms
+log commit        : 560.594 ms
+  log writes      : 439.018 ms
+  loghdr writes   : 98.067 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 149.335 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|919825|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|929657|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|929657|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 8.530 ms
+search l0 tree    : 7.747 ms
+search lsm tree   : 0.002 ms
+log commit        : 568.836 ms
+  log writes      : 445.995 ms
+  loghdr writes   : 99.014 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 151.695 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|929657|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|939489|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|939489|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 8.751 ms
+search l0 tree    : 7.943 ms
+search lsm tree   : 0.002 ms
+log commit        : 577.050 ms
+  log writes      : 452.920 ms
+  loghdr writes   : 99.984 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 154.056 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4915|939489|916481|949246
+[signal_callback():1432] peer recv: |complete |1|1|4915|916553|1|0|
+[handle_digest_response():1653] |complete |1|1|4915|916553|1|0|
+[handle_digest_response():1671] -- log head is rotated: new start 916553 new end 949246 start_version 12 avail_version 12
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 8.973 ms
+search l0 tree    : 8.138 ms
+search lsm tree   : 0.002 ms
+log commit        : 594.092 ms
+  log writes      : 468.695 ms
+  loghdr writes   : 100.933 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 156.368 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|916553|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|926385|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|926385|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 9.195 ms
+search l0 tree    : 8.351 ms
+search lsm tree   : 0.002 ms
+log commit        : 611.722 ms
+  log writes      : 485.038 ms
+  loghdr writes   : 101.892 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 159.015 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|926385|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|936217|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|936217|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 9.421 ms
+search l0 tree    : 8.552 ms
+search lsm tree   : 0.002 ms
+log commit        : 622.041 ms
+  log writes      : 494.083 ms
+  loghdr writes   : 102.849 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 163.461 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|936217|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|946049|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|946049|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 9.651 ms
+search l0 tree    : 8.746 ms
+search lsm tree   : 0.002 ms
+log commit        : 638.672 ms
+  log writes      : 509.431 ms
+  loghdr writes   : 103.813 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 165.811 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4915|946049|916481|949246
+[signal_callback():1432] peer recv: |complete |1|1|4915|923113|1|0|
+[handle_digest_response():1653] |complete |1|1|4915|923113|1|0|
+[handle_digest_response():1671] -- log head is rotated: new start 923113 new end 949246 start_version 13 avail_version 13
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 9.872 ms
+search l0 tree    : 8.946 ms
+search lsm tree   : 0.002 ms
+log commit        : 646.995 ms
+  log writes      : 516.489 ms
+  loghdr writes   : 104.761 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 168.186 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|923113|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|932945|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|932945|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 10.093 ms
+search l0 tree    : 9.149 ms
+search lsm tree   : 0.002 ms
+log commit        : 665.999 ms
+  log writes      : 534.207 ms
+  loghdr writes   : 105.728 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 170.596 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|932945|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|942777|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|942777|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 10.315 ms
+search l0 tree    : 9.374 ms
+search lsm tree   : 0.002 ms
+log commit        : 674.586 ms
+  log writes      : 541.501 ms
+  loghdr writes   : 106.701 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 173.241 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4915|942777|916481|949246
+[signal_callback():1432] peer recv: |complete |1|1|4915|919841|1|0|
+[handle_digest_response():1653] |complete |1|1|4915|919841|1|0|
+[handle_digest_response():1671] -- log head is rotated: new start 919841 new end 949246 start_version 14 avail_version 14
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 10.536 ms
+search l0 tree    : 9.607 ms
+search lsm tree   : 0.002 ms
+log commit        : 693.485 ms
+  log writes      : 559.133 ms
+  loghdr writes   : 107.649 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 175.900 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|919841|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|929673|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|929673|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 10.758 ms
+search l0 tree    : 9.805 ms
+search lsm tree   : 0.002 ms
+log commit        : 701.868 ms
+  log writes      : 566.244 ms
+  loghdr writes   : 108.603 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 178.418 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|929673|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|939505|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|939505|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 10.980 ms
+search l0 tree    : 10.059 ms
+search lsm tree   : 0.002 ms
+log commit        : 716.377 ms
+  log writes      : 579.470 ms
+  loghdr writes   : 109.568 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 181.083 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4915|939505|916481|949246
+[signal_callback():1432] peer recv: |complete |1|1|4915|916569|1|0|
+[handle_digest_response():1653] |complete |1|1|4915|916569|1|0|
+[handle_digest_response():1671] -- log head is rotated: new start 916569 new end 949246 start_version 15 avail_version 15
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 11.201 ms
+search l0 tree    : 10.255 ms
+search lsm tree   : 0.002 ms
+log commit        : 739.032 ms
+  log writes      : 600.861 ms
+  loghdr writes   : 110.514 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 192.036 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|916569|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|926401|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|926401|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 11.423 ms
+search l0 tree    : 10.449 ms
+search lsm tree   : 0.002 ms
+log commit        : 747.280 ms
+  log writes      : 607.839 ms
+  loghdr writes   : 111.462 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 194.431 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|926401|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|936233|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|936233|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 11.644 ms
+search l0 tree    : 10.666 ms
+search lsm tree   : 0.002 ms
+log commit        : 755.870 ms
+  log writes      : 615.135 ms
+  loghdr writes   : 112.434 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 197.025 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|936233|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|946065|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|946065|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 11.866 ms
+search l0 tree    : 10.893 ms
+search lsm tree   : 0.002 ms
+log commit        : 778.868 ms
+  log writes      : 636.861 ms
+  loghdr writes   : 113.385 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 199.648 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+--- verify large buffer (after digest)
+verifying buffer.. [32mOK
+[0m--- Update data partially
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4915|946065|916481|949246
+[signal_callback():1432] peer recv: |complete |1|1|4915|923129|1|0|
+[handle_digest_response():1653] |complete |1|1|4915|923129|1|0|
+[handle_digest_response():1671] -- log head is rotated: new start 923129 new end 949246 start_version 16 avail_version 16
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 12.088 ms
+search l0 tree    : 11.309 ms
+search lsm tree   : 0.007 ms
+log commit        : 787.006 ms
+  log writes      : 643.684 ms
+  loghdr writes   : 114.380 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 201.839 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|923129|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|932961|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|932961|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 12.309 ms
+search l0 tree    : 11.828 ms
+search lsm tree   : 0.007 ms
+log commit        : 795.307 ms
+  log writes      : 650.708 ms
+  loghdr writes   : 115.336 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 203.857 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|932961|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|942793|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|942793|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 12.531 ms
+search l0 tree    : 12.092 ms
+search lsm tree   : 0.007 ms
+log commit        : 811.568 ms
+  log writes      : 665.697 ms
+  loghdr writes   : 116.286 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 205.613 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4915|942793|916481|949246
+[signal_callback():1432] peer recv: |complete |1|1|4915|919857|1|0|
+[handle_digest_response():1653] |complete |1|1|4915|919857|1|0|
+[handle_digest_response():1671] -- log head is rotated: new start 919857 new end 949246 start_version 17 avail_version 17
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 12.754 ms
+search l0 tree    : 12.455 ms
+search lsm tree   : 0.007 ms
+log commit        : 824.997 ms
+  log writes      : 677.839 ms
+  loghdr writes   : 117.254 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 213.193 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|919857|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|929689|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|929689|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 12.975 ms
+search l0 tree    : 12.839 ms
+search lsm tree   : 0.007 ms
+log commit        : 832.766 ms
+  log writes      : 684.331 ms
+  loghdr writes   : 118.212 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 215.079 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|929689|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|939521|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|939521|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 13.196 ms
+search l0 tree    : 13.113 ms
+search lsm tree   : 0.007 ms
+log commit        : 848.852 ms
+  log writes      : 699.132 ms
+  loghdr writes   : 119.175 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 216.859 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4915|939521|916481|949246
+[signal_callback():1432] peer recv: |complete |1|1|4915|916585|1|0|
+[handle_digest_response():1653] |complete |1|1|4915|916585|1|0|
+[handle_digest_response():1671] -- log head is rotated: new start 916585 new end 949246 start_version 18 avail_version 18
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 13.417 ms
+search l0 tree    : 13.361 ms
+search lsm tree   : 0.007 ms
+log commit        : 857.457 ms
+  log writes      : 706.464 ms
+  loghdr writes   : 120.130 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 218.603 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|916585|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|926417|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|926417|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 13.638 ms
+search l0 tree    : 13.691 ms
+search lsm tree   : 0.007 ms
+log commit        : 876.148 ms
+  log writes      : 723.888 ms
+  loghdr writes   : 121.078 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 220.433 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|926417|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|936249|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|936249|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 13.859 ms
+search l0 tree    : 13.931 ms
+search lsm tree   : 0.007 ms
+log commit        : 884.726 ms
+  log writes      : 731.195 ms
+  loghdr writes   : 122.030 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 222.176 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|936249|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|946081|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|946081|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 14.080 ms
+search l0 tree    : 14.155 ms
+search lsm tree   : 0.007 ms
+log commit        : 903.312 ms
+  log writes      : 748.515 ms
+  loghdr writes   : 122.979 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 223.898 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4915|946081|916481|949246
+[signal_callback():1432] peer recv: |complete |1|1|4915|923145|1|0|
+[handle_digest_response():1653] |complete |1|1|4915|923145|1|0|
+[handle_digest_response():1671] -- log head is rotated: new start 923145 new end 949246 start_version 19 avail_version 19
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 14.303 ms
+search l0 tree    : 14.645 ms
+search lsm tree   : 0.007 ms
+log commit        : 912.624 ms
+  log writes      : 756.491 ms
+  loghdr writes   : 123.983 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 225.946 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|923145|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|932977|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|932977|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 14.525 ms
+search l0 tree    : 15.569 ms
+search lsm tree   : 0.007 ms
+log commit        : 922.276 ms
+  log writes      : 764.858 ms
+  loghdr writes   : 124.949 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 228.465 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|932977|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|942809|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|942809|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 9.033 ms
+inode allocation  : 0.000 ms
+bcache search     : 15.115 ms
+search l0 tree    : 16.455 ms
+search lsm tree   : 0.007 ms
+log commit        : 945.535 ms
+  log writes      : 778.930 ms
+  loghdr writes   : 133.286 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 233.765 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 1 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|8191|942809|916481|949246
+[signal_callback():1432] peer recv: |complete |1|1|8191|926425|1|0|
+[handle_digest_response():1653] |complete |1|1|8191|926425|1|0|
+[handle_digest_response():1671] -- log head is rotated: new start 930513 new end 949246 start_version 20 avail_version 20
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 20.319 ms
+inode allocation  : 0.000 ms
+bcache search     : 15.209 ms
+search l0 tree    : 16.970 ms
+search lsm tree   : 0.007 ms
+log commit        : 961.988 ms
+  log writes      : 794.654 ms
+  loghdr writes   : 133.880 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 238.082 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 2 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|926425|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|936257|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|936257|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 20.319 ms
+inode allocation  : 0.000 ms
+bcache search     : 15.533 ms
+search l0 tree    : 17.465 ms
+search lsm tree   : 0.007 ms
+log commit        : 973.068 ms
+  log writes      : 803.933 ms
+  loghdr writes   : 135.233 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 246.988 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 2 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|936257|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|946089|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|946089|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 20.319 ms
+inode allocation  : 0.000 ms
+bcache search     : 15.771 ms
+search l0 tree    : 17.946 ms
+search lsm tree   : 0.007 ms
+log commit        : 977.444 ms
+  log writes      : 806.569 ms
+  loghdr writes   : 136.643 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 249.354 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 2 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4915|946089|916481|949246
+[signal_callback():1432] peer recv: |complete |1|1|4915|923153|1|0|
+[handle_digest_response():1653] |complete |1|1|4915|923153|1|0|
+[handle_digest_response():1671] -- log head is rotated: new start 928817 new end 949246 start_version 21 avail_version 21
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 20.319 ms
+inode allocation  : 0.000 ms
+bcache search     : 15.938 ms
+search l0 tree    : 18.258 ms
+search lsm tree   : 0.007 ms
+log commit        : 980.031 ms
+  log writes      : 808.200 ms
+  loghdr writes   : 137.365 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 250.794 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 2 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|923153|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|932985|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|932985|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 20.319 ms
+inode allocation  : 0.000 ms
+bcache search     : 16.243 ms
+search l0 tree    : 18.872 ms
+search lsm tree   : 0.007 ms
+log commit        : 985.728 ms
+  log writes      : 811.736 ms
+  loghdr writes   : 139.059 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 253.982 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 2 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|932985|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|942817|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|942817|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 20.319 ms
+inode allocation  : 0.000 ms
+bcache search     : 16.723 ms
+search l0 tree    : 19.738 ms
+search lsm tree   : 0.007 ms
+log commit        : 994.180 ms
+  log writes      : 817.303 ms
+  loghdr writes   : 141.380 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 259.085 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 2 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|8191|942817|916481|949246
+[signal_callback():1432] peer recv: |complete |1|1|8191|926433|1|0|
+[handle_digest_response():1653] |complete |1|1|8191|926433|1|0|
+[handle_digest_response():1671] -- log head is rotated: new start 929447 new end 949246 start_version 22 avail_version 22
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 38.834 ms
+inode allocation  : 0.000 ms
+bcache search     : 16.793 ms
+search l0 tree    : 20.038 ms
+search lsm tree   : 0.007 ms
+log commit        : 1014.878 ms
+  log writes      : 837.392 ms
+  loghdr writes   : 141.888 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 260.556 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 3 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|926433|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|936265|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|936265|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 38.834 ms
+inode allocation  : 0.000 ms
+bcache search     : 17.036 ms
+search l0 tree    : 20.488 ms
+search lsm tree   : 0.007 ms
+log commit        : 1030.618 ms
+  log writes      : 851.706 ms
+  loghdr writes   : 142.942 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 274.577 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 3 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|936265|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|946097|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|946097|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 38.834 ms
+inode allocation  : 0.000 ms
+bcache search     : 17.220 ms
+search l0 tree    : 20.847 ms
+search lsm tree   : 0.007 ms
+log commit        : 1040.568 ms
+  log writes      : 853.730 ms
+  loghdr writes   : 150.602 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 276.359 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 3 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4915|946097|916481|949246
+[signal_callback():1432] peer recv: |complete |1|1|4915|923161|1|0|
+[handle_digest_response():1653] |complete |1|1|4915|923161|1|0|
+[handle_digest_response():1671] -- log head is rotated: new start 928913 new end 949246 start_version 23 avail_version 23
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 38.834 ms
+inode allocation  : 0.000 ms
+bcache search     : 17.531 ms
+search l0 tree    : 21.426 ms
+search lsm tree   : 0.007 ms
+log commit        : 1063.495 ms
+  log writes      : 874.903 ms
+  loghdr writes   : 151.926 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 297.165 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 3 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|923161|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|932993|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|932993|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 38.834 ms
+[set_digesting():94] set log digesting state
+inode allocation  : 0.000 ms
+bcache search     : 17.907 ms
+search l0 tree    : 22.077 ms
+[make_digest_request_sync():1618] |digest |1|1|5971|932993|916481|0
+search lsm tree   : 0.007 ms
+log commit        : 1076.543 ms
+  log writes      : 885.463 ms
+  loghdr writes   : 153.892 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 307.302 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 3 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[signal_callback():1432] peer recv: |complete |1|1|5971|944935|0|0|
+[handle_digest_response():1653] |complete |1|1|5971|944935|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 38.834 ms
+inode allocation  : 0.000 ms
+bcache search     : 17.965 ms
+search l0 tree    : 22.211 ms
+search lsm tree   : 0.007 ms
+log commit        : 1078.717 ms
+  log writes      : 887.196 ms
+  loghdr writes   : 154.252 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 308.040 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 3 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4915|944935|916481|949246
+[signal_callback():1432] peer recv: |complete |1|1|4915|921999|1|0|
+[handle_digest_response():1653] |complete |1|1|4915|921999|1|0|
+[handle_digest_response():1671] -- log head is rotated: new start 932775 new end 949246 start_version 24 avail_version 24
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 38.834 ms
+inode allocation  : 0.000 ms
+bcache search     : 18.390 ms
+search l0 tree    : 22.811 ms
+search lsm tree   : 0.007 ms
+log commit        : 1084.914 ms
+  log writes      : 891.043 ms
+  loghdr writes   : 156.016 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 311.407 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 3 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|5388|921999|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|5388|932775|0|0|
+[handle_digest_response():1653] |complete |1|1|5388|932775|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 38.834 ms
+inode allocation  : 0.000 ms
+bcache search     : 18.475 ms
+search l0 tree    : 23.020 ms
+search lsm tree   : 0.007 ms
+log commit        : 1091.178 ms
+  log writes      : 896.793 ms
+  loghdr writes   : 156.403 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 317.043 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 3 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|932775|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|942607|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|942607|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 38.834 ms
+inode allocation  : 0.000 ms
+bcache search     : 18.629 ms
+search l0 tree    : 23.347 ms
+search lsm tree   : 0.007 ms
+log commit        : 1093.669 ms
+  log writes      : 898.384 ms
+  loghdr writes   : 157.088 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 318.447 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 3 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4915|942607|916481|949246
+[signal_callback():1432] peer recv: |complete |1|1|4915|919671|1|0|
+[handle_digest_response():1653] |complete |1|1|4915|919671|1|0|
+[handle_digest_response():1671] -- log head is rotated: new start 927491 new end 949246 start_version 25 avail_version 25
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 38.834 ms
+inode allocation  : 0.000 ms
+bcache search     : 19.014 ms
+search l0 tree    : 24.042 ms
+search lsm tree   : 0.007 ms
+log commit        : 1118.217 ms
+  log writes      : 914.043 ms
+  loghdr writes   : 159.156 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 333.650 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 3 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|919671|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|929503|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|929503|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 38.834 ms
+inode allocation  : 0.000 ms
+bcache search     : 19.234 ms
+search l0 tree    : 24.540 ms
+search lsm tree   : 0.007 ms
+log commit        : 1130.762 ms
+  log writes      : 924.899 ms
+  loghdr writes   : 160.511 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 344.244 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 3 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|929503|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|939335|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|939335|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 38.834 ms
+inode allocation  : 0.000 ms
+bcache search     : 19.321 ms
+search l0 tree    : 24.674 ms
+search lsm tree   : 0.007 ms
+log commit        : 1132.261 ms
+  log writes      : 925.805 ms
+  loghdr writes   : 160.979 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 345.040 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 3 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|939335|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|949167|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|949167|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 38.834 ms
+inode allocation  : 0.000 ms
+bcache search     : 19.619 ms
+search l0 tree    : 25.208 ms
+search lsm tree   : 0.007 ms
+log commit        : 1137.339 ms
+  log writes      : 928.891 ms
+  loghdr writes   : 162.542 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 347.770 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 3 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4915|949167|916481|949246
+[signal_callback():1432] peer recv: |complete |1|1|4915|926231|1|0|
+[handle_digest_response():1653] |complete |1|1|4915|926231|1|0|
+[handle_digest_response():1671] -- log head is rotated: new start 934045 new end 949246 start_version 26 avail_version 26
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 38.834 ms
+inode allocation  : 0.000 ms
+bcache search     : 19.927 ms
+search l0 tree    : 33.168 ms
+search lsm tree   : 0.007 ms
+log commit        : 1154.055 ms
+  log writes      : 939.453 ms
+  loghdr writes   : 164.538 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 357.994 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 3 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|926231|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|936063|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|936063|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 38.834 ms
+inode allocation  : 0.000 ms
+bcache search     : 20.144 ms
+search l0 tree    : 33.752 ms
+search lsm tree   : 0.007 ms
+log commit        : 1180.886 ms
+  log writes      : 950.736 ms
+  loghdr writes   : 165.872 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 369.015 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 3 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|936063|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|945895|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|945895|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 38.834 ms
+inode allocation  : 0.000 ms
+bcache search     : 20.195 ms
+search l0 tree    : 33.835 ms
+search lsm tree   : 0.007 ms
+log commit        : 1191.573 ms
+  log writes      : 951.218 ms
+  loghdr writes   : 166.088 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 369.438 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 3 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4915|945895|916481|949246
+[signal_callback():1432] peer recv: |complete |1|1|4915|922959|1|0|
+[handle_digest_response():1653] |complete |1|1|4915|922959|1|0|
+[handle_digest_response():1671] -- log head is rotated: new start 922959 new end 949246 start_version 27 avail_version 27
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 38.834 ms
+inode allocation  : 0.000 ms
+bcache search     : 20.416 ms
+search l0 tree    : 34.148 ms
+search lsm tree   : 0.007 ms
+log commit        : 1200.225 ms
+  log writes      : 958.599 ms
+  loghdr writes   : 167.041 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 372.260 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 3 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|922959|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|932791|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|932791|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 38.834 ms
+inode allocation  : 0.000 ms
+bcache search     : 20.783 ms
+search l0 tree    : 34.578 ms
+search lsm tree   : 0.007 ms
+log commit        : 1210.021 ms
+  log writes      : 966.333 ms
+  loghdr writes   : 168.590 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 375.117 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 3 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|932791|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|942623|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|942623|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 38.834 ms
+inode allocation  : 0.000 ms
+bcache search     : 33.365 ms
+search l0 tree    : 34.680 ms
+search lsm tree   : 0.007 ms
+log commit        : 1223.789 ms
+  log writes      : 967.109 ms
+  loghdr writes   : 181.454 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 375.794 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 3 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4915|942623|916481|949246
+[signal_callback():1432] peer recv: |complete |1|1|4915|919687|1|0|
+[handle_digest_response():1653] |complete |1|1|4915|919687|1|0|
+[handle_digest_response():1671] -- log head is rotated: new start 919687 new end 949246 start_version 28 avail_version 28
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 38.834 ms
+inode allocation  : 0.000 ms
+bcache search     : 33.586 ms
+search l0 tree    : 35.055 ms
+search lsm tree   : 0.007 ms
+log commit        : 1235.779 ms
+  log writes      : 976.444 ms
+  loghdr writes   : 182.403 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 377.663 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 3 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|919687|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|929519|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|929519|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 38.834 ms
+inode allocation  : 0.000 ms
+bcache search     : 33.875 ms
+search l0 tree    : 35.520 ms
+search lsm tree   : 0.007 ms
+log commit        : 1254.802 ms
+  log writes      : 993.804 ms
+  loghdr writes   : 183.652 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 380.103 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 3 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|929519|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|939351|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|939351|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 38.834 ms
+inode allocation  : 0.000 ms
+bcache search     : 34.029 ms
+search l0 tree    : 35.700 ms
+search lsm tree   : 0.007 ms
+log commit        : 1262.413 ms
+  log writes      : 995.213 ms
+  loghdr writes   : 189.631 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 381.331 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 3 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|939351|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|949183|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|949183|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 38.834 ms
+inode allocation  : 0.000 ms
+bcache search     : 34.260 ms
+search l0 tree    : 35.932 ms
+search lsm tree   : 0.007 ms
+log commit        : 1276.601 ms
+  log writes      : 1008.124 ms
+  loghdr writes   : 190.590 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 383.069 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 3 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4915|949183|916481|949246
+[signal_callback():1432] peer recv: |complete |1|1|4915|926247|1|0|
+[handle_digest_response():1653] |complete |1|1|4915|926247|1|0|
+[handle_digest_response():1671] -- log head is rotated: new start 926247 new end 949246 start_version 29 avail_version 29
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 38.834 ms
+inode allocation  : 0.000 ms
+bcache search     : 34.493 ms
+search l0 tree    : 36.308 ms
+search lsm tree   : 0.007 ms
+log commit        : 1288.273 ms
+  log writes      : 1018.508 ms
+  loghdr writes   : 191.559 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 387.844 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 3 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|926247|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|936079|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|936079|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 38.834 ms
+inode allocation  : 0.000 ms
+bcache search     : 34.721 ms
+search l0 tree    : 41.845 ms
+search lsm tree   : 0.007 ms
+log commit        : 1309.073 ms
+  log writes      : 1037.983 ms
+  loghdr writes   : 192.559 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 394.942 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 3 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|936079|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|945911|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|945911|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 38.834 ms
+inode allocation  : 0.000 ms
+bcache search     : 35.152 ms
+search l0 tree    : 42.377 ms
+search lsm tree   : 0.007 ms
+log commit        : 1317.005 ms
+  log writes      : 1042.149 ms
+  loghdr writes   : 195.914 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 398.312 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 3 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4915|945911|916481|949246
+[signal_callback():1432] peer recv: |complete |1|1|4915|922975|1|0|
+[handle_digest_response():1653] |complete |1|1|4915|922975|1|0|
+[handle_digest_response():1671] -- log head is rotated: new start 922975 new end 949246 start_version 30 avail_version 30
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 38.834 ms
+inode allocation  : 0.000 ms
+bcache search     : 35.377 ms
+search l0 tree    : 43.031 ms
+search lsm tree   : 0.007 ms
+log commit        : 1337.176 ms
+  log writes      : 1055.254 ms
+  loghdr writes   : 202.655 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 400.979 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 3 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|922975|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|932807|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|932807|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 38.834 ms
+inode allocation  : 0.000 ms
+bcache search     : 35.598 ms
+search l0 tree    : 44.415 ms
+search lsm tree   : 0.007 ms
+log commit        : 1350.078 ms
+  log writes      : 1066.884 ms
+  loghdr writes   : 203.604 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 403.853 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 3 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|932807|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|942639|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|942639|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 38.834 ms
+inode allocation  : 0.000 ms
+bcache search     : 35.857 ms
+search l0 tree    : 45.153 ms
+search lsm tree   : 0.007 ms
+log commit        : 1368.564 ms
+  log writes      : 1080.343 ms
+  loghdr writes   : 208.150 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 406.322 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 3 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4915|942639|916481|949246
+[signal_callback():1432] peer recv: |complete |1|1|4915|919703|1|0|
+[handle_digest_response():1653] |complete |1|1|4915|919703|1|0|
+[handle_digest_response():1671] -- log head is rotated: new start 919703 new end 949246 start_version 31 avail_version 31
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 38.834 ms
+inode allocation  : 0.000 ms
+bcache search     : 36.079 ms
+search l0 tree    : 45.555 ms
+search lsm tree   : 0.007 ms
+log commit        : 1382.052 ms
+  log writes      : 1092.401 ms
+  loghdr writes   : 209.262 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 408.421 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 3 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|919703|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|929535|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|929535|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 38.834 ms
+inode allocation  : 0.000 ms
+bcache search     : 40.828 ms
+search l0 tree    : 45.911 ms
+search lsm tree   : 0.007 ms
+log commit        : 1398.041 ms
+  log writes      : 1101.567 ms
+  loghdr writes   : 215.765 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 410.478 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 3 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|929535|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|939367|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|939367|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 38.834 ms
+inode allocation  : 0.000 ms
+bcache search     : 41.094 ms
+search l0 tree    : 46.246 ms
+search lsm tree   : 0.007 ms
+log commit        : 1413.351 ms
+  log writes      : 1115.431 ms
+  loghdr writes   : 216.891 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 416.999 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 3 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|4916|939367|916481|0
+[signal_callback():1432] peer recv: |complete |1|1|4916|949199|0|0|
+[handle_digest_response():1653] |complete |1|1|4916|949199|0|0|
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 38.834 ms
+inode allocation  : 0.000 ms
+bcache search     : 41.636 ms
+search l0 tree    : 46.662 ms
+search lsm tree   : 0.007 ms
+log commit        : 1424.886 ms
+  log writes      : 1125.649 ms
+  loghdr writes   : 217.889 ms
+read data blocks  : 0.001 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 419.245 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 3 
+search lsm tree (nr)  : 3 
+log writes (nr)       : 0 
+read data blocks (nr) : 3 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+--- verify updated buffer (after digest)
+verifying buffer.. [32mOK
+[0m[set_digesting():94] set log digesting state
+[make_digest_request_sync():1618] |digest |1|1|61|949199|916481|949246
+[signal_callback():1432] peer recv: |complete |1|1|61|916555|1|0|
+[handle_digest_response():1653] |complete |1|1|61|916555|1|0|
+[handle_digest_response():1671] -- log head is rotated: new start 916555 new end 949246 start_version 32 avail_version 32
+[clear_digesting():108] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 38.834 ms
+inode allocation  : 0.000 ms
+bcache search     : 41.639 ms
+search l0 tree    : 46.669 ms
+search lsm tree   : 0.009 ms
+log commit        : 1435.215 ms
+  log writes      : 1135.961 ms
+  loghdr writes   : 217.901 ms
+read data blocks  : 0.002 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 419.272 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 3 
+search lsm tree (nr)  : 4 
+log writes (nr)       : 0 
+read data blocks (nr) : 4 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------

@@ -1,0 +1,78 @@
+diff --git a/libfs/lib/rdma/utils.c b/libfs/lib/rdma/utils.c
+index 4c3b994..9d2ab21 100644
+--- a/libfs/lib/rdma/utils.c
++++ b/libfs/lib/rdma/utils.c
+@@ -1,5 +1,7 @@
+ #include "utils.h"
+ 
++unsigned int g_seed;
++
+ __attribute__((visibility ("hidden"))) 
+ void mp_die(const char *reason)
+ {
+diff --git a/libfs/lib/rdma/utils.h b/libfs/lib/rdma/utils.h
+index a7eafbd..07c2437 100644
+--- a/libfs/lib/rdma/utils.h
++++ b/libfs/lib/rdma/utils.h
+@@ -48,7 +48,7 @@
+ 
+ #define ibw_unused(expr) do { (void)(expr); } while (0)
+ 
+-unsigned int g_seed;
++extern unsigned int g_seed;
+ 
+ inline void set_seed(int seed) {
+ 	g_seed = seed;
+diff --git a/libfs/src/distributed/replication.c b/libfs/src/distributed/replication.c
+index 6f568ba..2ada481 100644
+--- a/libfs/src/distributed/replication.c
++++ b/libfs/src/distributed/replication.c
+@@ -25,7 +25,7 @@ struct replication_context *g_sync_ctx[g_n_nodes];
+ 
+ __thread sync_meta_t *session;
+ 
+-threadpool thread_pool;
++static threadpool thread_pool;
+ 
+ static void replication_worker(void *arg);
+ 
+diff --git a/libfs/src/filesystem/fs.c b/libfs/src/filesystem/fs.c
+index cd82a4c..565418a 100644
+--- a/libfs/src/filesystem/fs.c
++++ b/libfs/src/filesystem/fs.c
+@@ -69,6 +69,8 @@ SharedTable *lease_table;
+ struct inode *inode_hash;
+ struct dlookup_data *dlookup_hash;
+ 
++struct list_head *lru_heads;
++
+ libfs_stat_t g_perf_stats;
+ float clock_speed_mhz;
+ 
+diff --git a/libfs/src/filesystem/shared.h b/libfs/src/filesystem/shared.h
+index a8cf0b3..0f13ec7 100644
+--- a/libfs/src/filesystem/shared.h
++++ b/libfs/src/filesystem/shared.h
+@@ -491,7 +491,7 @@ extern uint8_t *shm_base;
+  *  LRU_HEADS ~ BLOOM_HEAD : bloom filter for lsm tree search
+  *  BLOOM_HEAD ~           : unused	
+  */ 
+-struct list_head *lru_heads;
++extern struct list_head *lru_heads;
+ 
+ typedef struct lru_key {
+ 	uint8_t dev;
+diff --git a/libfs/src/log/log.c b/libfs/src/log/log.c
+index 170330d..9dd0400 100644
+--- a/libfs/src/log/log.c
++++ b/libfs/src/log/log.c
+@@ -91,7 +91,7 @@ pthread_mutex_t *g_log_mutex_shared;
+ static unsigned long digest_thread_id[g_n_devices];
+ //Thread entry point
+ void *digest_thread(void *arg);
+-threadpool thread_pool;
++static threadpool thread_pool;
+ 
+ mlfs_time_t start_time;
+ mlfs_time_t end_time;
+

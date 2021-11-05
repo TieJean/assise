@@ -11,7 +11,7 @@ void MP_SEND_MSG_SYNC(int sockfd, int buffer_id, int solicit)
 }
 
 //Send a message using an IBV_WR_SEND operation on a pre-allocated memory buffer [asynchronous]
-uint32_t MP_SEND_MSG_ASYNC(int sockfd, int buffer_id, int solicit)
+uint32_t MP_SEND_MSG_ASYNC(int sockfd, int buffer_id, int solicit) // taijing
 {
 	uint32_t wr_id = 0;
 	struct conn_context *ctx = get_channel_ctx(sockfd);

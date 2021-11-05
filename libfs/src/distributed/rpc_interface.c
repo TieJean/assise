@@ -25,7 +25,7 @@ int rpc_shutdown = 0;
 
 //uint32_t msg_seq[g_n_nodes*sock_count] = {0};
 
-int init_rpc(struct mr_context *regions, int n_regions, char *listen_port, signal_cb_fn signal_callback)
+int init_rpc(struct mr_context *regions, int n_regions, char *listen_port, signal_cb_fn signal_callback) // taijing
 {
 	assert(RPC_MSG_BYTES > MAX_REMOTE_PATH); //ensure that we can signal remote read requests (including file path)
 
@@ -54,7 +54,7 @@ int init_rpc(struct mr_context *regions, int n_regions, char *listen_port, signa
 	printf("cluster settings:\n");
 	//create array containing all peers
 	for(int i=0; i<g_n_nodes; i++) {
-		if(i<g_n_hot_rep) {
+		if(i<g_n_hot_rep) { // taijing: g_n_hot_rep == 1; hardcoded
 			g_peers[i] = clone_peer(&hot_replicas[i]);
 			g_kernfs_peers[i] = g_peers[i];
 		}
@@ -78,7 +78,7 @@ int init_rpc(struct mr_context *regions, int n_regions, char *listen_port, signa
 #endif
 		}
 
-		g_kernfs_peers[i]->id = i;
+		g_kernfs_peers[i]->id = i; // taijing: local --> g_kernfs_peers[0]->id = 0 
 		//g_peers[i] = g_kernfs_peers[i];
 		register_peer_log(g_kernfs_peers[i], 0);
 
@@ -884,7 +884,7 @@ int rpc_remote_digest_response(int sockfd, int id, int dev, addr_t start_digest,
 	return 0;
 }
 
-int rpc_forward_msg(int sockfd, char* data)
+int rpc_forward_msg(int sockfd, char* data) // taijing
 {
 	struct app_context *msg;
 	int buffer_id = MP_ACQUIRE_BUFFER(sockfd, &msg);

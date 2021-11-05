@@ -105,7 +105,6 @@ void init_log()
 	pthread_mutexattr_t attr;
 	char* env;
 
-	// taijing: Note that the log header must be less than a block size for crash consistency.
 	if (sizeof(struct logheader) > g_block_size_bytes) {
 		printf("log header size %lu block size %lu\n",
 				sizeof(struct logheader), g_block_size_bytes);
@@ -131,7 +130,6 @@ void init_log()
 	g_fs_log->id = g_self_id;
 	g_fs_log->nloghdr = 0;
 
-	// taijing: shared mem
 	ret = pipe((int*)g_fs_log->digest_fd);
 	if (ret < 0) 
 		panic("cannot create pipe for digest\n");
@@ -364,7 +362,6 @@ inline addr_t log_alloc(uint32_t nr_blocks)
 	//mlfs_assert(g_fs_log->avail_version - g_fs_log->start_version < 2);
 
 	// Log is getting full. make asynchronous digest request.
-	// taijing: if not digesting
 	if (!g_fs_log->digesting) {
 		addr_t nr_used_blk = 0;
 		if (g_fs_log->avail_version == g_fs_log->start_version) {
@@ -1320,7 +1317,7 @@ int mlfs_do_rdigest(uint32_t n_digest)
 	//mlfs_assert(get_next_peer()->start_digest <= get_next_peer()->remote_start);
 	//struct rpc_pending_io *pending[g_n_nodes];
 	//for(int i=0; i<g_n_nodes; i++)
-	rpc_remote_digest_async(get_next_peer()->info->id, get_next_peer(), n_digest, 0);
+	rpc_remote_digest_async(get_next_peer()->info->id, get_next_peer(), n_digest, 0); // taijing: distributed/rpc_interface.c
 
 	//for(int i=0; i<g_n_nodes; i++)
 
@@ -1620,9 +1617,9 @@ uint32_t make_digest_request_sync(int percent)
 
 	mlfs_printf("%s\n", cmd);
 
-	rpc_forward_msg(g_kernfs_peers[g_kernfs_id]->sockfd[SOCK_BG], cmd);
+	rpc_forward_msg(g_kernfs_peers[g_kernfs_id]->sockfd[SOCK_BG], cmd); // taijing
 
-	mlfs_do_rdigest(g_fs_log->n_digest_req);
+	mlfs_do_rdigest(g_fs_log->n_digest_req); // taijing
 
 	return n_digest;
 }

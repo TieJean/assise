@@ -11,8 +11,8 @@
 #include <mlfs/mlfs_interface.h>
 
 #define BUF_SIZE 128
-#define N_UPDATES 50
-#define N_BLOCKS 100
+#define N_UPDATES 1
+#define N_BLOCKS 2
 #define LARGE_BUF_SIZE (4096 * N_BLOCKS)
 #define KGRN  "\x1B[32m"
 #define KRED  "\x1B[31m"
@@ -99,7 +99,7 @@ int main(int argc, char ** argv)
 	// and log address of the data is overwritten with zeros by this write.
 	memset(large_buffer, 0, LARGE_BUF_SIZE);
 
-	for (i = 0; i < ((5UL << 30) / 4096) ; i++)
+	for (i = 0; i < ((1UL << 30) / 4096) ; i++)
 		bytes = write(fd, large_buffer, 4096);
 
 	close(fd);
@@ -159,9 +159,10 @@ int main(int argc, char ** argv)
 	lseek(fd, LARGE_BUF_SIZE, SEEK_SET);
 
 	// make libfs digest the updated blocks by writing large files.
-	for (i = 0; i < ((5UL << 30) / 4096) ; i++)
+	// for (i = 0; i < ((5UL << 30) / 4096) ; i++)
+	// 	bytes = write(fd, large_buffer, 4096);
+	for (i = 0; i < ((1UL << 30) / 4096) ; i++)
 		bytes = write(fd, large_buffer, 4096);
-
 	close(fd);
 
 	printf("--- verify updated buffer (after digest)\n");

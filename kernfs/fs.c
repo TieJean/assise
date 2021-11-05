@@ -409,6 +409,7 @@ int digest_inode(uint8_t from_dev, uint8_t to_dev, int libfs_id,
 	return 0;
 }
 
+// taijing
 int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_inum, 
 		offset_t offset, uint32_t length, addr_t blknr)
 {
@@ -1607,7 +1608,7 @@ int digest_logs(uint8_t from_dev, int libfs_id, int n_hdrs, addr_t start_blkno,
 	return n_digest;
 }
 
-static void handle_digest_request(void *arg)
+static void handle_digest_request(void *arg) // taijing
 {
 
 #ifndef CONCURRENT

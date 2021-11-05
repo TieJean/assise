@@ -90,11 +90,12 @@ static inline void set_digesting()
 {
 	while (1) {
 		//if (!xchg_8(&g_fs_log->digesting, 1)) 
+		// taijing: #define cmpxchg(P, O, N) __sync_val_compare_and_swap((P), (O), (N))
 		if (!cmpxchg(&g_fs_log->digesting, 0, 1)) {
 			mlfs_printf("set log digesting state%s", "\n");
 			return;
 		}
-
+		// tajijing:#define cpu_relax() asm volatile("pause\n": : :"memory")
 		while (g_fs_log->digesting) 
 			cpu_relax();
 	}
