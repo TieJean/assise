@@ -1,3 +1,8 @@
+/**
+ * Test correctness of log digest
+ * If correct, sum should be correct
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -72,11 +77,13 @@ int main(int argc, char ** argv)
         return 1;
     }
 
+	// 128 Byte
     close(fd);
 
 	for (i = 0; i < BUF_SIZE; i++)
 		small_buffer[i] = '0' + 4;
 
+	// 4096 * 2 Byte
 	for (i = 0; i < LARGE_BUF_SIZE; i++)
 		large_buffer[i] = '2';
 
@@ -89,6 +96,7 @@ int main(int argc, char ** argv)
         return 1;
     }
 
+	// write large_buffer to /mlfs/partial_update
 	bytes = write(fd, large_buffer, LARGE_BUF_SIZE);
 
 	make_digest_request_async(100);
@@ -97,10 +105,13 @@ int main(int argc, char ** argv)
 	// Assume log size is less than 5 GB.
 	// Write 5 GB to log. Previous data of large_buffer is digested
 	// and log address of the data is overwritten with zeros by this write.
-	memset(large_buffer, 0, LARGE_BUF_SIZE);
 
-	for (i = 0; i < ((1UL << 30) / 4096) ; i++)
+	// clear large_buffer to 0
+	memset(large_buffer, 0, LARGE_BUF_SIZE);
+	// Write 1 GB into file
+	for (i = 0; i < ((1UL << 30) / 4096) ; i++) {
 		bytes = write(fd, large_buffer, 4096);
+	}
 
 	close(fd);
 
@@ -116,6 +127,7 @@ int main(int argc, char ** argv)
 
 	memset(large_buffer, 0, LARGE_BUF_SIZE);
 
+	// read first 2 * 4096 Byte to large_buffer
 	bytes = read(fd, large_buffer, LARGE_BUF_SIZE);
 	if (bytes != LARGE_BUF_SIZE) {
 		printf("read %d - expect %d\n", bytes, LARGE_BUF_SIZE);
@@ -126,7 +138,7 @@ int main(int argc, char ** argv)
 
 	sum = 0;
 
-	// verify data 
+	// verify data: #2 * 4096 of '2'
 	for (i = 0; i < N_BLOCKS ; i++) {
 		for(j = 0; j < 4096 ; j++) 
 			sum += large_buffer[i * 4096 + j] - '0';
@@ -147,8 +159,9 @@ int main(int argc, char ** argv)
 	assert(N_UPDATES < N_BLOCKS);
 
     fd = open("/mlfs/partial_update", O_RDWR, 0600);
-
+	// N_UPDATES = 1
 	// update beginning 128 B data for each 4 KB blocks
+	// change from [0, 128) to '4'
 	for (i = 0; i < N_UPDATES; i++) {
 		lseek(fd, i * 4096, SEEK_SET);
 		bytes = write(fd, small_buffer, BUF_SIZE);
@@ -161,6 +174,7 @@ int main(int argc, char ** argv)
 	// make libfs digest the updated blocks by writing large files.
 	// for (i = 0; i < ((5UL << 30) / 4096) ; i++)
 	// 	bytes = write(fd, large_buffer, 4096);
+	// start from 4096 * 2B, Write 1 GB into file
 	for (i = 0; i < ((1UL << 30) / 4096) ; i++)
 		bytes = write(fd, large_buffer, 4096);
 	close(fd);
@@ -200,8 +214,6 @@ int main(int argc, char ** argv)
 	printf(KGRN "OK\n" KNRM);
 
 	close(fd);
-
-	//shutdown_fs();
 
     return 0;
 }
