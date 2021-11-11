@@ -96,6 +96,12 @@ struct disk_superblock {
 	addr_t bmap_start;		// Block number of first free map block
 	addr_t datablock_start;	// Block number of first data block
 	addr_t log_start;		// Block number of first log block
+	// TODO: must put at the end of the struct, otherwise there will be bugs
+	// kyh
+	addr_t map_table_start; // map table start number
+	uint64_t nmap;			// Number of map tables
+	uint64_t nmapentry;		// Number of map table entries of 1 map table
+	uint64_t nmapblocks;    // Number of blocks of 1 map table
 };
 
 #define L_TYPE_DIR_ADD         1

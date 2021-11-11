@@ -108,8 +108,8 @@ int main(int argc, char ** argv)
 
 	// clear large_buffer to 0
 	memset(large_buffer, 0, LARGE_BUF_SIZE);
-	// Write 1 GB into file
-	for (i = 0; i < ((1UL << 30) / 4096) ; i++) {
+	// Write 0.5 GB into file
+	for (i = 0; i < ((1UL << 29) / 4096) ; i++) {
 		bytes = write(fd, large_buffer, 4096);
 	}
 
@@ -174,8 +174,8 @@ int main(int argc, char ** argv)
 	// make libfs digest the updated blocks by writing large files.
 	// for (i = 0; i < ((5UL << 30) / 4096) ; i++)
 	// 	bytes = write(fd, large_buffer, 4096);
-	// start from 4096 * 2B, Write 1 GB into file
-	for (i = 0; i < ((1UL << 30) / 4096) ; i++)
+	// start from 4096 * 2B, Write 0.5 GB into file
+	for (i = 0; i < ((1UL << 29) / 4096) ; i++)
 		bytes = write(fd, large_buffer, 4096);
 	close(fd);
 

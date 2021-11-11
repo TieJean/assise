@@ -313,7 +313,6 @@ uint8_t *dax_init(uint8_t dev, char *dev_path)
 #ifdef ENABLE_MEMCPY_OFFLOAD
 	ioat_register(dev);
 #endif
-
 	return dax_addr[dev];
 }
 
@@ -350,7 +349,8 @@ int dax_read_unaligned(uint8_t dev, uint8_t *buf, addr_t blockno, uint32_t offse
 int dax_write(uint8_t dev, uint8_t *buf, addr_t blockno, uint32_t io_size)
 {
 	addr_t addr = (addr_t)dax_addr[dev] + (blockno << g_block_size_shift);
-
+	// Check Code
+	// printf("Libfs RAM to NVM %x\n", addr);
 	//copy and flush data to pmem.
 	pmem_memmove_persist((void *)addr, buf, io_size);
 	//PERSISTENT_BARRIER();
@@ -559,10 +559,11 @@ void ioat_exit(int dev)
 int dax_write_opt(uint8_t dev, uint8_t *buf, addr_t blockno, uint32_t io_size)
 {
 	addr_t addr = (addr_t)dax_addr[dev] + (blockno << g_block_size_shift);
-
+	// Check Code
 #ifdef ENABLE_MEMCPY_OFFLOAD
-	if(io_size >= 4096)
+	if(io_size >= 4096) {
 		ioat_write(dev, buf, addr, io_size);
+	}
 	else
 #endif	
 	{

@@ -5,6 +5,8 @@
 #include <sys/syscall.h>
 #include <pthread.h>
 #include <unistd.h>
+#include <libpmem.h>
+
 
 #include "distributed/posix_wrapper.h"
 //#include "posix/posix_interface.h"
@@ -19,6 +21,7 @@
 #include "mlfs/mlfs_interface.h"
 #include "storage/storage.h"
 #include "concurrency/thpool.h"
+#include "../../../kernfs/fs.h"
 
 #if MLFS_LEASE
 #include "experimental/leases.h"
@@ -682,6 +685,42 @@ static int persist_log_inode(struct logheader_meta *loghdr_meta, uint32_t idx)
 
 	return 0;
 }
+// uint8_t* mmap_log_datablk(uint8_t dev, uint32_t offset, addr_t blknr) {
+// 	int fd;
+// 	uint32_t offset_in_block = 0;
+// 	dev = g_root_dev;
+// 	fd = open(g_dev_path[dev], O_RDWR);
+// 	// TODO: FIXME add offset
+// 	// offset = 0;
+// 	if (fd < 0){
+//         fprintf(stderr, "Unable to open port\n\r");
+//         exit(fd);
+//     }
+// 	// uint8_t* remap_addr = (uint8_t *)mmap(g_bdev[dev]->map_base_addr, dev_size[dev], PROT_READ | PROT_WRITE, MAP_SHARED| MAP_HUGETLB | MAP_HUGE_2MB, fd, 0);
+// 	// uint8_t* remap_addr = (uint8_t *)mmap(NULL, 1 << 12, PROT_READ | PROT_WRITE, MAP_SHARED| MAP_POPULATE, fd, 0);
+// 	// uint8_t* ret = (uint8_t *)mmap(NULL, dev_size[dev], PROT_READ | PROT_WRITE, MAP_SHARED| MAP_POPULATE, fd, 0);
+// 	// printf("addr1: %p, disk_offset: %p\n", (void*)(g_bdev[dev]->map_base_addr + (blknr << g_block_size_shift)), disk_sb[dev].datablock_start + 15  << g_block_size_shift);
+// 	// uint8_t* ret2 = (uint8_t *)mmap(NULL, dev_size[dev], PROT_READ | PROT_WRITE, MAP_SHARED| MAP_POPULATE, fd, 0);
+// 	// printf("addr2: %p, disk_offset: %p\n", (void*)(g_bdev[dev]->map_base_addr + (disk_sb[dev].datablock_start + 15 << g_block_size_shift)), (blknr << g_block_size_shift));
+// 	// uint8_t* ret = (uint8_t *)mmap((void*)(g_bdev[dev]->map_base_addr + (blknr << g_block_size_shift)), g_block_size_bytes, PROT_READ, MAP_SHARED| MAP_POPULATE, fd, disk_sb[dev].datablock_start + 15  << g_block_size_shift);
+// 	// uint8_t* ret2 = (uint8_t *)mmap((void*)(g_bdev[dev]->map_base_addr + (disk_sb[dev].datablock_start + 15 << g_block_size_shift)), g_block_size_bytes, PROT_READ | PROT_WRITE, MAP_SHARED| MAP_POPULATE, fd, (blknr << g_block_size_shift));
+// 	// printf("ret: %p, addr: %p\n", (void*)remap_addr, g_bdev[dev]->map_base_addr + (blknr << g_block_size_shift));
+// 	// printf("ret: %p, addr: %p\n", (void*)remap_addr, g_bdev[dev]->map_base_addr);
+// 	// if(remap_addr == MAP_FAILED) {
+// 	// 	perror("cannot map remap_addr");
+// 	// 	exit(-1);
+// 	// }
+	
+// 	// if (ret == MAP_FAILED) {
+// 	// 	perror("cannot map log datablk");
+// 	// 	exit(-1);
+// 	// }
+// 	// if (ret2 == MAP_FAILED) {
+// 	// 	perror("cannot map log datablk2");
+// 	// 	exit(-1);
+// 	// }
+// 	return remap_addr;
+// }
 
 /* This is a critical path for write performance.
  * Stay optimized and need to be careful when modifying it */
@@ -789,7 +828,17 @@ static int persist_log_file(struct logheader_meta *loghdr_meta,
 
 		if (enable_perf_stats)
 			start_tsc = asm_rdtscp();
+		
+		// uint8_t* write_addr = mmap_log_datablk(g_log_dev, 0, logblk_no);
+		// uint8_t* write_addr = mmap_log_datablk(g_log_dev, 0, logblk_no);
+		// addr_t write_addr = disk_sb[g_root_dev].datablock_start + 1;
+		// memset(logblk_no << g_block_size_shift, 100, 2); // cause segment fault
+		// printf("mmap_log_datablk");
+		// memset(write_addr << g_block_size_shift, 100, 2); // cause segment fault
+		// printf("mmap_log_datablk");
 
+		// TODO-assise: all bh_get_sync_IO need to do remapping
+		// addr_t logplk_no = get_remapping();
 		log_bh = bh_get_sync_IO(g_log_dev, logblk_no, BH_NO_DATA_ALLOC);
 
 		if (enable_perf_stats) {
@@ -806,7 +855,7 @@ static int persist_log_file(struct logheader_meta *loghdr_meta,
 		// case 2. the IO incurs two blocks write (unaligned).
 		else 
 			panic("do not support this case yet\n");
-
+		
 		log_bh->b_data = loghdr_meta->io_vec[n_iovec].base;
 		log_bh->b_size = io_size;
 		log_bh->b_offset = offset_in_block;
@@ -816,7 +865,7 @@ static int persist_log_file(struct logheader_meta *loghdr_meta,
 		mlfs_debug("inum %u offset %lu @ blockno %lx (partial io_size=%u)\n",
 				loghdr->inode_no[idx], loghdr->data[idx], logblk_no, io_size);
 
-		
+		// taijing: unaligned: blkrno + offset; aligned: blkrno;
         mlfs_write(log_bh);
 
 		bh_release(log_bh);

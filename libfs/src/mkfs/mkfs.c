@@ -128,7 +128,7 @@ int main(int argc, char *argv[])
 	int ninodeblocks = NINODES / IPB + 1;
 	int leaseblocks = NINODES / LPB + 1;
 	uint64_t file_size_bytes;
-	uint64_t file_size_blks, log_size_blks;
+	uint64_t file_size_blks, log_size_blks, map_size_blks;
 	uint64_t nlog, ndatablocks;
 	unsigned int nmeta;    // Number of meta blocks (boot, sb, inode, bitmap)
 
@@ -164,8 +164,20 @@ int main(int argc, char *argv[])
 
 	if(dev_id == g_log_dev) {
 		log_size_blks = g_log_size * (g_n_max_libfs + g_n_nodes) + (1UL * (1 << 10));
-		mlfs_assert(file_size_blks > log_size_blks);
+		// TODO: decrease file_size_blks by the map table blocks
+		// Kyh
+		uint64_t nmap = 1; 
+		uint64_t nmapentry = (dev_size[g_root_dev] >> g_block_size_shift); 
+		uint64_t map_size = (nmapentry * (sizeof(struct mlfs_map_blocks)));
+		uint64_t map_blks = (map_size >> g_block_size_shift);
+		if(map_size % g_block_size_bytes != 0) {
+			map_blks += 1;
+		}
+		map_size_blks = nmap * map_blks;
+
+		mlfs_assert(file_size_blks > (log_size_blks + map_size_blks));
 		file_size_blks -= log_size_blks;
+		file_size_blks -= map_size_blks;
 	}
 	else {
 		log_size_blks = 0;
@@ -220,6 +232,15 @@ int main(int argc, char *argv[])
 	ondisk_sb.bmap_start = 2 + ninodeblocks + leaseblocks;
 	ondisk_sb.datablock_start = nmeta; 
 	ondisk_sb.log_start = ondisk_sb.datablock_start + ndatablocks;
+	
+	// TODO: check correctness; Fill map table
+	// Kyh // ondisk_sb.nmap = g_n_max_libfs + 1;
+	
+	ondisk_sb.nmap = 1; // no need for g_n_max_libfs + 1
+	ondisk_sb.nmapentry = (dev_size[g_root_dev] >> g_block_size_shift);
+	ondisk_sb.nmapblocks = map_size_blks;
+	ondisk_sb.map_table_start = ((dev_size[g_root_dev] - ((ondisk_sb.nmap * ondisk_sb.nmapblocks) << g_block_size_shift)) >> g_block_size_shift);
+	printf("nmapentry %lu\n", ondisk_sb.nmapentry);
 
 	// Setup in-memory superblock that is required for extent tree and block allocator.
 	inmem_sb.ondisk = &ondisk_sb;
@@ -234,7 +255,7 @@ int main(int argc, char *argv[])
 	printf("size of superblock %ld\n", sizeof(ondisk_sb));
 	printf("----------------------------------------------------------------\n");
 	printf("nmeta %d (boot 1, super 1, inode blocks %u, bitmap blocks %u) \n"
-			"[ inode start %lu, bmap start %lu, datablock start %lu, log start %lu ] \n"
+			"[ inode start %lu, bmap start %lu, datablock start %lu, log start %lu, maptable start %lu ] \n"
 			": data blocks %lu log blocks %lu -- total %lu (%lu MB)\n",
 			nmeta, 
 			ninodeblocks, 
@@ -243,6 +264,7 @@ int main(int argc, char *argv[])
 			ondisk_sb.bmap_start, 
 			ondisk_sb.datablock_start,
 			ondisk_sb.log_start,
+			ondisk_sb.map_table_start,
 			ndatablocks, 
 			nlog,
 			file_size_blks, 
@@ -266,7 +288,13 @@ int main(int argc, char *argv[])
 			exit(1);
 		}
 	}
-
+	
+	// Kyh
+	// for(int i = 0; i < ondisk_sb.nmapblocks; i++) {
+	// 	wsect(ondisk_sb.map_table_start + i, (uint8_t *)zeroes);
+	// }
+	
+	memset(g_bdev[dev_id]->map_base_addr + (ondisk_sb.map_table_start << g_block_size_shift), 0, ondisk_sb.nmapblocks << g_block_size_shift);
 	memset(zeroes, 0, g_block_size_bytes);
 #if 1
 	if (storage_mode == HDD) {

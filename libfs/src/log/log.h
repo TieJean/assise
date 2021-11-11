@@ -117,5 +117,5 @@ static inline void clear_digesting()
 
 addr_t log_alloc(uint32_t nr_logblock);
 void shutdown_log();
-
+// uint8_t* mmap_log_datablk(uint8_t dev, uint32_t offset, addr_t blknr);
 #endif

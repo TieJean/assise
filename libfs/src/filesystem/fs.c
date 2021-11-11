@@ -510,7 +510,21 @@ void read_superblock(uint8_t dev)
 			disk_sb[dev].inode_start,
 			disk_sb[dev].bmap_start,
 			disk_sb[dev].datablock_start);
-
+	// for debug
+	// kyh
+	// printf("superblock: size %lu nblocks %lu ninodes %u\n"
+	// 		"[inode start %lu bmap start %lu datablock start %lu log start %lu map table start %lu map table num %lu map table entry num %lu map table blk nr %lu]\n",
+	// 		disk_sb[dev].size, 
+	// 		disk_sb[dev].ndatablocks, 
+	// 		disk_sb[dev].ninodes,
+	// 		disk_sb[dev].inode_start, 
+	// 		disk_sb[dev].bmap_start, 
+	// 		disk_sb[dev].datablock_start,
+	// 		disk_sb[dev].log_start,
+	// 		disk_sb[dev].map_table_start,
+	// 		disk_sb[dev].nmap,
+	// 		disk_sb[dev].nmapentry,
+	// 		disk_sb[dev].nmapblocks);
 	sb[dev]->ondisk = &disk_sb[dev];
 
 	sb[dev]->s_inode_bitmap = (unsigned long *)
@@ -2206,7 +2220,7 @@ int add_to_log(struct inode *ip, uint8_t *data, offset_t off, uint32_t size, uin
 	mlfs_assert(off + size > off);
 
 	nr_iovec = loghdr_meta->nr_iovec;
-	loghdr_meta->io_vec[nr_iovec].base = data;
+	loghdr_meta->io_vec[nr_iovec].base = data; // RAM addr
 	loghdr_meta->io_vec[nr_iovec].size = size;
 	loghdr_meta->nr_iovec++;
 
