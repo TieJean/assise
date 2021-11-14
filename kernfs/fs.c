@@ -415,6 +415,7 @@ int digest_inode(uint8_t from_dev, uint8_t to_dev, int libfs_id,
 int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_inum, 
 		offset_t offset, uint32_t length, addr_t blknr)
 {
+	printf("inside digest file\n");
 	int ret;
 	uint32_t offset_in_block = 0;
 	struct inode *file_inode;
@@ -560,20 +561,26 @@ int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_in
 		nr_digested_blocks += nr_block_get;
 
 		// update data block
+		addr_t kernfs_pblk, libfs_lblk, libfs_pblk;
 		for(int i = 0; i < nr_block_get - 1; i++) {
 			// update map table
 			// addr_t libfs_lblk = blknr + i;
-			addr_t libfs_lblk = ((data - g_bdev[from_dev]->map_base_addr) >> g_block_size_shift) + i;
-			update_map_table(map.m_pblk + i, libfs_lblk, KERNFS_ID); // TODO-assise: may need to change KERNFS_ID
+			libfs_lblk = ((data - g_bdev[from_dev]->map_base_addr) >> g_block_size_shift) + i;
+			// map.m_pblk: libfs' pblk; kernfs' lblk
+			update_map_table(g_root_dev, map.m_pblk + i, libfs_lblk, KERNFS_ID); // TODO-assise: may need to change KERNFS_ID
 		}
 		// TODO-assise: check
 		if(nr_block_get * g_block_size_bytes > length2allocate) {
 			// the last block should copy instead of remapping
 			int idx = nr_block_get - 1;
-			bh_data = bh_get_sync_IO(to_dev, map.m_pblk + idx, BH_NO_DATA_ALLOC);
+			kernfs_pblk = get_map_table_entry(g_root_dev, map.m_pblk + idx, KERNFS_ID)->m_pblk;
+			bh_data = bh_get_sync_IO(to_dev, kernfs_pblk, BH_NO_DATA_ALLOC);
 
-			bh_data->b_data = data + idx * g_block_size_bytes;
-			bh_data->b_size = g_block_size_bytes;
+			libfs_lblk = ((data - g_bdev[from_dev]->map_base_addr) >> g_block_size_shift) + idx;
+			libfs_pblk = get_map_table_entry(g_root_dev, libfs_lblk, KERNFS_ID)->m_pblk;
+			
+			bh_data->b_data = g_bdev[from_dev]->map_base_addr + (libfs_pblk << g_block_size_shift);
+			bh_data->b_size = length2allocate - (nr_block_get - 1) * g_block_size_bytes; 
 			bh_data->b_offset = 0;
 
 			ret = mlfs_write_opt(bh_data); // TODO-assise: check if this is correct
@@ -583,14 +590,15 @@ int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_in
 		} else {
 			int idx = nr_block_get - 1;
 			addr_t libfs_lblk = ((data - g_bdev[from_dev]->map_base_addr) >> g_block_size_shift) + idx;
-			update_map_table(map.m_pblk + idx, libfs_lblk, KERNFS_ID);	// TODO-assise: may need to change KERNFS_ID
-		}
-		
+			update_map_table(g_root_dev, map.m_pblk + idx, libfs_lblk, KERNFS_ID);	// TODO-assise: may need to change KERNFS_ID
+		} 
+		// <TO-DELETE>
 		// bh_data = bh_get_sync_IO(to_dev, map.m_pblk, BH_NO_DATA_ALLOC);
 
 		// bh_data->b_data = data;
 		// bh_data->b_size = nr_block_get * g_block_size_bytes;
 		// bh_data->b_offset = 0;
+		// </TO-DELETE>
 
 #ifdef MIGRATION
 		//TODO: important note: this scheme only works if LRU_ENTRY_SIZE is
@@ -608,14 +616,14 @@ int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_in
 			update_slru_list_from_digest(to_dev, k, v);
 		}
 #endif
-
-		//mlfs_debug("File data : %s\n", bh_data->b_data);
+		// <TO-DELETE>
+		// mlfs_debug("File data : %s\n", bh_data->b_data);
 
 		// ret = mlfs_write_opt(bh_data);
 		// mlfs_assert(!ret);
 		// clear_buffer_uptodate(bh_data);
 		// bh_release(bh_data);
-
+		// </TO-DELETE>
 		if (0) {
 			struct buffer_head *bh;
 			uint8_t tmp_buf[4096];

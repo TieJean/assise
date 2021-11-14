@@ -9,6 +9,10 @@
 struct mlfs_map_blocks** map_tables;  // = malloc(sizeof(struct mlfs_map_blocks) * (1 << (dev_size[dev]>> g_block_size_bytes))));
 size_t map_table_size;
 
+void get_map_entry_helper(uint8_t dev, uint32_t blkno, uint32_t offset_in_blk, struct mlfs_map_blocks* data);
+void set_map_entry_helper(uint8_t dev, uint32_t blkno, uint32_t offset_in_blk, struct mlfs_map_blocks* data);
+
+
 void map_table_init(uint8_t dev) {
     map_tables = malloc(sizeof(struct mlfs_map_blocks*) * disk_sb[dev].nmap);
     map_table_size = sizeof(struct mlfs_map_blocks) * disk_sb[dev].nmapentry;
@@ -84,8 +88,8 @@ void update_map_table(uint8_t dev, addr_t kernfs_lblk, addr_t libfs_lblk, int li
     // update_map_table_entry
     kernfs_map->m_flags = MLFS_MAP_VALID | MLFS_MAP_DIRTY;
     libfs_map->m_flags = MLFS_MAP_VALID | MLFS_MAP_DIRTY;
-    write_map_table_entry(dev, kernfs_lblk, libfs_id, kernfs_map);
-    write_map_table_entry(dev, libfs_lblk, libfs_id, libfs_map);
+    set_map_table_entry(dev, kernfs_lblk, libfs_id, kernfs_map);
+    set_map_table_entry(dev, libfs_lblk, libfs_id, libfs_map);
     
 }
 
@@ -96,14 +100,14 @@ struct mlfs_map_blocks* get_map_table_entry(uint8_t dev, addr_t lblk, int libfs_
     uint32_t blkno;
     uint32_t offset_in_blk;
     get_blkno_and_offset(dev, libfs_id, lblk, &blkno, &offset_in_blk);
-    read_map_entry_helper(dev, blkno, offset_in_blk, data);
+    get_map_entry_helper(dev, blkno, offset_in_blk, data);
     // map entry invalid
     if (data->m_flags & MLFS_MAP_VALID != MLFS_MAP_VALID) {
         data->m_lblk = lblk;
         data->m_pblk = lblk;
         data->m_len = g_block_size_bytes;
         data->m_flags = MLFS_MAP_VALID;
-        write_map_entry_helper(dev, blkno, offset_in_blk, data);
+        set_map_entry_helper(dev, blkno, offset_in_blk, data);
     }
     return data;
 }
@@ -113,7 +117,7 @@ void free_map_table_entry(struct mlfs_map_blocks* blk) {
     free(blk);
 }
 
-void get_blkno_and_offset(int dev, int libfs_id, addr_t lblk, uint32_t *blkno, uint32_t* offset_in_blk) {
+void get_blkno_and_offset(uint8_t dev, int libfs_id, addr_t lblk, uint32_t *blkno, uint32_t* offset_in_blk) {
     uint32_t addr = disk_sb[dev].map_table_start * g_block_size_bytes 
                   + libfs_id * disk_sb[dev].nmapblocks * g_block_size_bytes 
                   + lblk * sizeof(struct mlfs_map_blocks);
@@ -121,7 +125,7 @@ void get_blkno_and_offset(int dev, int libfs_id, addr_t lblk, uint32_t *blkno, u
     *offset_in_blk = addr % g_block_size_bytes;
 }
 
-void get_map_entry_helper(int dev, uint32_t blkno, uint32_t offset_in_blk, struct mlfs_map_blocks* data) {
+void get_map_entry_helper(uint8_t dev, uint32_t blkno, uint32_t offset_in_blk, struct mlfs_map_blocks* data) {
     struct buffer_head* bh;
     bh = bh_get_sync_IO(dev, blkno, BH_NO_DATA_ALLOC);
     bh->b_data = data;
@@ -132,7 +136,7 @@ void get_map_entry_helper(int dev, uint32_t blkno, uint32_t offset_in_blk, struc
     bh_release(bh);
 }
 
-void set_map_entry_helper(int dev, uint32_t blkno, uint32_t offset_in_blk, struct mlfs_map_blocks* data) {
+void set_map_entry_helper(uint8_t dev, uint32_t blkno, uint32_t offset_in_blk, struct mlfs_map_blocks* data) {
     struct buffer_head* bh;
     bh = bh_get_sync_IO(dev, blkno, BH_NO_DATA_ALLOC);
     bh->b_data = data;
@@ -148,5 +152,5 @@ void set_map_table_entry(uint8_t dev, addr_t lblk, int libfs_id, struct mlfs_map
     uint32_t blkno;
     uint32_t offset_in_blk;
     get_blkno_and_offset(dev, libfs_id, lblk, &blkno, &offset_in_blk);
-    write_map_entry_helper(dev, blkno, offset_in_blk, data);
+    set_map_entry_helper(dev, blkno, offset_in_blk, data);
 }
