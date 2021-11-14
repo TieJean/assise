@@ -154,3 +154,10 @@ void set_map_table_entry(uint8_t dev, addr_t lblk, int libfs_id, struct mlfs_map
     get_blkno_and_offset(dev, libfs_id, lblk, &blkno, &offset_in_blk);
     set_map_entry_helper(dev, blkno, offset_in_blk, data);
 }
+
+addr_t lblk2pblk(uint8_t dev, addr_t lblk, int libfs_id) {
+    struct mlfs_map_blocks* data = get_map_table_entry(dev, lblk, libfs_id);
+    addr_t pblk = data->m_pblk;
+    free_map_table_entry(data);
+    return pblk;
+}

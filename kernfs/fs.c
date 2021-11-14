@@ -446,6 +446,7 @@ int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_in
 
 	// Storage to storage copy.
 	// FIXME: this does not work if migrating block from SSD to NVM.
+	
 	data = g_bdev[from_dev]->map_base_addr + (blknr << g_block_size_shift);
 	file_inode = icache_find(file_inum);
 	if (!file_inode) {
@@ -486,11 +487,16 @@ int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_in
 				MLFS_GET_BLOCKS_CREATE);
 
 		mlfs_assert(ret == 1);
-		bh_data = bh_get_sync_IO(to_dev, map.m_pblk, BH_NO_DATA_ALLOC); 
+		addr_t kernfs_pblk, libfs_lblk, libfs_pblk;
+		kernfs_pblk = lblk2pblk(g_root_dev, map.m_pblk, KERNFS_ID);
+		bh_data = bh_get_sync_IO(to_dev, kernfs_pblk, BH_NO_DATA_ALLOC); 
 
 		mlfs_assert(bh_data);
-
-		bh_data->b_data = data + offset_in_block; // read from
+		libfs_lblk = ((data - g_bdev[from_dev]->map_base_addr) >> g_block_size_shift);
+		libfs_pblk = lblk2pblk(g_root_dev, libfs_lblk, KERNFS_ID);
+			
+		bh_data->b_data = g_bdev[from_dev]->map_base_addr + (libfs_pblk << g_block_size_shift) + offset_in_block;
+		// bh_data->b_data = data + offset_in_block; // read from
 		bh_data->b_size = _len;
 		bh_data->b_offset = offset_in_block; // write to; 0 + offset_in_block
 
@@ -573,11 +579,11 @@ int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_in
 		if(nr_block_get * g_block_size_bytes > length2allocate) {
 			// the last block should copy instead of remapping
 			int idx = nr_block_get - 1;
-			kernfs_pblk = get_map_table_entry(g_root_dev, map.m_pblk + idx, KERNFS_ID)->m_pblk;
+			kernfs_pblk = lblk2pblk(g_root_dev, map.m_pblk + idx, KERNFS_ID);
 			bh_data = bh_get_sync_IO(to_dev, kernfs_pblk, BH_NO_DATA_ALLOC);
 
 			libfs_lblk = ((data - g_bdev[from_dev]->map_base_addr) >> g_block_size_shift) + idx;
-			libfs_pblk = get_map_table_entry(g_root_dev, libfs_lblk, KERNFS_ID)->m_pblk;
+			libfs_pblk = lblk2pblk(g_root_dev, libfs_lblk, KERNFS_ID);
 			
 			bh_data->b_data = g_bdev[from_dev]->map_base_addr + (libfs_pblk << g_block_size_shift);
 			bh_data->b_size = length2allocate - (nr_block_get - 1) * g_block_size_bytes; 

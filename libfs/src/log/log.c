@@ -22,6 +22,7 @@
 #include "storage/storage.h"
 #include "concurrency/thpool.h"
 #include "../../../kernfs/fs.h"
+#include "map_table.h"
 
 #if MLFS_LEASE
 #include "experimental/leases.h"
@@ -251,8 +252,9 @@ static loghdr_t *read_log_header(addr_t blkno)
        int ret;
        struct buffer_head *bh;
        loghdr_t *hdr_data = mlfs_alloc(sizeof(struct logheader));
-
-       bh = bh_get_sync_IO(g_log_dev, blkno, BH_NO_DATA_ALLOC);
+	   addr_t pblk = lblk2pblk(g_log_dev, blkno, KERNFS_ID);
+       // bh = bh_get_sync_IO(g_log_dev, blkno, BH_NO_DATA_ALLOC);
+	   bh = bh_get_sync_IO(g_log_dev, pblk, BH_NO_DATA_ALLOC);
        bh->b_size = sizeof(struct logheader);
        bh->b_data = (uint8_t *)hdr_data;
 
@@ -470,8 +472,8 @@ static void persist_log_header(struct logheader_meta *loghdr_meta,
 
 	if (enable_perf_stats)
 		start_tsc = asm_rdtscp();
-
-	io_bh = bh_get_sync_IO(g_log_dev, hdr_blkno, BH_NO_DATA_ALLOC);
+	addr_t pblkno = lblk2pblk(g_log_dev, hdr_blkno, KERNFS_ID);
+	io_bh = bh_get_sync_IO(g_log_dev, pblkno, BH_NO_DATA_ALLOC);
 
 	if (enable_perf_stats) {
 		g_perf_stats.bcache_search_tsc += (asm_rdtscp() - start_tsc);
@@ -638,9 +640,9 @@ static int persist_log_inode(struct logheader_meta *loghdr_meta, uint32_t idx)
 
 	if (enable_perf_stats)
 		start_tsc = asm_rdtscp();
-
-	log_bh = bh_get_sync_IO(g_log_dev, logblk_no, BH_NO_DATA_ALLOC);
-
+	addr_t pblkno = lblk2pblk(g_log_dev, logblk_no, KERNFS_ID);
+	// log_bh = bh_get_sync_IO(g_log_dev, logblk_no, BH_NO_DATA_ALLOC);
+	log_bh = bh_get_sync_IO(g_log_dev, pblkno, BH_NO_DATA_ALLOC);
 	if (enable_perf_stats) {
 		g_perf_stats.bcache_search_tsc += (asm_rdtscp() - start_tsc);
 		g_perf_stats.bcache_search_nr++;
@@ -804,8 +806,10 @@ static int persist_log_file(struct logheader_meta *loghdr_meta,
 		// TODO-assise: all bh_get_sync_IO need to do remapping
 		// addr_t logplk_no = get_map_table_entry()->m_pblk;
 		// log_bh = bh_get_sync_IO(g_log_dev, logplk_no, BH_NO_DATA_ALLOC);
-		log_bh = bh_get_sync_IO(g_log_dev, logblk_no, BH_NO_DATA_ALLOC);
-
+		addr_t plogblk = lblk2pblk(g_log_dev, logblk_no, KERNFS_ID);
+		// log_bh = bh_get_sync_IO(g_log_dev, logblk_no, BH_NO_DATA_ALLOC);
+		log_bh = bh_get_sync_IO(g_log_dev, plogblk, BH_NO_DATA_ALLOC);
+		
 		if (enable_perf_stats) {
 			g_perf_stats.bcache_search_tsc += (asm_rdtscp() - start_tsc);
 			g_perf_stats.bcache_search_nr++;
@@ -881,19 +885,37 @@ static int persist_log_file(struct logheader_meta *loghdr_meta,
 
 		if (enable_perf_stats)
 			start_tsc = asm_rdtscp();
-
-		log_bh = bh_get_sync_IO(g_log_dev, logblk_no, BH_NO_DATA_ALLOC);
-
-		if (enable_perf_stats) {
-			g_perf_stats.bcache_search_tsc += (asm_rdtscp() - start_tsc);
-			g_perf_stats.bcache_search_nr++;
+		
+		addr_t plogblk;
+		for(int i = 0; i < (size >> g_block_size_shift) + 1; i++) {
+			if (size % g_block_size_bytes == 0 && i == (size >> g_block_size_shift)) continue;
+			plogblk = lblk2pblk(g_log_dev, logblk_no + i, KERNFS_ID);
+			log_bh = bh_get_sync_IO(g_log_dev, plogblk, BH_NO_DATA_ALLOC);
+			if (enable_perf_stats) {
+				g_perf_stats.bcache_search_tsc += (asm_rdtscp() - start_tsc);
+				g_perf_stats.bcache_search_nr++;
+			}
+			log_bh->b_data = loghdr_meta->io_vec[n_iovec].base;
+			log_bh->b_size = g_block_size_bytes;
+			if (size % g_block_size_bytes != 0 && i == (size >> g_block_size_shift)) {
+				log_bh->b_size = size % g_block_size_bytes;
+			} 
+			log_bh->b_offset = 0;
+			mlfs_debug("inum %u offset %lu size %u @ blockno %lx (aligned)\n",
+				loghdr->inode_no[idx], cur_offset, size, logblk_no);
+			mlfs_write(log_bh);
+			bh_release(log_bh);
 		}
+		// log_bh = bh_get_sync_IO(g_log_dev, logblk_no, BH_NO_DATA_ALLOC);
 
-		log_bh->b_data = loghdr_meta->io_vec[n_iovec].base;
-		log_bh->b_size = size;
-		log_bh->b_offset = 0;
+		// if (enable_perf_stats) {
+		// 	g_perf_stats.bcache_search_tsc += (asm_rdtscp() - start_tsc);
+		// 	g_perf_stats.bcache_search_nr++;
+		// }
 
-		//loghdr->blocks[idx] = logblk_no;
+		// log_bh->b_data = loghdr_meta->io_vec[n_iovec].base;
+		// log_bh->b_size = size;
+		// log_bh->b_offset = 0;
 
 		// Update log address hash table.
 		// This is performance bottleneck of sequential write.
@@ -924,12 +946,12 @@ static int persist_log_file(struct logheader_meta *loghdr_meta,
 		}
 #endif
 
-		mlfs_debug("inum %u offset %lu size %u @ blockno %lx (aligned)\n",
-				loghdr->inode_no[idx], cur_offset, size, logblk_no);
+		// mlfs_debug("inum %u offset %lu size %u @ blockno %lx (aligned)\n",
+		// 		loghdr->inode_no[idx], cur_offset, size, logblk_no);
 
-		mlfs_write(log_bh);
+		// mlfs_write(log_bh);
 
-		bh_release(log_bh);
+		// bh_release(log_bh);
 
 	}
 
