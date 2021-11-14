@@ -183,6 +183,9 @@ struct mlfs_ext_path {
 #define MLFS_FREE_BLOCKS_NOFREE_FIRST_CLUSTER   0x0010
 #define MLFS_FREE_BLOCKS_NOFREE_LAST_CLUSTER    0x0020
 
+#define MLFS_MAP_INVALID 	0 // for map_table, invalid means no remapping, lblk = pblk
+#define MLFS_MAP_VALID 	1 	  // for map_table
+#define MLFS_MAP_DIRTY (1 << 1) // for map_table
 #define MLFS_MAP_NEW        (1 << 0)
 #define MLFS_MAP_LOG_ALLOC  (1 << 1)
 #define MLFS_MAP_GC_ALLOC   (1 << 2)

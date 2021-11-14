@@ -290,11 +290,11 @@ int main(int argc, char *argv[])
 	}
 	
 	// Kyh
-	// for(int i = 0; i < ondisk_sb.nmapblocks; i++) {
-	// 	wsect(ondisk_sb.map_table_start + i, (uint8_t *)zeroes);
-	// }
+	for(int i = 0; i < ondisk_sb.nmapblocks; i++) {
+		wsect(ondisk_sb.map_table_start + i, (uint8_t *)zeroes);
+	}
 	
-	memset(g_bdev[dev_id]->map_base_addr + (ondisk_sb.map_table_start << g_block_size_shift), 0, ondisk_sb.nmapblocks << g_block_size_shift);
+	// memset(g_bdev[dev_id]->map_base_addr + (ondisk_sb.map_table_start << g_block_size_shift), 0, ondisk_sb.nmapblocks << g_block_size_shift);
 	memset(zeroes, 0, g_block_size_bytes);
 #if 1
 	if (storage_mode == HDD) {

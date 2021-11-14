@@ -19,6 +19,7 @@
 #include "extents_bh.h"
 #include "filesystem/slru.h"
 #include "migrate.h"
+#include "map_table.h"
 
 #ifdef DISTRIBUTED
 #include "distributed/rpc_interface.h"
@@ -409,7 +410,8 @@ int digest_inode(uint8_t from_dev, uint8_t to_dev, int libfs_id,
 	return 0;
 }
 
-// taijing
+// offset: loghdr->data[i]
+// blknr:  loghdr->blocks[i] + loghdr_meta->hdr_blkno
 int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_inum, 
 		offset_t offset, uint32_t length, addr_t blknr)
 {
@@ -435,7 +437,7 @@ int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_in
 		if (length % g_block_size_bytes != 0) 
 			nr_blocks++;
 	}
-
+	uint32_t length2allocate = length;
 	mlfs_assert(nr_blocks > 0);
 
 	if ((from_dev == g_ssd_dev) || (from_dev == g_hdd_dev))
@@ -470,8 +472,11 @@ int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_in
 	// case 1. a single block writing: small size (< 4KB) 
 	// or a heading block of unaligned starting offset.
 	if ((length < g_block_size_bytes) || offset_in_block != 0) {
+		// g_block_size_bytes - offset_in_block) : after write, no space left in blk
+		// length : if we can write everything within this block - won't go to case2
 		int _len = _min(length, (uint32_t)g_block_size_bytes - offset_in_block);
-
+		
+		// cur_offset >> g_block_size_shift : find blkno in where? log? extent?
 		map.m_lblk = (cur_offset >> g_block_size_shift);
 		map.m_pblk = 0;
 		map.m_len = 1;
@@ -484,9 +489,9 @@ int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_in
 
 		mlfs_assert(bh_data);
 
-		bh_data->b_data = data + offset_in_block;
+		bh_data->b_data = data + offset_in_block; // read from
 		bh_data->b_size = _len;
-		bh_data->b_offset = offset_in_block;
+		bh_data->b_offset = offset_in_block; // write to; 0 + offset_in_block
 
 #ifdef MIGRATION
 		lru_key_t k = {
@@ -501,7 +506,7 @@ int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_in
 #endif
 		//mlfs_debug("File data : %s\n", bh_data->b_data);
 
-		ret = mlfs_write_opt(bh_data);
+		ret = mlfs_write_opt(bh_data); 
 		mlfs_assert(!ret);
 
 		bh_release(bh_data);
@@ -513,6 +518,9 @@ int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_in
 		nr_digested_blocks++;
 		cur_offset += _len;
 		data += _len;
+		
+		//update length
+		length2allocate -= _len;
 	}
 
 	// case 2. multiple trial of block writing.
@@ -524,10 +532,13 @@ int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_in
 
 		mlfs_assert((cur_offset % g_block_size_bytes) == 0);
 
-		map.m_lblk = (cur_offset >> g_block_size_shift);
-		map.m_pblk = 0;
+		// file blk, cur_offset must be the multiple of g_block_size_bytes
+		map.m_lblk = (cur_offset >> g_block_size_shift); 
+		map.m_pblk = 0; // actually it's kernfs lblk
 		map.m_len = nr_blocks - nr_digested_blocks;
 		map.m_flags = 0;
+		
+		uint32_t max_blks_needed = nr_blocks - nr_digested_blocks;
 
 		// find block address of offset and update extent tree
 		if (to_dev == g_ssd_dev || to_dev == g_hdd_dev) {
@@ -536,6 +547,7 @@ int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_in
 			nr_block_get = mlfs_ext_get_blocks(&handle, file_inode, &map, 
 					MLFS_GET_BLOCKS_CREATE_DATA);
 		} else {
+			// we're in this case
 			nr_block_get = mlfs_ext_get_blocks(&handle, file_inode, &map, 
 					MLFS_GET_BLOCKS_CREATE_DATA);
 		}
@@ -548,11 +560,37 @@ int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_in
 		nr_digested_blocks += nr_block_get;
 
 		// update data block
-		bh_data = bh_get_sync_IO(to_dev, map.m_pblk, BH_NO_DATA_ALLOC);
+		for(int i = 0; i < nr_block_get - 1; i++) {
+			// update map table
+			// addr_t libfs_lblk = blknr + i;
+			addr_t libfs_lblk = ((data - g_bdev[from_dev]->map_base_addr) >> g_block_size_shift) + i;
+			update_map_table(map.m_pblk + i, libfs_lblk, KERNFS_ID); // TODO-assise: may need to change KERNFS_ID
+		}
+		// TODO-assise: check
+		if(nr_block_get * g_block_size_bytes > length2allocate) {
+			// the last block should copy instead of remapping
+			int idx = nr_block_get - 1;
+			bh_data = bh_get_sync_IO(to_dev, map.m_pblk + idx, BH_NO_DATA_ALLOC);
 
-		bh_data->b_data = data;
-		bh_data->b_size = nr_block_get * g_block_size_bytes;
-		bh_data->b_offset = 0;
+			bh_data->b_data = data + idx * g_block_size_bytes;
+			bh_data->b_size = g_block_size_bytes;
+			bh_data->b_offset = 0;
+
+			ret = mlfs_write_opt(bh_data); // TODO-assise: check if this is correct
+			mlfs_assert(!ret);
+			clear_buffer_uptodate(bh_data);
+			bh_release(bh_data);
+		} else {
+			int idx = nr_block_get - 1;
+			addr_t libfs_lblk = ((data - g_bdev[from_dev]->map_base_addr) >> g_block_size_shift) + idx;
+			update_map_table(map.m_pblk + idx, libfs_lblk, KERNFS_ID);	// TODO-assise: may need to change KERNFS_ID
+		}
+		
+		// bh_data = bh_get_sync_IO(to_dev, map.m_pblk, BH_NO_DATA_ALLOC);
+
+		// bh_data->b_data = data;
+		// bh_data->b_size = nr_block_get * g_block_size_bytes;
+		// bh_data->b_offset = 0;
 
 #ifdef MIGRATION
 		//TODO: important note: this scheme only works if LRU_ENTRY_SIZE is
@@ -573,10 +611,10 @@ int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_in
 
 		//mlfs_debug("File data : %s\n", bh_data->b_data);
 
-		ret = mlfs_write_opt(bh_data);
-		mlfs_assert(!ret);
-		clear_buffer_uptodate(bh_data);
-		bh_release(bh_data);
+		// ret = mlfs_write_opt(bh_data);
+		// mlfs_assert(!ret);
+		// clear_buffer_uptodate(bh_data);
+		// bh_release(bh_data);
 
 		if (0) {
 			struct buffer_head *bh;
@@ -599,6 +637,7 @@ int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_in
 
 		cur_offset += nr_block_get * g_block_size_bytes;
 		data += nr_block_get * g_block_size_bytes;
+		length2allocate -= nr_block_get * g_block_size_bytes;
 	}
 
 	mlfs_assert(nr_blocks == nr_digested_blocks);
@@ -2136,6 +2175,9 @@ void init_fs(void)
 	file_digest_thread_pool = thpool_init(48);
 #endif
 
+	// TODO-assise: add ifdef in makefile
+	map_table_init(g_root_dev);
+
 #ifdef DISTRIBUTED
 	bitmap_set(g_log_bitmap, 0, g_n_max_libfs);
 
@@ -2148,6 +2190,7 @@ void init_fs(void)
 	struct mr_context *mrs = (struct mr_context *) mlfs_zalloc(sizeof(struct mr_context) * n_regions);
 
 	// TODO: Optimize registrations. current implementation registers unused and sometimes overlapping memory regions
+	// TODO-assise: check if we need to change here
 	for(int i=0; i<n_regions; i++) {
 		switch(i) {
 			case MR_NVM_LOG: {
@@ -2689,6 +2732,21 @@ void read_superblock(uint8_t dev)
 			disk_sb[dev].bmap_start, 
 			disk_sb[dev].datablock_start,
 			disk_sb[dev].log_start);
+	// for debug
+	// kyh
+	printf("superblock: size %lu nblocks %lu ninodes %u\n"
+			"[inode start %lu bmap start %lu datablock start %lu log start %lu map table start %lu map table num %lu map table entry num %lu map table blk nr %lu]\n",
+			disk_sb[dev].size, 
+			disk_sb[dev].ndatablocks, 
+			disk_sb[dev].ninodes,
+			disk_sb[dev].inode_start, 
+			disk_sb[dev].bmap_start, 
+			disk_sb[dev].datablock_start,
+			disk_sb[dev].log_start,
+			disk_sb[dev].map_table_start,
+			disk_sb[dev].nmap,
+			disk_sb[dev].nmapentry,
+			disk_sb[dev].nmapblocks);
 
 	sb[dev]->ondisk = &disk_sb[dev];
 
@@ -2716,6 +2774,8 @@ void read_superblock(uint8_t dev)
 
 	mlfs_free(bh->b_data);
 	bh_release(bh);
+
+
 }
 
 #if 0

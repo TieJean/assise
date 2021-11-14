@@ -2926,6 +2926,7 @@ find_ext_path:
 	 * requested block isn't allocated yet
 	 * we couldn't try to create block if create flag is zero
 	 */
+	 // in our case, crease == true
 	if (!create) {
 		mlfs_lblk_t hole_start, hole_len;
 
