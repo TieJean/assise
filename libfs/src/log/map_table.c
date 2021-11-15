@@ -5,7 +5,6 @@
 #include "io/buffer_head.h"
 #include "filesystem/shared.h" //change dist_superblock
 
-
 struct mlfs_map_blocks** map_tables;  // = malloc(sizeof(struct mlfs_map_blocks) * (1 << (dev_size[dev]>> g_block_size_bytes))));
 size_t map_table_size;
 
@@ -160,14 +159,4 @@ addr_t lblk2pblk(uint8_t dev, addr_t lblk, int libfs_id) {
     addr_t pblk = data->m_pblk;
     free_map_table_entry(data);
     return pblk;
-}
-
-void print_map_table(uint8_t dev) {
-    read_map_table(dev);
-    printf("----print map table------\n");
-    for (size_t i = 0; i < disk_sb[dev].nmapentry; ++i) {
-        if (map_tables[KERNFS_ID][i].m_flags & MLFS_MAP_VALID != MLFS_MAP_VALID) {
-            printf("%ld: %ld | %ld\n", i, map_tables[KERNFS_ID][i].m_lblk, map_tables[KERNFS_ID][i].m_pblk);
-        }
-    }
 }

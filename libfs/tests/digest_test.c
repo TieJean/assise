@@ -101,6 +101,7 @@ int main(int argc, char ** argv)
 
 	make_digest_request_async(100);
 	wait_on_digesting();
+	printf("--- After 1st digest request\n");
 
 	// Assume log size is less than 5 GB.
 	// Write 5 GB to log. Previous data of large_buffer is digested
@@ -114,6 +115,7 @@ int main(int argc, char ** argv)
 	}
 
 	close(fd);
+	printf("--- After 2nd digest request\n");
 
 	// This will test whether libfs can currently invalidate digest entries.
 	// The data  must be from read-only NVM, not from log.
