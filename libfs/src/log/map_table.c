@@ -85,8 +85,8 @@ void update_map_table(uint8_t dev, addr_t kernfs_lblk, addr_t libfs_lblk, int li
         kernfs_map->m_pblk = libfs_lblk;
     }
     // update_map_table_entry
-    kernfs_map->m_flags = MLFS_MAP_VALID | MLFS_MAP_DIRTY;
-    libfs_map->m_flags = MLFS_MAP_VALID | MLFS_MAP_DIRTY;
+    kernfs_map->m_flags = MLFS_MAP_VALID;
+    libfs_map->m_flags = MLFS_MAP_VALID;
     set_map_table_entry(dev, kernfs_lblk, libfs_id, kernfs_map);
     set_map_table_entry(dev, libfs_lblk, libfs_id, libfs_map);
     
@@ -101,7 +101,9 @@ struct mlfs_map_blocks* get_map_table_entry(uint8_t dev, addr_t lblk, int libfs_
     get_blkno_and_offset(dev, libfs_id, lblk, &blkno, &offset_in_blk);
     get_map_entry_helper(dev, blkno, offset_in_blk, data);
     // map entry invalid
-    if (data->m_flags & MLFS_MAP_VALID != MLFS_MAP_VALID) {
+    // printf("map table entry flag:%d\n", data->m_flags);
+    if ((data->m_flags & MLFS_MAP_VALID) != MLFS_MAP_VALID) {
+        // printf("invalid map entry\n");
         data->m_lblk = lblk;
         data->m_pblk = lblk;
         data->m_len = g_block_size_bytes;

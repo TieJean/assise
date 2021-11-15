@@ -291,6 +291,7 @@ loghdr_meta_t *read_log_header(uint8_t from_dev, addr_t hdr_addr)
 	loghdr_meta->is_hdr_allocated = 1;
 
 	mlfs_log("%s", "--------------------------------\n");
+	printf("%s", "--------------------------------\n");
 	mlfs_log("%d\n", _loghdr->n);
 	mlfs_log("ts %ld.%06ld\n", _loghdr->mtime.tv_sec, _loghdr->mtime.tv_usec);
 	mlfs_log("blknr %lu\n", hdr_addr);
@@ -299,6 +300,8 @@ loghdr_meta_t *read_log_header(uint8_t from_dev, addr_t hdr_addr)
 	for(int i=0; i< _loghdr->n; i++) {
 		mlfs_log("type[%d]: %u\n", i, _loghdr->type[i]);
 		mlfs_log("inum[%d]: %u\n", i, _loghdr->inode_no[i]);
+		printf("type[%d]: %u\n", i, _loghdr->type[i]);
+		printf("inum[%d]: %u\n", i, _loghdr->inode_no[i]);
 	}
 
 	/*
@@ -315,12 +318,14 @@ loghdr_meta_t *read_log_header(uint8_t from_dev, addr_t hdr_addr)
 int digest_inode(uint8_t from_dev, uint8_t to_dev, int libfs_id, 
 		uint32_t inum, addr_t blknr)
 {
+	printf("inside digest_inode\n");
 	struct buffer_head *bh;
 	struct dinode *src_dinode;
 	struct inode *inode;
 	int ret;
-
-	bh = bh_get_sync_IO(from_dev, blknr, BH_NO_DATA_ALLOC);
+	addr_t pblkno = lblk2pblk(g_root_dev, blknr, KERNFS_ID);
+	// bh = bh_get_sync_IO(from_dev, blknr, BH_NO_DATA_ALLOC);
+	bh = bh_get_sync_IO(from_dev, pblkno, BH_NO_DATA_ALLOC);
 	bh->b_size = sizeof(struct dinode);
 	bh->b_data = mlfs_alloc(bh->b_size);
 
@@ -331,7 +336,8 @@ int digest_inode(uint8_t from_dev, uint8_t to_dev, int libfs_id,
 
 	mlfs_debug("[INODE] dev %u type %u inum %u size %lu\n",
 			g_root_dev, src_dinode->itype, inum, src_dinode->size);
-
+	printf("[INODE] dev %u type %u inum %u size %lu\n",
+			g_root_dev, src_dinode->itype, inum, src_dinode->size);
 	// Inode exists only in NVM layer.
 	to_dev = g_root_dev;
 
@@ -1004,7 +1010,9 @@ static void digest_each_log_entries(uint8_t from_dev, int libfs_id, loghdr_meta_
 
 	nr_entries = loghdr_meta->loghdr->n;
 	loghdr = loghdr_meta->loghdr;
-
+	// for (i = 0; i < nr_entries; i++) {
+	// 	printf("loghdr type: %d\n", loghdr->type[i]);
+	// }
 	for (i = 0; i < nr_entries; i++) {
 		if (enable_perf_stats)
 			g_perf_stats.n_digest++;
@@ -1017,7 +1025,7 @@ static void digest_each_log_entries(uint8_t from_dev, int libfs_id, loghdr_meta_
 			case L_TYPE_INODE_UPDATE: {
 				if (enable_perf_stats) 
 					tsc_begin = asm_rdtscp();
-
+				printf("call digest_inode\n");
 				ret = digest_inode(from_dev,
 						g_root_dev,
 						libfs_id,
@@ -1044,6 +1052,7 @@ static void digest_each_log_entries(uint8_t from_dev, int libfs_id, loghdr_meta_
 				// for NVM bypassing test
 				//dest_dev = g_ssd_dev;
 #endif
+				printf("call digest_file\n");
 				ret = digest_file(from_dev, 
 						dest_dev,
 						libfs_id,

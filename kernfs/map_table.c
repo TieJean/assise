@@ -102,7 +102,7 @@ struct mlfs_map_blocks* get_map_table_entry(uint8_t dev, addr_t lblk, int libfs_
     get_blkno_and_offset(dev, libfs_id, lblk, &blkno, &offset_in_blk);
     get_map_entry_helper(dev, blkno, offset_in_blk, data);
     // map entry invalid
-    if (data->m_flags & MLFS_MAP_VALID != MLFS_MAP_VALID) {
+    if ((data->m_flags & MLFS_MAP_VALID) != MLFS_MAP_VALID) {
         data->m_lblk = lblk;
         data->m_pblk = lblk;
         data->m_len = g_block_size_bytes;
