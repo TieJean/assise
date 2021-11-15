@@ -86,8 +86,8 @@ void update_map_table(uint8_t dev, addr_t kernfs_lblk, addr_t libfs_lblk, int li
         kernfs_map->m_pblk = libfs_lblk;
     }
     // update_map_table_entry
-    kernfs_map->m_flags = MLFS_MAP_VALID | MLFS_MAP_DIRTY;
-    libfs_map->m_flags = MLFS_MAP_VALID | MLFS_MAP_DIRTY;
+    kernfs_map->m_flags = MLFS_MAP_VALID;
+    libfs_map->m_flags = MLFS_MAP_VALID;
     set_map_table_entry(dev, kernfs_lblk, libfs_id, kernfs_map);
     set_map_table_entry(dev, libfs_lblk, libfs_id, libfs_map);
     
