@@ -279,8 +279,12 @@ loghdr_meta_t *read_log_header(uint8_t from_dev, addr_t hdr_addr)
 	/* optimization: instead of reading log header block to kernel's memory,
 	 * buffer head points to memory address for log header block.
 	 */
+
+	addr_t pblkno = lblk2pblk(g_root_dev, hdr_addr, KERNFS_ID);
+	// _loghdr = (loghdr_t *)(g_bdev[from_dev]->map_base_addr + 
+	// 	(hdr_addr << g_block_size_shift));
 	_loghdr = (loghdr_t *)(g_bdev[from_dev]->map_base_addr + 
-		(hdr_addr << g_block_size_shift));
+		(pblkno << g_block_size_shift));
 
 	loghdr_meta->loghdr = _loghdr;
 	loghdr_meta->hdr_blkno = hdr_addr;
@@ -658,7 +662,7 @@ int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_in
 
 	if (file_inode->size < offset + length)
 		file_inode->size = offset + length;
-
+	// print_map_table(g_root_dev);
 	return 0;
 }
 

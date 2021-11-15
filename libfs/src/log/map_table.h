@@ -3,7 +3,7 @@
 
 #define KERNFS_ID 0
 
-#include "extents.h"
+#include "filesystem/extents.h"
 #include "global/global.h"
 #include "storage/storage.h"
 // g_libfs_num + 1
