@@ -1700,6 +1700,7 @@ int do_aligned_read(struct inode *ip, struct mlfs_reply *reply, offset_t off, ui
 #endif
 					}
 					else {
+						// Assise-TODO
 						bh = bh_get_sync_IO(g_fs_log->dev, fcl->addr, BH_NO_DATA_ALLOC);
 						bh->b_offset = fcl->offset;
 						bh->b_data = reply->dst + pos + fcl->offset;

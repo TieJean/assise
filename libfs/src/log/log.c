@@ -465,6 +465,7 @@ static inline struct logheader_meta *loghd_alloc(struct logheader *lh)
 static void persist_log_header(struct logheader_meta *loghdr_meta,
 		addr_t hdr_blkno)
 {
+	// Assise-TODO: loghdr_meta->loghdr logical addr
 	struct logheader *loghdr = loghdr_meta->loghdr;
 	struct buffer_head *io_bh;
 	int i;
@@ -1617,6 +1618,7 @@ uint32_t make_digest_request_sync(int percent)
 	// 		contemplating possible optimizations
 
 	//n_digest = atomic_load(&get_next_peer()->n_digest);
+	// n_digest: # loghdr to digest
 	n_digest = atomic_load(&g_log_sb->n_digest);
 
 	mlfs_debug("sanity check: n_digest (local) %u n_digest (remote) %u\n",
@@ -1647,6 +1649,8 @@ uint32_t make_digest_request_sync(int percent)
 	g_fs_log->n_digest_req = (percent * n_digest) / 100;
 #endif
 	socklen_t len = sizeof(struct sockaddr_un);
+	// g_fs_log->n_digest_req: # loghdr requested to digest
+	// g_log_sb->start_digest: block number of the first undigested logheader.
 	sprintf(cmd, "|digest |%d|%d|%u|%lu|%lu|%lu",
 			g_self_id, g_log_dev, g_fs_log->n_digest_req, g_log_sb->start_digest,
 		       	 g_fs_log->log_sb_blk + 1, atomic_load(&g_log_sb->end));
