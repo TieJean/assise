@@ -22,6 +22,7 @@
 #include "ds/bitmap.h"
 #include "filesystem/slru.h"
 
+#include "log/map_table.h"
 #include "distributed/rpc_interface.h"
 
 #define _min(a, b) ({\
@@ -1574,6 +1575,7 @@ do_io_unaligned:
 	// This is required when partial updates are in the update log.
 	list_for_each_entry_safe(bh, _bh, &io_list_log, b_io_list) {
 		bh_submit_read_sync_IO(bh);
+		// bh_submit_read_sync_IO_loop(bh);
 		bh_release(bh);
 	}
 
@@ -1701,6 +1703,21 @@ int do_aligned_read(struct inode *ip, struct mlfs_reply *reply, offset_t off, ui
 					}
 					else {
 						// Assise-TODO
+						// addr_t plogblk;
+						// for(int i = 0; i < (fcl->size >> g_block_size_shift) + 1; i++) {
+						// 	if (fcl->size % g_block_size_bytes == 0 && i == (fcl->size >> g_block_size_shift)) continue;
+						// 	plogblk = lblk2pblk(g_log_dev, fcl->addr + i, KERNFS_ID);
+						// 	bh = bh_get_sync_IO(g_log_dev, plogblk, BH_NO_DATA_ALLOC);
+						// 	bh->b_data = reply->dst + pos + fcl->offset + (i << g_block_size_shift);
+						// 	bh->b_size = g_block_size_bytes;
+						// 	if (fcl->size % g_block_size_bytes != 0 && i == (fcl->size >> g_block_size_shift)) {
+						// 		bh->b_size = fcl->size % g_block_size_bytes;
+						// 	} 
+						// 	bh->b_offset = 0;
+						// 	list_add_tail(&bh->b_io_list, &io_list_log);
+						// 	mlfs_write(bh);
+						// 	bh_release(bh);
+						// }
 						bh = bh_get_sync_IO(g_fs_log->dev, fcl->addr, BH_NO_DATA_ALLOC);
 						bh->b_offset = fcl->offset;
 						bh->b_data = reply->dst + pos + fcl->offset;
@@ -2084,7 +2101,7 @@ do_io_aligned:
 #endif
 
 			bh_submit_read_sync_IO(bh);
-
+			// bh_submit_read_sync_IO_loop(bh);
 			bh_release(bh);
 		}
 	}

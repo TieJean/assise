@@ -10,6 +10,7 @@ size_t map_table_size;
 
 void get_map_entry_helper(uint8_t dev, uint32_t blkno, uint32_t offset_in_blk, struct mlfs_map_blocks* data);
 void set_map_entry_helper(uint8_t dev, uint32_t blkno, uint32_t offset_in_blk, struct mlfs_map_blocks* data);
+struct mlfs_map_blocks* print_map_table_helper(uint8_t dev, addr_t lblk, int libfs_id);
 
 
 void map_table_init(uint8_t dev) {
@@ -89,6 +90,10 @@ void update_map_table(uint8_t dev, addr_t kernfs_lblk, addr_t libfs_lblk, int li
     libfs_map->m_flags = MLFS_MAP_VALID;
     set_map_table_entry(dev, kernfs_lblk, libfs_id, kernfs_map);
     set_map_table_entry(dev, libfs_lblk, libfs_id, libfs_map);
+    // debug
+    kernfs_map = get_map_table_entry(dev, kernfs_lblk, libfs_id);
+    libfs_map = get_map_table_entry(dev, libfs_lblk, libfs_id);
+    printf("update_map_table: %ld | %ld | %ld | %ld | %ld | %ld\n", kernfs_lblk, kernfs_pblk, kernfs_map->m_pblk, libfs_lblk, libfs_pblk, libfs_map->m_pblk);
     
 }
 
@@ -102,7 +107,7 @@ struct mlfs_map_blocks* get_map_table_entry(uint8_t dev, addr_t lblk, int libfs_
     get_map_entry_helper(dev, blkno, offset_in_blk, data);
     // map entry invalid
     // printf("map table entry flag:%d\n", data->m_flags);
-    if ((data->m_flags & MLFS_MAP_VALID) != MLFS_MAP_VALID) {
+    if (data->m_flags == MLFS_MAP_INVALID) {
         // printf("invalid map entry\n");
         data->m_lblk = lblk;
         data->m_pblk = lblk;
@@ -161,4 +166,59 @@ addr_t lblk2pblk(uint8_t dev, addr_t lblk, int libfs_id) {
     addr_t pblk = data->m_pblk;
     free_map_table_entry(data);
     return pblk;
+}
+
+void bh_submit_read_sync_IO_loop(struct buffer_head* bh) {
+    addr_t plogblk;
+    struct buffer_head* ret_bh;
+	for(int i = 0; i < (bh->b_size >> g_block_size_shift) + 1; i++) {
+		if (bh->b_size % g_block_size_bytes == 0 && i == (bh->b_size >> g_block_size_shift)) continue;
+		plogblk = lblk2pblk(g_log_dev, bh->b_blocknr + i, KERNFS_ID);
+		ret_bh = bh_get_sync_IO(g_log_dev, plogblk, BH_NO_DATA_ALLOC);
+		// if (enable_perf_stats) {
+		// 	g_perf_stats.bcache_search_tsc += (asm_rdtscp() - start_tsc);
+		// 	g_perf_stats.bcache_search_nr++;
+		// }
+		ret_bh->b_data = bh->b_data + (i << g_block_size_shift);
+		ret_bh->b_size = g_block_size_bytes;
+		
+        if (i == 0) {
+            ret_bh->b_offset = bh->b_offset;
+            ret_bh->b_size = (bh->b_offset + bh->b_size < g_block_size_bytes) ? bh->b_size : g_block_size_bytes - bh->b_offset;
+            printf("bh_submit_read_sync_IO_loop: case1 | %ld | %ld | %ld | %ld\n", bh->b_blocknr + i, plogblk, ret_bh->b_offset, ret_bh->b_size);
+        } else {
+            ret_bh->b_offset = 0;
+            printf("bh_submit_read_sync_IO_loop: case2 | %ld | %ld | %ld | %ld\n", bh->b_blocknr + i, plogblk, ret_bh->b_offset, ret_bh->b_size);
+        }
+		if (bh->b_size % g_block_size_bytes != 0 && i == (bh->b_size >> g_block_size_shift)) {
+			ret_bh->b_size = bh->b_size % g_block_size_bytes;
+            printf("bh_submit_read_sync_IO_loop: case3 | %ld | %ld | %ld | %ld\n", bh->b_blocknr + i, plogblk, ret_bh->b_offset, ret_bh->b_size);
+		} 
+		// mlfs_debug("inum %u offset %lu size %u @ blockno %lx (aligned)\n",
+		// 	loghdr->inode_no[idx], cur_offset, size, logblk_no);
+		bh_submit_read_sync_IO(ret_bh);
+		bh_release(ret_bh);
+	}
+}
+
+void print_map_table(uint8_t dev) {
+    struct mlfs_map_blocks* map_blk;
+    printf("----print map table------\n");
+    for (size_t i = 0; i < disk_sb[dev].nmapentry; ++i) {
+        map_blk = print_map_table_helper(dev, i, KERNFS_ID);
+        if (map_blk->m_flags) {
+            printf("%ld: %ld | %ld\n", i, map_blk->m_lblk, map_blk->m_pblk);
+        }
+        free_map_table_entry(map_blk);
+    }
+}
+
+struct mlfs_map_blocks* print_map_table_helper(uint8_t dev, addr_t lblk, int libfs_id) {
+    struct mlfs_map_blocks* data = NULL;
+    data = malloc(sizeof(struct mlfs_map_blocks));
+    uint32_t blkno;
+    uint32_t offset_in_blk;
+    get_blkno_and_offset(dev, libfs_id, lblk, &blkno, &offset_in_blk);
+    get_map_entry_helper(dev, blkno, offset_in_blk, data);
+    return data;
 }

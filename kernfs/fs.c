@@ -291,7 +291,7 @@ loghdr_meta_t *read_log_header(uint8_t from_dev, addr_t hdr_addr)
 	loghdr_meta->is_hdr_allocated = 1;
 
 	mlfs_log("%s", "--------------------------------\n");
-	printf("%s", "--------------------------------\n");
+	// printf("%s", "--------------------------------\n");
 	mlfs_log("%d\n", _loghdr->n);
 	mlfs_log("ts %ld.%06ld\n", _loghdr->mtime.tv_sec, _loghdr->mtime.tv_usec);
 	mlfs_log("blknr %lu\n", hdr_addr);
@@ -300,8 +300,8 @@ loghdr_meta_t *read_log_header(uint8_t from_dev, addr_t hdr_addr)
 	for(int i=0; i< _loghdr->n; i++) {
 		mlfs_log("type[%d]: %u\n", i, _loghdr->type[i]);
 		mlfs_log("inum[%d]: %u\n", i, _loghdr->inode_no[i]);
-		printf("type[%d]: %u\n", i, _loghdr->type[i]);
-		printf("inum[%d]: %u\n", i, _loghdr->inode_no[i]);
+		// printf("type[%d]: %u\n", i, _loghdr->type[i]);
+		// printf("inum[%d]: %u\n", i, _loghdr->inode_no[i]);
 	}
 
 	/*
@@ -583,6 +583,7 @@ int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_in
 			// addr_t libfs_lblk = blknr + i;
 			libfs_lblk = ((data - g_bdev[from_dev]->map_base_addr) >> g_block_size_shift) + i;
 			// map.m_pblk: libfs' pblk; kernfs' lblk
+			printf("digest_file: case1 %ld | %ld \n", map.m_pblk + i, libfs_lblk);
 			update_map_table(g_root_dev, map.m_pblk + i, libfs_lblk, KERNFS_ID); // TODO-assise: may need to change KERNFS_ID
 		}
 		// TODO-assise: check
@@ -606,6 +607,7 @@ int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_in
 		} else {
 			int idx = nr_block_get - 1;
 			addr_t libfs_lblk = ((data - g_bdev[from_dev]->map_base_addr) >> g_block_size_shift) + idx;
+			printf("digest_file: case2 %ld | %ld \n", map.m_pblk + i, libfs_lblk);
 			update_map_table(g_root_dev, map.m_pblk + idx, libfs_lblk, KERNFS_ID);	// TODO-assise: may need to change KERNFS_ID
 		} 
 		// <TO-DELETE>

@@ -474,7 +474,7 @@ static void persist_log_header(struct logheader_meta *loghdr_meta,
 	if (enable_perf_stats)
 		start_tsc = asm_rdtscp();
 	addr_t pblkno = lblk2pblk(g_log_dev, hdr_blkno, KERNFS_ID);
-	printf("log header pblkno:%lu, lblkno:%lu\n", pblkno, hdr_blkno);
+	// printf("log header pblkno:%lu, lblkno:%lu\n", pblkno, hdr_blkno);
 	io_bh = bh_get_sync_IO(g_log_dev, pblkno, BH_NO_DATA_ALLOC);
 
 	if (enable_perf_stats) {
@@ -624,7 +624,7 @@ void commit_log_tx(void)
 
 static int persist_log_inode(struct logheader_meta *loghdr_meta, uint32_t idx)
 {
-	printf("inside persist_log_inode\n");
+	// printf("inside persist_log_inode\n");
 	struct inode *ip;
 	addr_t logblk_no;
 	uint32_t nr_logblocks = 0;
@@ -697,7 +697,7 @@ static int persist_log_inode(struct logheader_meta *loghdr_meta, uint32_t idx)
 static int persist_log_file(struct logheader_meta *loghdr_meta, 
 		uint32_t idx, uint8_t n_iovec)
 {
-	printf("inside persist_log_file\n");
+	// printf("inside persist_log_file\n");
 	uint32_t k, l, size;
 	offset_t key;
 	struct fcache_block *fc_block;
@@ -900,7 +900,7 @@ static int persist_log_file(struct logheader_meta *loghdr_meta,
 				g_perf_stats.bcache_search_tsc += (asm_rdtscp() - start_tsc);
 				g_perf_stats.bcache_search_nr++;
 			}
-			log_bh->b_data = loghdr_meta->io_vec[n_iovec].base;
+			log_bh->b_data = loghdr_meta->io_vec[n_iovec].base + (i << g_block_size_shift);
 			log_bh->b_size = g_block_size_bytes;
 			if (size % g_block_size_bytes != 0 && i == (size >> g_block_size_shift)) {
 				log_bh->b_size = size % g_block_size_bytes;
@@ -1334,12 +1334,12 @@ void add_to_loghdr(uint8_t type, struct inode *inode, offset_t data,
 				type == L_TYPE_DIR_DEL? "DIR_DEL" : type == L_TYPE_INODE_CREATE? "INODE_CREATE" :
 				type == L_TYPE_INODE_UPDATE? "INODE_UDPATE" : type == L_TYPE_UNLINK? "UNLINK" :
 				type == L_TYPE_ALLOC? "ALLOC" : "UNKNOWN"), inode->inum);
-	printf("add_to_loghdr [%s] inum %u\n", (type == L_TYPE_FILE? "FILE" :
-				type == L_TYPE_DIR_ADD? "DIR_ADD" : type == L_TYPE_DIR_RENAME? "DIR_RENAME" :
-				type == L_TYPE_DIR_DEL? "DIR_DEL" : type == L_TYPE_INODE_CREATE? "INODE_CREATE" :
-				type == L_TYPE_INODE_UPDATE? "INODE_UDPATE" : type == L_TYPE_UNLINK? "UNLINK" :
-				type == L_TYPE_ALLOC? "ALLOC" : "UNKNOWN"), inode->inum);
-	printf("loghdr->n: %d\n", loghdr->n);
+	// printf("add_to_loghdr [%s] inum %u\n", (type == L_TYPE_FILE? "FILE" :
+	// 			type == L_TYPE_DIR_ADD? "DIR_ADD" : type == L_TYPE_DIR_RENAME? "DIR_RENAME" :
+	// 			type == L_TYPE_DIR_DEL? "DIR_DEL" : type == L_TYPE_INODE_CREATE? "INODE_CREATE" :
+	// 			type == L_TYPE_INODE_UPDATE? "INODE_UDPATE" : type == L_TYPE_UNLINK? "UNLINK" :
+	// 			type == L_TYPE_ALLOC? "ALLOC" : "UNKNOWN"), inode->inum);
+	// printf("loghdr->n: %d\n", loghdr->n);
 	/*
 		 if (type != L_TYPE_FILE)
 		 mlfs_debug("[loghdr-add] dev %u, type %u inum %u data %lu\n",
