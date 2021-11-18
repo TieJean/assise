@@ -324,6 +324,7 @@ int digest_inode(uint8_t from_dev, uint8_t to_dev, int libfs_id,
 	struct inode *inode;
 	int ret;
 	addr_t pblkno = lblk2pblk(g_root_dev, blknr, KERNFS_ID);
+	mlfs_assert(pblkno == blknr);
 	// bh = bh_get_sync_IO(from_dev, blknr, BH_NO_DATA_ALLOC);
 	bh = bh_get_sync_IO(from_dev, pblkno, BH_NO_DATA_ALLOC);
 	bh->b_size = sizeof(struct dinode);
@@ -670,7 +671,7 @@ int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_in
 
 	if (file_inode->size < offset + length)
 		file_inode->size = offset + length;
-	// print_map_table(g_root_dev);
+	print_map_table(g_root_dev);
 	return 0;
 }
 

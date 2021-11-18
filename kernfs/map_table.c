@@ -166,17 +166,37 @@ addr_t lblk2pblk(uint8_t dev, addr_t lblk, int libfs_id) {
     return pblk;
 }
 
+int get_block_sum_pblk(uint8_t dev, addr_t pblk) {
+    int sum = 0;
+    uint8_t* addr = g_bdev[dev]->map_base_addr + (pblk << g_block_size_shift);
+    for(int i = 0; i < g_block_size_bytes; i++) {
+        sum += *(addr + i);
+    }
+    return sum;
+}
+
+int get_block_sum(uint8_t dev, struct mlfs_map_blocks* map_blk) {
+    int sum = 0;
+    uint8_t* addr = g_bdev[dev]->map_base_addr + (map_blk->m_pblk << g_block_size_shift);
+    for(int i = 0; i < g_block_size_bytes; i++) {
+        sum += *(addr + i);
+    }
+    return sum;
+}
+
 void print_map_table(uint8_t dev) {
     struct mlfs_map_blocks* map_blk;
     printf("----print map table------\n");
     for (size_t i = 0; i < disk_sb[dev].nmapentry; ++i) {
         map_blk = print_map_table_helper(dev, i, KERNFS_ID);
         if (map_blk->m_flags) {
-            printf("%ld: %ld | %ld\n", i, map_blk->m_lblk, map_blk->m_pblk);
+            printf("%ld: %ld | %ld | blk sum: %d \n", i, map_blk->m_lblk, map_blk->m_pblk, get_block_sum(dev, map_blk));
         }
         free_map_table_entry(map_blk);
     }
 }
+
+
 
 struct mlfs_map_blocks* print_map_table_helper(uint8_t dev, addr_t lblk, int libfs_id) {
     struct mlfs_map_blocks* data = NULL;

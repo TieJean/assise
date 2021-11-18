@@ -185,20 +185,42 @@ void bh_submit_read_sync_IO_loop(struct buffer_head* bh) {
         if (i == 0) {
             ret_bh->b_offset = bh->b_offset;
             ret_bh->b_size = (bh->b_offset + bh->b_size < g_block_size_bytes) ? bh->b_size : g_block_size_bytes - bh->b_offset;
-            printf("bh_submit_read_sync_IO_loop: case1 | %ld | %ld | %ld | %ld\n", bh->b_blocknr + i, plogblk, ret_bh->b_offset, ret_bh->b_size);
+            printf("bh_submit_read_sync_IO_loop: case1 | %ld | %ld | %ld | %ld", bh->b_blocknr + i, plogblk, ret_bh->b_offset, ret_bh->b_size);
+            printf("|%ld\n", get_block_sum_pblk(g_root_dev, plogblk));
         } else {
             ret_bh->b_offset = 0;
-            printf("bh_submit_read_sync_IO_loop: case2 | %ld | %ld | %ld | %ld\n", bh->b_blocknr + i, plogblk, ret_bh->b_offset, ret_bh->b_size);
+            printf("bh_submit_read_sync_IO_loop: case2 | %ld | %ld | %ld | %ld", bh->b_blocknr + i, plogblk, ret_bh->b_offset, ret_bh->b_size);
+            printf("|%ld\n", get_block_sum_pblk(g_root_dev, plogblk));
         }
 		if (bh->b_size % g_block_size_bytes != 0 && i == (bh->b_size >> g_block_size_shift)) {
 			ret_bh->b_size = bh->b_size % g_block_size_bytes;
-            printf("bh_submit_read_sync_IO_loop: case3 | %ld | %ld | %ld | %ld\n", bh->b_blocknr + i, plogblk, ret_bh->b_offset, ret_bh->b_size);
-		} 
+            printf("bh_submit_read_sync_IO_loop: case3 | %ld | %ld | %ld | %ld", bh->b_blocknr + i, plogblk, ret_bh->b_offset, ret_bh->b_size);
+            printf("|%ld\n", get_block_sum_pblk(g_root_dev, plogblk));
+        } 
 		// mlfs_debug("inum %u offset %lu size %u @ blockno %lx (aligned)\n",
 		// 	loghdr->inode_no[idx], cur_offset, size, logblk_no);
 		bh_submit_read_sync_IO(ret_bh);
 		bh_release(ret_bh);
 	}
+}
+
+int get_block_sum_pblk(uint8_t dev, addr_t pblk) {
+    int sum = 0;
+    uint8_t* addr = g_bdev[dev]->map_base_addr + (pblk << g_block_size_shift);
+    for(int i = 0; i < g_block_size_bytes; i++) {
+        sum += *(addr + i);
+    }
+    return sum;
+}
+
+
+int get_block_sum(uint8_t dev, struct mlfs_map_blocks* map_blk) {
+    int sum = 0;
+    uint8_t* addr = g_bdev[dev]->map_base_addr + (map_blk->m_pblk << g_block_size_shift);
+    for(int i = 0; i < g_block_size_bytes; i++) {
+        sum += *(addr + i);
+    }
+    return sum;
 }
 
 void print_map_table(uint8_t dev) {
@@ -207,11 +229,12 @@ void print_map_table(uint8_t dev) {
     for (size_t i = 0; i < disk_sb[dev].nmapentry; ++i) {
         map_blk = print_map_table_helper(dev, i, KERNFS_ID);
         if (map_blk->m_flags) {
-            printf("%ld: %ld | %ld\n", i, map_blk->m_lblk, map_blk->m_pblk);
+            printf("%ld: %ld | %ld | blk sum: %d \n", i, map_blk->m_lblk, map_blk->m_pblk, get_block_sum(dev, map_blk));
         }
         free_map_table_entry(map_blk);
     }
 }
+
 
 struct mlfs_map_blocks* print_map_table_helper(uint8_t dev, addr_t lblk, int libfs_id) {
     struct mlfs_map_blocks* data = NULL;

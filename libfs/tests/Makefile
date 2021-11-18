@@ -39,6 +39,9 @@ time_stat.o: time_stat.c
 digest_simple: digest_simple.c
 	$(CC) -g -o $@ $^ -I$(INCLUDES) -L$(LIBFS_DIR) -lmlfs -L$(RDMA_CORE_DIR) -L$(RDMA_DIR) $(LDFLAGS)
 
+digest_simple2: digest_simple2.c
+	$(CC) -g -o $@ $^ -I$(INCLUDES) -L$(LIBFS_DIR) -lmlfs -L$(RDMA_CORE_DIR) -L$(RDMA_DIR) $(LDFLAGS)
+
 digest_test: digest_test.c
 	$(CC) -g -o $@ $^ -I$(INCLUDES) -L$(LIBFS_DIR) -lmlfs -L$(RDMA_CORE_DIR) -L$(RDMA_DIR) $(LDFLAGS)
 

@@ -1574,8 +1574,8 @@ do_io_unaligned:
 	// Patch data from log (L0) if up-to-date blocks are in the update log.
 	// This is required when partial updates are in the update log.
 	list_for_each_entry_safe(bh, _bh, &io_list_log, b_io_list) {
-		bh_submit_read_sync_IO(bh);
-		// bh_submit_read_sync_IO_loop(bh);
+		// bh_submit_read_sync_IO(bh);
+		bh_submit_read_sync_IO_loop(bh);
 		bh_release(bh);
 	}
 
@@ -2100,8 +2100,8 @@ do_io_aligned:
 			}
 #endif
 
-			bh_submit_read_sync_IO(bh);
-			// bh_submit_read_sync_IO_loop(bh);
+			// bh_submit_read_sync_IO(bh);
+			bh_submit_read_sync_IO_loop(bh);
 			bh_release(bh);
 		}
 	}

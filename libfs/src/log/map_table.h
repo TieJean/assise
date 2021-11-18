@@ -21,5 +21,6 @@ void map_table_shutdown(uint8_t dev);
 addr_t lblk2pblk(uint8_t dev, addr_t lblk, int libfs_id);
 void bh_submit_read_sync_IO_loop(struct buffer_head* bh);
 void print_map_table(uint8_t dev);
-
+int get_block_sum(uint8_t dev, struct mlfs_map_blocks* map_blk);
+int get_block_sum_pblk(uint8_t dev, addr_t pblk);
 #endif

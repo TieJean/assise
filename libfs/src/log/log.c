@@ -926,6 +926,7 @@ static int persist_log_file(struct logheader_meta *loghdr_meta,
 		// This is performance bottleneck of sequential write.
 #if 1
 		for (k = 0, l = 0; l < size; l += g_block_size_bytes, k++) {
+			// Assise-TODO
 			key = (cur_offset + l) >> g_block_size_shift;
 			//mlfs_debug("updating log fcache: inode %u blknr %lu\n", inode->inum, key);
 			mlfs_assert(logblk_no);
