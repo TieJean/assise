@@ -19,7 +19,7 @@
 
 int main(int argc, char ** argv) {
     int fd, i, j, bytes, sum;
-    char buffer[BUFFER_SIZE];
+    char buffer[BUFFER_SIZE], read_buffer[2*BUFFER_SIZE];
     fd = creat("/mlfs/partial_update", 0600);
     if (fd < 0) {
         perror("creat");
@@ -31,7 +31,6 @@ int main(int argc, char ** argv) {
     for (i = 0; i < BUFFER_SIZE; i++) {
         buffer[i] = 2;
     }
-		
     fd = open("/mlfs/partial_update", O_RDWR| O_CREAT, 0600);
     if (fd < 0) {
         perror("write: open without O_CREAT");
@@ -40,6 +39,10 @@ int main(int argc, char ** argv) {
     bytes = write(fd, buffer, BUFFER_SIZE);
     make_digest_request_async(100);
 	wait_on_digesting();
+    for (i = 0; i < BUFFER_SIZE; i++) {
+        buffer[i] = 2;
+    }
+    bytes = write(fd, buffer, BUFFER_SIZE);
     close(fd);
     
     fd = open("/mlfs/partial_update", O_RDWR, 0600);
@@ -56,7 +59,7 @@ int main(int argc, char ** argv) {
 	// wait_on_digesting();
     close(fd);
 
-    // write 8 * 4096 1
+    // write 4 * 4096 1
     for (i = 0; i < BUFFER_SIZE; i++) {
         buffer[i] = 1;
     }
@@ -66,8 +69,8 @@ int main(int argc, char ** argv) {
         return 1;
     }
     bytes = write(fd, buffer, BUFFER_SIZE);
-    make_digest_request_async(100);
-	wait_on_digesting();
+    // make_digest_request_async(100);
+	// wait_on_digesting();
     close(fd);
 
 
@@ -76,7 +79,7 @@ int main(int argc, char ** argv) {
         perror("write: open without O_CREAT");
         return 1;
     }
-    bytes = read(fd, buffer, BUFFER_SIZE);
+    bytes = read(fd, read_buffer, BUFFER_SIZE);
     if (bytes != BUFFER_SIZE) {
 		printf("read %d - expect %d\n", bytes, BUFFER_SIZE);
 		exit(-1);
@@ -84,18 +87,18 @@ int main(int argc, char ** argv) {
 
     printf("verifying buffer.. ");
     sum = 0;
-    for (i = 0; i < 4 ; i++) {
+    for (i = 0; i < 8 ; i++) {
         size_t sum_blk = 0;
 		for(j = 0; j < 4096 ; j++)  {
-            sum += buffer[i * 4096 + j];
-            sum_blk += buffer[i * 4096 + j];
+            sum += read_buffer[i * 4096 + j];
+            sum_blk += read_buffer[i * 4096 + j];
         }
         printf("sum_blk: %ld\n", sum_blk);
 	}
-    if (sum == 4096 * 4 * 1) {
+    if (sum == 1 * 4 * 4096 + 2 * 4 * 4096) {
         printf(KGRN "OK\n" KNRM);
     } else {
-        printf(KRED "data is corrupted : sum %lu - expect %u\n" KNRM, sum, (1 * 4 * 4096));
+        printf(KRED "data is corrupted : sum %lu - expect %u\n" KNRM, sum, (1 * 4 * 4096 + 2 * 4 * 4096));
     }
 
     return 0;
