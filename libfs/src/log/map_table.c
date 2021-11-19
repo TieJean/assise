@@ -108,7 +108,7 @@ void update_map_table(uint8_t dev, addr_t kernfs_lblk, addr_t libfs_lblk, int li
 
 void unset_map_table_entry_cache_bit(uint8_t dev, addr_t lblk, int libfs_id) {
     struct mlfs_map_blocks* data = get_map_table_entry(dev, lblk, libfs_id);
-    printf("unset_map_table_entry_cache_bit: %ld, %ld\n", ((data->m_flags & MLFS_MAP_UNCACHE) & data->m_flags), (data->m_flags & MLFS_MAP_CACHE) ^ MLFS_MAP_CACHE );
+    // printf("unset_map_table_entry_cache_bit: %ld, %ld\n", ((data->m_flags & MLFS_MAP_UNCACHE) & data->m_flags), (data->m_flags & MLFS_MAP_CACHE) ^ MLFS_MAP_CACHE );
     data->m_flags = ((data->m_flags & MLFS_MAP_UNCACHE) & data->m_flags);
     set_map_table_entry(dev, lblk, libfs_id, data);
 }

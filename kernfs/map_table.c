@@ -77,7 +77,7 @@ void update_map_table(uint8_t dev, addr_t kernfs_lblk, addr_t libfs_lblk, int li
 
     if(((kernfs_map->m_flags) & MLFS_MAP_INIT) == MLFS_MAP_INIT) {
         libfs_map->m_pblk = kernfs_pblk;
-        kernfs_map->m_lblk = kernfs_pblk; // previous pblk
+        kernfs_map->m_lblk = kernfs_pblk; //cd .. previous pblk
     } else {
         libfs_map->m_pblk = kernfs_lblk;
         kernfs_map->m_lblk = kernfs_lblk;

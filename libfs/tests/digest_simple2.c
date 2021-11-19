@@ -43,6 +43,8 @@ int main(int argc, char ** argv) {
         buffer[i] = 2;
     }
     bytes = write(fd, buffer, BUFFER_SIZE);
+    make_digest_request_async(100);
+	wait_on_digesting();
     close(fd);
     
     fd = open("/mlfs/partial_update", O_RDWR, 0600);

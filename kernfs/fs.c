@@ -671,7 +671,7 @@ int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_in
 
 	if (file_inode->size < offset + length)
 		file_inode->size = offset + length;
-	print_map_table(g_root_dev);
+	// print_map_table(g_root_dev);
 	return 0;
 }
 
