@@ -52,8 +52,8 @@ int main(int argc, char ** argv) {
     for (i = 0; i < 1; i++) {
 		bytes = write(fd, buffer, BLK_SIZE);
 	}
-    make_digest_request_async(100);
-	wait_on_digesting();
+    // make_digest_request_async(100);
+	// wait_on_digesting();
     close(fd);
 
     // write 8 * 4096 1

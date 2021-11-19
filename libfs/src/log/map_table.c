@@ -70,31 +70,47 @@ void update_map_table(uint8_t dev, addr_t kernfs_lblk, addr_t libfs_lblk, int li
     struct buffer_head *bh_kernfs, *bh_libfs; 
     struct mlfs_map_blocks* kernfs_map = get_map_table_entry(dev, kernfs_lblk, libfs_id);
     struct mlfs_map_blocks* libfs_map = get_map_table_entry(dev, libfs_lblk, libfs_id);
-    addr_t kernfs_pblk = kernfs_map->m_pblk;
+    addr_t kernfs_pblk = kernfs_map->m_pblk; 
     addr_t libfs_pblk = libfs_map->m_pblk;
 
 
-    if(kernfs_map->m_flags == MLFS_MAP_VALID) {
+    if(((kernfs_map->m_flags) & MLFS_MAP_INIT) == MLFS_MAP_INIT) {
         libfs_map->m_pblk = kernfs_pblk;
+        kernfs_map->m_lblk = kernfs_pblk;
     } else {
         libfs_map->m_pblk = kernfs_lblk;
+        kernfs_map->m_lblk = kernfs_lblk;
     }
 
-    if(libfs_map->m_flags == MLFS_MAP_VALID) {
+    if(((libfs_map->m_flags) & MLFS_MAP_INIT)  == MLFS_MAP_INIT) {
         kernfs_map->m_pblk = libfs_pblk;
+        libfs_map->m_lblk = libfs_pblk;
     } else {
         kernfs_map->m_pblk = libfs_lblk;
+        libfs_map->m_lblk = libfs_lblk;
     }
     // update_map_table_entry
-    kernfs_map->m_flags = MLFS_MAP_VALID;
-    libfs_map->m_flags = MLFS_MAP_VALID;
+    kernfs_map->m_flags = kernfs_map->m_flags | MLFS_MAP_INIT;
+    libfs_map->m_flags = kernfs_map->m_flags | MLFS_MAP_INIT;
+    kernfs_map->m_flags = kernfs_map->m_flags | MLFS_MAP_CACHE;
+    libfs_map->m_flags = kernfs_map->m_flags | MLFS_MAP_CACHE;
+
     set_map_table_entry(dev, kernfs_lblk, libfs_id, kernfs_map);
     set_map_table_entry(dev, libfs_lblk, libfs_id, libfs_map);
+    free_map_table_entry(kernfs_map);
+    free_map_table_entry(libfs_map);
     // debug
     kernfs_map = get_map_table_entry(dev, kernfs_lblk, libfs_id);
     libfs_map = get_map_table_entry(dev, libfs_lblk, libfs_id);
     printf("update_map_table: %ld | %ld | %ld | %ld | %ld | %ld\n", kernfs_lblk, kernfs_pblk, kernfs_map->m_pblk, libfs_lblk, libfs_pblk, libfs_map->m_pblk);
     
+}
+
+void unset_map_table_entry_cache_bit(uint8_t dev, addr_t lblk, int libfs_id) {
+    struct mlfs_map_blocks* data = get_map_table_entry(dev, lblk, libfs_id);
+    printf("unset_map_table_entry_cache_bit: %ld, %ld\n", ((data->m_flags & MLFS_MAP_UNCACHE) & data->m_flags), (data->m_flags & MLFS_MAP_CACHE) ^ MLFS_MAP_CACHE );
+    data->m_flags = ((data->m_flags & MLFS_MAP_UNCACHE) & data->m_flags);
+    set_map_table_entry(dev, lblk, libfs_id, data);
 }
 
 // TODO-assise: write
@@ -107,12 +123,12 @@ struct mlfs_map_blocks* get_map_table_entry(uint8_t dev, addr_t lblk, int libfs_
     get_map_entry_helper(dev, blkno, offset_in_blk, data);
     // map entry invalid
     // printf("map table entry flag:%d\n", data->m_flags);
-    if (data->m_flags == MLFS_MAP_INVALID) {
+    if (((data->m_flags & MLFS_MAP_INIT)) == MLFS_MAP_UNINIT) {
         // printf("invalid map entry\n");
         data->m_lblk = lblk;
         data->m_pblk = lblk;
         data->m_len = g_block_size_bytes;
-        data->m_flags = MLFS_MAP_VALID;
+        data->m_flags = data->m_flags | MLFS_MAP_INIT;
         set_map_entry_helper(dev, blkno, offset_in_blk, data);
     }
     return data;
@@ -163,10 +179,23 @@ void set_map_table_entry(uint8_t dev, addr_t lblk, int libfs_id, struct mlfs_map
 
 addr_t lblk2pblk(uint8_t dev, addr_t lblk, int libfs_id) {
     struct mlfs_map_blocks* data = get_map_table_entry(dev, lblk, libfs_id);
-    addr_t pblk = data->m_pblk;
+    addr_t pblk = data->m_pblk; // cur mapping block
+    if(((data->m_flags) & MLFS_MAP_CACHE) == MLFS_MAP_CACHE) {
+        pblk = data->m_lblk; // previous mapping block
+    }
     free_map_table_entry(data);
     return pblk;
 }
+
+// addr_t lblk2pblk4cache(uint8_t dev, addr_t lblk, int libfs_id) {
+//     struct mlfs_map_blocks* data = get_map_table_entry(dev, lblk, libfs_id);
+//     addr_t pblk = data->m_pblk; // cur mapping block
+//     if(((data->m_flags) & MLFS_MAP_CACHE) == MLFS_MAP_CACHE) {
+//         pblk = data->m_lblk; // previous mapping block
+//     }
+//     free_map_table_entry(data);
+//     return pblk;
+// }
 
 void bh_submit_read_sync_IO_loop(struct buffer_head* bh) {
     addr_t plogblk;
@@ -228,7 +257,7 @@ void print_map_table(uint8_t dev) {
     printf("----print map table------\n");
     for (size_t i = 0; i < disk_sb[dev].nmapentry; ++i) {
         map_blk = print_map_table_helper(dev, i, KERNFS_ID);
-        if (map_blk->m_flags) {
+        if ((map_blk->m_flags & MLFS_MAP_INIT) == MLFS_MAP_INIT) {
             printf("%ld: %ld | %ld | blk sum: %d \n", i, map_blk->m_lblk, map_blk->m_pblk, get_block_sum(dev, map_blk));
         }
         free_map_table_entry(map_blk);

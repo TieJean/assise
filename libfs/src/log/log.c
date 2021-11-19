@@ -843,7 +843,7 @@ static int persist_log_file(struct logheader_meta *loghdr_meta,
         mlfs_write(log_bh);
 
 		bh_release(log_bh);
-
+		unset_map_table_entry_cache_bit(g_log_dev, logblk_no, KERNFS_ID);
     	//if (enable_perf_stats)
 	    //	g_perf_stats.tmp_tsc += (asm_rdtscp() - start_tsc_tmp);
 
@@ -910,6 +910,7 @@ static int persist_log_file(struct logheader_meta *loghdr_meta,
 				loghdr->inode_no[idx], cur_offset, size, logblk_no);
 			mlfs_write(log_bh);
 			bh_release(log_bh);
+			unset_map_table_entry_cache_bit(g_log_dev, logblk_no + i, KERNFS_ID);
 		}
 		// log_bh = bh_get_sync_IO(g_log_dev, logblk_no, BH_NO_DATA_ALLOC);
 
@@ -926,7 +927,7 @@ static int persist_log_file(struct logheader_meta *loghdr_meta,
 		// This is performance bottleneck of sequential write.
 #if 1
 		for (k = 0, l = 0; l < size; l += g_block_size_bytes, k++) {
-			// Assise-TODO
+			
 			key = (cur_offset + l) >> g_block_size_shift;
 			//mlfs_debug("updating log fcache: inode %u blknr %lu\n", inode->inum, key);
 			mlfs_assert(logblk_no);
@@ -946,6 +947,8 @@ static int persist_log_file(struct logheader_meta *loghdr_meta,
 
 
 			fcache_log_del_all(fc_block); //delete any existing log patches (overwrite)
+			// Assise-TODO: unset MLFS_MAP_CACHE bit
+
 
 			fc_block->log_version = g_fs_log->avail_version;
 			fcache_log_add(fc_block, logblk_no + k, 0, g_block_size_bytes, g_fs_log->avail_version);

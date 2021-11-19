@@ -22,6 +22,6 @@ addr_t lblk2pblk(uint8_t dev, addr_t lblk, int libfs_id);
 int get_block_sum(uint8_t dev, struct mlfs_map_blocks* map_blk);
 int get_block_sum_pblk(uint8_t dev, addr_t pblk);
 void print_map_table(uint8_t dev);
-
+void unset_map_table_entry_cache_bit(uint8_t dev, addr_t lblk, int libfs_id);
 
 #endif

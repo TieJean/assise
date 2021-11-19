@@ -183,8 +183,10 @@ struct mlfs_ext_path {
 #define MLFS_FREE_BLOCKS_NOFREE_FIRST_CLUSTER   0x0010
 #define MLFS_FREE_BLOCKS_NOFREE_LAST_CLUSTER    0x0020
 
-#define MLFS_MAP_INVALID 	0 // for map_table, invalid means no remapping, lblk = pblk
-#define MLFS_MAP_VALID 	1 	  // for map_table
+#define MLFS_MAP_CACHE  (1 << 1) // use previous map block
+#define MLFS_MAP_UNCACHE  1 
+#define MLFS_MAP_UNINIT 	0 // for map_table, invalid means no remapping, lblk = pblk
+#define MLFS_MAP_INIT 	1 	  // for map_table
 #define MLFS_MAP_DIRTY (1 << 1) // for map_table
 #define MLFS_MAP_NEW        (1 << 0)
 #define MLFS_MAP_LOG_ALLOC  (1 << 1)
@@ -194,7 +196,7 @@ struct mlfs_ext_path {
 
 struct mlfs_map_blocks {
 	mlfs_fsblk_t m_pblk;
-	mlfs_lblk_t m_lblk;
+	mlfs_lblk_t m_lblk; // for map_table, this is m_prev_pblk
 	uint32_t m_len;
 	uint32_t m_flags;
 };
