@@ -180,6 +180,16 @@ void set_map_table_entry(uint8_t dev, addr_t lblk, int libfs_id, struct mlfs_map
 addr_t lblk2pblk(uint8_t dev, addr_t lblk, int libfs_id) {
     struct mlfs_map_blocks* data = get_map_table_entry(dev, lblk, libfs_id);
     addr_t pblk = data->m_pblk; // cur mapping block
+    // if(((data->m_flags) & MLFS_MAP_CACHE) == MLFS_MAP_CACHE) {
+    //     pblk = data->m_lblk; // previous mapping block
+    // }
+    free_map_table_entry(data);
+    return pblk;
+}
+
+addr_t lblk2pblk4cache(uint8_t dev, addr_t lblk, int libfs_id) {
+    struct mlfs_map_blocks* data = get_map_table_entry(dev, lblk, libfs_id);
+    addr_t pblk = data->m_pblk; // cur mapping block
     if(((data->m_flags) & MLFS_MAP_CACHE) == MLFS_MAP_CACHE) {
         pblk = data->m_lblk; // previous mapping block
     }
@@ -187,22 +197,12 @@ addr_t lblk2pblk(uint8_t dev, addr_t lblk, int libfs_id) {
     return pblk;
 }
 
-// addr_t lblk2pblk4cache(uint8_t dev, addr_t lblk, int libfs_id) {
-//     struct mlfs_map_blocks* data = get_map_table_entry(dev, lblk, libfs_id);
-//     addr_t pblk = data->m_pblk; // cur mapping block
-//     if(((data->m_flags) & MLFS_MAP_CACHE) == MLFS_MAP_CACHE) {
-//         pblk = data->m_lblk; // previous mapping block
-//     }
-//     free_map_table_entry(data);
-//     return pblk;
-// }
-
 void bh_submit_read_sync_IO_loop(struct buffer_head* bh) {
     addr_t plogblk;
     struct buffer_head* ret_bh;
 	for(int i = 0; i < (bh->b_size >> g_block_size_shift) + 1; i++) {
 		if (bh->b_size % g_block_size_bytes == 0 && i == (bh->b_size >> g_block_size_shift)) continue;
-		plogblk = lblk2pblk(g_log_dev, bh->b_blocknr + i, KERNFS_ID);
+		plogblk = lblk2pblk4cache(g_log_dev, bh->b_blocknr + i, KERNFS_ID);
 		ret_bh = bh_get_sync_IO(g_log_dev, plogblk, BH_NO_DATA_ALLOC);
 		// if (enable_perf_stats) {
 		// 	g_perf_stats.bcache_search_tsc += (asm_rdtscp() - start_tsc);

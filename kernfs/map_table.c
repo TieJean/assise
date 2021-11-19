@@ -85,7 +85,7 @@ void update_map_table(uint8_t dev, addr_t kernfs_lblk, addr_t libfs_lblk, int li
 
     if(((libfs_map->m_flags) & MLFS_MAP_INIT)  == MLFS_MAP_INIT) {
         // printf("update_map_table case1 (before): %ld\n", kernfs_map->m_pblk);
-        
+        kernfs_map->m_pblk = libfs_pblk;
         // printf("update_map_table case1 (after): %ld\n", kernfs_map->m_pblk);
         libfs_map->m_lblk = libfs_pblk;
     } else {
@@ -183,9 +183,9 @@ void set_map_table_entry(uint8_t dev, addr_t lblk, int libfs_id, struct mlfs_map
 addr_t lblk2pblk(uint8_t dev, addr_t lblk, int libfs_id) {
     struct mlfs_map_blocks* data = get_map_table_entry(dev, lblk, libfs_id);
     addr_t pblk = data->m_pblk; // cur mapping block
-    if(((data->m_flags) & MLFS_MAP_CACHE) == MLFS_MAP_CACHE) {
-        pblk = data->m_lblk; // previous mapping block
-    }
+    // if(((data->m_flags) & MLFS_MAP_CACHE) == MLFS_MAP_CACHE) {
+    //     pblk = data->m_lblk; // previous mapping block
+    // }
     free_map_table_entry(data);
     return pblk;
 }
