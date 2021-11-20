@@ -1471,7 +1471,7 @@ int do_unaligned_read(struct inode *ip, struct mlfs_reply *reply, offset_t off, 
 			bh->b_data = reply->dst;
 			bh->b_size = io_size;
 
-			bh_submit_read_sync_IO(bh);
+			bh_submit_read_sync_IO_loop(bh, false);
 			bh_release(bh);
 #endif
 		}

@@ -166,7 +166,7 @@ int main(int argc, char ** argv)
 	// change from [0, 128) to '4'
 	for (i = 0; i < N_UPDATES; i++) {
 		lseek(fd, i * 4096, SEEK_SET);
-		// bytes = write(fd, small_buffer, BUF_SIZE);
+		bytes = write(fd, small_buffer, BUF_SIZE);
 	}
 
 	memset(large_buffer, 0, LARGE_BUF_SIZE);
