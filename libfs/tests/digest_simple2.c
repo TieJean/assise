@@ -81,9 +81,9 @@ int main(int argc, char ** argv) {
         perror("write: open without O_CREAT");
         return 1;
     }
-    bytes = read(fd, read_buffer, BUFFER_SIZE);
-    if (bytes != BUFFER_SIZE) {
-		printf("read %d - expect %d\n", bytes, BUFFER_SIZE);
+    bytes = read(fd, read_buffer, 2 * BUFFER_SIZE);
+    if (bytes != 2 * BUFFER_SIZE) {
+		printf("read %d - expect %d\n", bytes, 2 * BUFFER_SIZE);
 		exit(-1);
 	}
 
