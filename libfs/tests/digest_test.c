@@ -156,66 +156,66 @@ int main(int argc, char ** argv)
 
 	close(fd);
 
-    // printf("--- Update data partially\n");
+    printf("--- Update data partially\n");
 
-	// assert(N_UPDATES < N_BLOCKS);
+	assert(N_UPDATES < N_BLOCKS);
 
-    // fd = open("/mlfs/partial_update", O_RDWR, 0600);
-	// // N_UPDATES = 1
-	// // update beginning 128 B data for each 4 KB blocks
-	// // change from [0, 128) to '4'
-	// for (i = 0; i < N_UPDATES; i++) {
-	// 	lseek(fd, i * 4096, SEEK_SET);
-	// 	// bytes = write(fd, small_buffer, BUF_SIZE);
-	// }
+    fd = open("/mlfs/partial_update", O_RDWR, 0600);
+	// N_UPDATES = 1
+	// update beginning 128 B data for each 4 KB blocks
+	// change from [0, 128) to '4'
+	for (i = 0; i < N_UPDATES; i++) {
+		lseek(fd, i * 4096, SEEK_SET);
+		// bytes = write(fd, small_buffer, BUF_SIZE);
+	}
 
-	// memset(large_buffer, 0, LARGE_BUF_SIZE);
+	memset(large_buffer, 0, LARGE_BUF_SIZE);
 
-	// lseek(fd, LARGE_BUF_SIZE, SEEK_SET);
+	lseek(fd, LARGE_BUF_SIZE, SEEK_SET);
 
-	// // make libfs digest the updated blocks by writing large files.
-	// // for (i = 0; i < ((5UL << 30) / 4096) ; i++)
-	// // 	bytes = write(fd, large_buffer, 4096);
-	// // start from 4096 * 2B, Write 0.5 GB into file
-	// for (i = 0; i < ((1UL << 28) / 4096) ; i++)
+	// make libfs digest the updated blocks by writing large files.
+	// for (i = 0; i < ((5UL << 30) / 4096) ; i++)
 	// 	bytes = write(fd, large_buffer, 4096);
-	// close(fd);
+	// start from 4096 * 2B, Write 0.5 GB into file
+	for (i = 0; i < ((1UL << 28) / 4096) ; i++)
+		bytes = write(fd, large_buffer, 4096);
+	close(fd);
 
-	// printf("--- verify updated buffer (after digest)\n");
+	printf("--- verify updated buffer (after digest)\n");
 
-    // fd = open("/mlfs/partial_update", O_RDONLY, 0600);
-    // if (fd < 0) {
-    //     perror("read: open without O_CREAT");
-    //     return 1;
-    // }
+    fd = open("/mlfs/partial_update", O_RDONLY, 0600);
+    if (fd < 0) {
+        perror("read: open without O_CREAT");
+        return 1;
+    }
 
-	// memset(large_buffer, 0, LARGE_BUF_SIZE);
+	memset(large_buffer, 0, LARGE_BUF_SIZE);
 
-	// bytes = read(fd, large_buffer, LARGE_BUF_SIZE);
-	// if (bytes != LARGE_BUF_SIZE) {
-	// 	printf("read %d - expect %d\n", bytes, LARGE_BUF_SIZE);
-	// 	exit(-1);
-	// }
+	bytes = read(fd, large_buffer, LARGE_BUF_SIZE);
+	if (bytes != LARGE_BUF_SIZE) {
+		printf("read %d - expect %d\n", bytes, LARGE_BUF_SIZE);
+		exit(-1);
+	}
 
-	// printf("verifying buffer.. ");
+	printf("verifying buffer.. ");
 
-	// sum = 0;
+	sum = 0;
 
-	// // verify data 
-	// for (i = 0; i < N_BLOCKS ; i++) {
-	// 	for(j = 0; j < 4096 ; j++) 
-	// 		sum += large_buffer[i * 4096 + j] - '0';
-	// }
+	// verify data 
+	for (i = 0; i < N_BLOCKS ; i++) {
+		for(j = 0; j < 4096 ; j++) 
+			sum += large_buffer[i * 4096 + j] - '0';
+	}
 
-	// if (sum != (2 * LARGE_BUF_SIZE) + (2 * BUF_SIZE * N_UPDATES)) {
-	// 	printf(KRED "data is corrupted : sum %lu - expect %u\n" KNRM, 
-	// 			sum, (2 * LARGE_BUF_SIZE));
-	// 	exit(-1);
-	// }
+	if (sum != (2 * LARGE_BUF_SIZE) + (2 * BUF_SIZE * N_UPDATES)) {
+		printf(KRED "data is corrupted : sum %lu - expect %u\n" KNRM, 
+				sum, (2 * LARGE_BUF_SIZE));
+		exit(-1);
+	}
 
-	// printf(KGRN "OK\n" KNRM);
+	printf(KGRN "OK\n" KNRM);
 
-	// close(fd);
+	close(fd);
 
     return 0;
 }

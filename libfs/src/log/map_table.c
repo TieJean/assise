@@ -197,12 +197,16 @@ addr_t lblk2pblk4cache(uint8_t dev, addr_t lblk, int libfs_id) {
     return pblk;
 }
 
-void bh_submit_read_sync_IO_loop(struct buffer_head* bh) {
+void bh_submit_read_sync_IO_loop(struct buffer_head* bh, bool cache_bit_set) {
     addr_t plogblk;
     struct buffer_head* ret_bh;
 	for(int i = 0; i < (bh->b_size >> g_block_size_shift) + 1; i++) {
 		if (bh->b_size % g_block_size_bytes == 0 && i == (bh->b_size >> g_block_size_shift)) continue;
-		plogblk = lblk2pblk4cache(g_log_dev, bh->b_blocknr + i, KERNFS_ID);
+        if (cache_bit_set) {
+            plogblk = lblk2pblk4cache(g_log_dev, bh->b_blocknr + i, KERNFS_ID);
+        } else {
+            plogblk = lblk2pblk(g_log_dev, bh->b_blocknr + i, KERNFS_ID);
+        }
 		ret_bh = bh_get_sync_IO(g_log_dev, plogblk, BH_NO_DATA_ALLOC);
 		// if (enable_perf_stats) {
 		// 	g_perf_stats.bcache_search_tsc += (asm_rdtscp() - start_tsc);

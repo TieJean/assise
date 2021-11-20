@@ -583,8 +583,10 @@ int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_in
 			// update map table
 			// addr_t libfs_lblk = blknr + i;
 			libfs_lblk = ((data - g_bdev[from_dev]->map_base_addr) >> g_block_size_shift) + i;
+			mlfs_assert(libfs_lblk < disk_sb[g_log_dev].log_start + (libfs_id + 1) * (g_log_size));
 			// map.m_pblk: libfs' pblk; kernfs' lblk
-			printf("digest_file: case1 %ld | %ld \n", map.m_pblk + i, libfs_lblk);
+			printf("digest_file: case1 %ld | %ld | %ld | %ld |\n", map.m_pblk + i, libfs_lblk, 
+				disk_sb[g_log_dev].log_start + libfs_id * (g_log_size), disk_sb[g_log_dev].log_start + (libfs_id + 1) * (g_log_size));
 			update_map_table(g_root_dev, map.m_pblk + i, libfs_lblk, KERNFS_ID); // TODO-assise: may need to change KERNFS_ID
 		}
 		// TODO-assise: check
@@ -595,6 +597,7 @@ int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_in
 			bh_data = bh_get_sync_IO(to_dev, kernfs_pblk, BH_NO_DATA_ALLOC);
 
 			libfs_lblk = ((data - g_bdev[from_dev]->map_base_addr) >> g_block_size_shift) + idx;
+			mlfs_assert(libfs_lblk < disk_sb[g_log_dev].log_start + (libfs_id + 1) * (g_log_size));
 			libfs_pblk = lblk2pblk(g_root_dev, libfs_lblk, KERNFS_ID);
 			
 			bh_data->b_data = g_bdev[from_dev]->map_base_addr + (libfs_pblk << g_block_size_shift);
@@ -608,7 +611,9 @@ int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_in
 		} else {
 			int idx = nr_block_get - 1;
 			addr_t libfs_lblk = ((data - g_bdev[from_dev]->map_base_addr) >> g_block_size_shift) + idx;
-			printf("digest_file: case2 %ld | %ld \n", map.m_pblk + i, libfs_lblk);
+			mlfs_assert(libfs_lblk < disk_sb[g_log_dev].log_start + (libfs_id + 1) * (g_log_size));
+			printf("digest_file: case2 %ld | %ld | %ld | %ld |\n", map.m_pblk + i, libfs_lblk, 
+				disk_sb[g_log_dev].log_start + libfs_id * (g_log_size), disk_sb[g_log_dev].log_start + (libfs_id + 1) * (g_log_size));
 			update_map_table(g_root_dev, map.m_pblk + idx, libfs_lblk, KERNFS_ID);	// TODO-assise: may need to change KERNFS_ID
 		} 
 		// <TO-DELETE>

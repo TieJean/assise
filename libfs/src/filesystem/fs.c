@@ -1575,7 +1575,7 @@ do_io_unaligned:
 	// This is required when partial updates are in the update log.
 	list_for_each_entry_safe(bh, _bh, &io_list_log, b_io_list) {
 		// bh_submit_read_sync_IO(bh);
-		bh_submit_read_sync_IO_loop(bh);
+		bh_submit_read_sync_IO_loop(bh, true);
 		bh_release(bh);
 	}
 
@@ -2032,7 +2032,9 @@ do_io_aligned:
 	// Read data from L1 ~ trees
 	list_for_each_entry_safe(bh, _bh, &io_list, b_io_list) {
 		mlfs_assert(bh->b_dev < g_n_devices);
-		bh_submit_read_sync_IO(bh);
+		// bh_submit_read_sync_IO(bh);
+		// printf("inside ssd bh_submit_read_sync_IO_loop\n");
+		bh_submit_read_sync_IO_loop(bh, false);
 		bh_release(bh);
 	}
 
@@ -2103,7 +2105,7 @@ do_io_aligned:
 #endif
 
 			// bh_submit_read_sync_IO(bh);
-			bh_submit_read_sync_IO_loop(bh);
+			bh_submit_read_sync_IO_loop(bh, true);
 			bh_release(bh);
 		}
 	}
