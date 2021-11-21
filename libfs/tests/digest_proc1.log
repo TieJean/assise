@@ -1,0 +1,119 @@
+dev-dax engine is initialized: dev_path /dev/dax0.0 size 3072 MB
+fetching node's IP address..
+Process pid is 603359
+ip address on interface 'lo' is 127.0.0.1
+cluster settings:
+--- node 0 - ip:127.0.0.1
+Connecting to KernFS instance 0 [ip: 127.0.0.1]
+[Local-Client] Creating connection (pid:603359, app_type:0, status:pending) to 127.0.0.1:12345 on sockfd 0
+[Local-Client] Creating connection (pid:603359, app_type:1, status:pending) to 127.0.0.1:12345 on sockfd 1
+In thread
+In thread
+[Local-Client] Creating connection (pid:603359, app_type:2, status:pending) to 127.0.0.1:12345 on sockfd 2
+In thread
+SEND --> MSG_INIT [pid 0|603359]
+SEND --> MSG_INIT [pid 1|603359]
+SEND --> MSG_INIT [pid 2|603359]
+RECV <-- MSG_SHM [paths: /shm_recv_0|/shm_send_0]
+[add_peer_socket():97] Established connection with 127.0.0.1 on sock:0 of type:0 and peer:0x556a800be4f0
+start shmem_poll_loop for sockfd 0
+RECV <-- MSG_SHM [paths: /shm_recv_1|/shm_send_1]
+[add_peer_socket():97] Established connection with 127.0.0.1 on sock:1 of type:1 and peer:0x556a800be4f0
+start shmem_poll_loop for sockfd 1
+RECV <-- MSG_SHM [paths: /shm_recv_2|/shm_send_2]
+[add_peer_socket():97] Established connection with 127.0.0.1 on sock:2 of type:2 and peer:0x556a800be4f0
+start shmem_poll_loop for sockfd 2
+[signal_callback():1423] Assigned LibFS ID=1
+MLFS cluster initialized
+init log dev 1 start_blk 649729 end 682496
+log inode pblkno:649730, lblkno:649730
+[set_digesting():95] set log digesting state
+[make_digest_request_sync():1671] |digest |1|1|1967|649729|649729|0
+[signal_callback():1482] peer recv: |complete |1|1|1967|659562|0|0|
+[handle_digest_response():1706] |complete |1|1|1967|659562|0|0|
+[clear_digesting():109] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 0.000 ms
+inode allocation  : 0.003 ms
+bcache search     : 21.560 ms
+search l0 tree    : 0.587 ms
+search lsm tree   : 0.004 ms
+log commit        : 15.499 ms
+  log writes      : 13.237 ms
+  loghdr writes   : 1.945 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 12.962 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 0 
+search lsm tree (nr)  : 1 
+log writes (nr)       : 0 
+read data blocks (nr) : 1 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------
+inside do_aligned_read
+read 16384 - expect 32768
+[set_digesting():95] set log digesting state
+[make_digest_request_sync():1671] |digest |1|1|2130|659562|649729|0
+[signal_callback():1482] peer recv: |complete |1|1|2130|670212|0|0|
+[handle_digest_response():1706] |complete |1|1|2130|670212|0|0|
+[clear_digesting():109] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 0.000 ms
+inode allocation  : 0.003 ms
+bcache search     : 21.560 ms
+search l0 tree    : 0.587 ms
+search lsm tree   : 0.004 ms
+log commit        : 15.499 ms
+  log writes      : 13.237 ms
+  loghdr writes   : 1.945 ms
+read data blocks  : 0.005 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 12.962 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 0 
+search lsm tree (nr)  : 1 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------

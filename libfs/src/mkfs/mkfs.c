@@ -638,7 +638,7 @@ void iappend(uint8_t dev, uint32_t inum, void *xp, int n)
 	memcpy(buf + off_in_block, (uint8_t *)data, n);
 	wsect(map.m_pblk, buf);
 	off += n;
-	printf("write inode inum %d data: blocknr = %lu\n", inode.inum, map.m_pblk);
+	// printf("write inode inum %d data: blocknr = %lu\n", inode.inum, map.m_pblk);
 
 	sync_all_buffers(g_bdev[g_root_dev]);
 	store_all_bitmap(g_root_dev, sb[g_root_dev]->s_blk_bitmap);
@@ -646,7 +646,7 @@ void iappend(uint8_t dev, uint32_t inum, void *xp, int n)
 	memmove(&din, inode._dinode, sizeof(struct dinode));
 	din.size = xint(off);
 
-	printf("inode %u size %lu\n", inum, din.size);
+	// printf("inode %u size %lu\n", inum, din.size);
 
 	write_inode(inum, &din);
 	free(inode.i_sb);

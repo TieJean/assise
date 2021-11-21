@@ -1,0 +1,77 @@
+dev-dax engine is initialized: dev_path /dev/dax0.0 size 3072 MB
+fetching node's IP address..
+Process pid is 603404
+ip address on interface 'lo' is 127.0.0.1
+cluster settings:
+--- node 0 - ip:127.0.0.1
+Connecting to KernFS instance 0 [ip: 127.0.0.1]
+[Local-Client] Creating connection (pid:603404, app_type:0, status:pending) to 127.0.0.1:12345 on sockfd 0
+In thread
+[Local-Client] Creating connection (pid:603404, app_type:1, status:pending) to 127.0.0.1:12345 on sockfd 1
+[Local-Client] Creating connection (pid:603404, app_type:2, status:pending) to 127.0.0.1:12345 on sockfd 2
+In thread
+In thread
+SEND --> MSG_INIT [pid 0|603404]
+SEND --> MSG_INIT [pid 2|603404]
+SEND --> MSG_INIT [pid 1|603404]
+RECV <-- MSG_SHM [paths: /shm_recv_3|/shm_send_3]
+[add_peer_socket():97] Established connection with 127.0.0.1 on sock:0 of type:0 and peer:0x5629e18d34f0
+start shmem_poll_loop for sockfd 0
+RECV <-- MSG_SHM [paths: /shm_recv_5|/shm_send_5]
+[add_peer_socket():97] Established connection with 127.0.0.1 on sock:1 of type:1 and peer:0x5629e18d34f0
+start shmem_poll_loop for sockfd 1
+RECV <-- MSG_SHM [paths: /shm_recv_4|/shm_send_4]
+[add_peer_socket():97] Established connection with 127.0.0.1 on sock:2 of type:2 and peer:0x5629e18d34f0
+start shmem_poll_loop for sockfd 2
+[signal_callback():1423] Assigned LibFS ID=2
+MLFS cluster initialized
+init log dev 1 start_blk 682497 end 715264
+[set_digesting():95] set log digesting state
+[make_digest_request_sync():1671] |digest |2|1|1967|682497|682497|0
+[signal_callback():1482] peer recv: |complete |2|1|1967|692332|0|0|
+[handle_digest_response():1706] |complete |2|1|1967|692332|0|0|
+[clear_digesting():109] clear log digesting state
+[set_digesting():95] set log digesting state
+[make_digest_request_sync():1671] |digest |2|1|2129|692332|682497|0
+[signal_callback():1482] peer recv: |complete |2|1|2129|702977|0|0|
+[handle_digest_response():1706] |complete |2|1|2129|702977|0|0|
+[clear_digesting():109] clear log digesting state
+
+----------------------- libfs statistics
+Log dev id	  : 1
+wait on digest    : 0.000 ms
+inode allocation  : 0.000 ms
+bcache search     : 21.182 ms
+search l0 tree    : 0.574 ms
+search lsm tree   : 0.003 ms
+log commit        : 15.472 ms
+  log writes      : 13.419 ms
+  loghdr writes   : 1.752 ms
+read data blocks  : 0.000 ms
+wait on read rpc  : 0.000 ms
+directory search  : 0.000 ms
+temp_debug        : 13.150 ms
+rsync coalesce    : 0.000 ms
+rsync interval    : 0.000 ms
+rdma write        : 0.000 ms
+lease rpc wait    : 0.000 ms
+lease lpc wait    : 0.000 ms
+   contention     : 0.000 ms
+   digestion      : 0.000 ms
+lease revoke wait : 0.000 ms
+n_rsync           : 0
+n_rsync_skip      : 0
+n_rsync_blks      : 0
+n_rsync_blks_skip : 0
+rsync ops         : 0
+lease rpcs        : 0
+lease lpcs        : 0
+wait on digest (nr)   : 0 
+search lsm tree (nr)  : 2 
+log writes (nr)       : 0 
+read data blocks (nr) : 2 
+read rpc (nr) : 0 
+directory search hit  (nr) : 0 
+directory search miss (nr) : 0 
+directory search notfound (nr) : 0 
+--------------------------------------

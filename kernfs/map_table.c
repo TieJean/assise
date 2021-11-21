@@ -107,12 +107,12 @@ void update_map_table(uint8_t dev, addr_t kernfs_lblk, addr_t libfs_lblk, int li
     // debug
     kernfs_map = get_map_table_entry(dev, kernfs_lblk, libfs_id);
     libfs_map = get_map_table_entry(dev, libfs_lblk, libfs_id);
-    printf("update_map_table: %ld | %ld | %ld | %ld | %ld | %ld\n", kernfs_lblk, kernfs_map->m_lblk, kernfs_map->m_pblk, libfs_lblk, libfs_map->m_lblk, libfs_map->m_pblk);
+    // printf("update_map_table: %ld | %ld | %ld | %ld | %ld | %ld\n", kernfs_lblk, kernfs_map->m_lblk, kernfs_map->m_pblk, libfs_lblk, libfs_map->m_lblk, libfs_map->m_pblk);
     
 }
 void unset_map_table_entry_cache_bit(uint8_t dev, addr_t lblk, int libfs_id) {
     struct mlfs_map_blocks* data = get_map_table_entry(dev, lblk, libfs_id);
-    printf("unset_map_table_entry_cache_bit: %ld, %ld\n", ((data->m_flags & MLFS_MAP_UNCACHE) & data->m_flags), (data->m_flags & MLFS_MAP_CACHE) ^ MLFS_MAP_CACHE);
+    // printf("unset_map_table_entsry_cache_bit: %ld, %ld\n", ((data->m_flags & MLFS_MAP_UNCACHE) & data->m_flags), (data->m_flags & MLFS_MAP_CACHE) ^ MLFS_MAP_CACHE);
     data->m_flags = ((data->m_flags & MLFS_MAP_UNCACHE) & data->m_flags);
     set_map_table_entry(dev, lblk, libfs_id, data);
 }

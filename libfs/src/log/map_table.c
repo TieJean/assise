@@ -102,7 +102,7 @@ void update_map_table(uint8_t dev, addr_t kernfs_lblk, addr_t libfs_lblk, int li
     // debug
     kernfs_map = get_map_table_entry(dev, kernfs_lblk, libfs_id);
     libfs_map = get_map_table_entry(dev, libfs_lblk, libfs_id);
-    printf("update_map_table: %ld | %ld | %ld | %ld | %ld | %ld\n", kernfs_lblk, kernfs_pblk, kernfs_map->m_pblk, libfs_lblk, libfs_pblk, libfs_map->m_pblk);
+    // printf("update_map_table: %ld | %ld | %ld | %ld | %ld | %ld\n", kernfs_lblk, kernfs_pblk, kernfs_map->m_pblk, libfs_lblk, libfs_pblk, libfs_map->m_pblk);
     
 }
 
@@ -218,17 +218,17 @@ void bh_submit_read_sync_IO_loop(struct buffer_head* bh, bool cache_bit_set) {
         if (i == 0) {
             ret_bh->b_offset = bh->b_offset;
             ret_bh->b_size = (bh->b_offset + bh->b_size < g_block_size_bytes) ? bh->b_size : g_block_size_bytes - bh->b_offset;
-            printf("bh_submit_read_sync_IO_loop: case1 | %ld | %ld | %ld | %ld", bh->b_blocknr + i, plogblk, ret_bh->b_offset, ret_bh->b_size);
-            printf("|%ld\n", get_block_sum_pblk(g_root_dev, plogblk));
+            // printf("bh_submit_read_sync_IO_loop: case1 | %ld | %ld | %ld | %ld", bh->b_blocknr + i, plogblk, ret_bh->b_offset, ret_bh->b_size);
+            // printf("|%ld\n", get_block_sum_pblk(g_root_dev, plogblk));
         } else {
             ret_bh->b_offset = 0;
-            printf("bh_submit_read_sync_IO_loop: case2 | %ld | %ld | %ld | %ld", bh->b_blocknr + i, plogblk, ret_bh->b_offset, ret_bh->b_size);
-            printf("|%ld\n", get_block_sum_pblk(g_root_dev, plogblk));
+            // printf("bh_submit_read_sync_IO_loop: case2 | %ld | %ld | %ld | %ld", bh->b_blocknr + i, plogblk, ret_bh->b_offset, ret_bh->b_size);
+            // printf("|%ld\n", get_block_sum_pblk(g_root_dev, plogblk));
         }
 		if (bh->b_size % g_block_size_bytes != 0 && i == (bh->b_size >> g_block_size_shift)) {
 			ret_bh->b_size = bh->b_size % g_block_size_bytes;
-            printf("bh_submit_read_sync_IO_loop: case3 | %ld | %ld | %ld | %ld", bh->b_blocknr + i, plogblk, ret_bh->b_offset, ret_bh->b_size);
-            printf("|%ld\n", get_block_sum_pblk(g_root_dev, plogblk));
+            // printf("bh_submit_read_sync_IO_loop: case3 | %ld | %ld | %ld | %ld", bh->b_blocknr + i, plogblk, ret_bh->b_offset, ret_bh->b_size);
+            // printf("|%ld\n", get_block_sum_pblk(g_root_dev, plogblk));
         } 
 		// mlfs_debug("inum %u offset %lu size %u @ blockno %lx (aligned)\n",
 		// 	loghdr->inode_no[idx], cur_offset, size, logblk_no);

@@ -426,7 +426,7 @@ int digest_inode(uint8_t from_dev, uint8_t to_dev, int libfs_id,
 int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_inum, 
 		offset_t offset, uint32_t length, addr_t blknr)
 {
-	printf("inside digest file\n");
+	// printf("inside digest file\n");
 	int ret;
 	uint32_t offset_in_block = 0;
 	struct inode *file_inode;
@@ -585,8 +585,8 @@ int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_in
 			libfs_lblk = ((data - g_bdev[from_dev]->map_base_addr) >> g_block_size_shift) + i;
 			mlfs_assert(libfs_lblk < disk_sb[g_log_dev].log_start + (libfs_id + 1) * (g_log_size));
 			// map.m_pblk: libfs' pblk; kernfs' lblk
-			printf("digest_file: case1 %ld | %ld | %ld | %ld |\n", map.m_pblk + i, libfs_lblk, 
-				disk_sb[g_log_dev].log_start + libfs_id * (g_log_size), disk_sb[g_log_dev].log_start + (libfs_id + 1) * (g_log_size));
+			// printf("digest_file: case1 %ld | %ld | %ld | %ld |\n", map.m_pblk + i, libfs_lblk, 
+			// 	disk_sb[g_log_dev].log_start + libfs_id * (g_log_size), disk_sb[g_log_dev].log_start + (libfs_id + 1) * (g_log_size));
 			update_map_table(g_root_dev, map.m_pblk + i, libfs_lblk, KERNFS_ID); // TODO-assise: may need to change KERNFS_ID
 		}
 		// TODO-assise: check
@@ -612,8 +612,8 @@ int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_in
 			int idx = nr_block_get - 1;
 			addr_t libfs_lblk = ((data - g_bdev[from_dev]->map_base_addr) >> g_block_size_shift) + idx;
 			mlfs_assert(libfs_lblk < disk_sb[g_log_dev].log_start + (libfs_id + 1) * (g_log_size));
-			printf("digest_file: case2 %ld | %ld | %ld | %ld |\n", map.m_pblk + i, libfs_lblk, 
-				disk_sb[g_log_dev].log_start + libfs_id * (g_log_size), disk_sb[g_log_dev].log_start + (libfs_id + 1) * (g_log_size));
+			// printf("digest_file: case2 %ld | %ld | %ld | %ld |\n", map.m_pblk + i, libfs_lblk, 
+			// 	disk_sb[g_log_dev].log_start + libfs_id * (g_log_size), disk_sb[g_log_dev].log_start + (libfs_id + 1) * (g_log_size));
 			update_map_table(g_root_dev, map.m_pblk + idx, libfs_lblk, KERNFS_ID);	// TODO-assise: may need to change KERNFS_ID
 		} 
 		// <TO-DELETE>
