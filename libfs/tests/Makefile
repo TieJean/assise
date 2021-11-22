@@ -36,6 +36,9 @@ all: $(EXE)
 time_stat.o: time_stat.c
 	$(CC) time_stat.c -c -o time_stat.o -D_BSD_SOURCE
 
+digest_wperf: digest_wperf.c
+	$(CC) -g -o $@ $^ -I$(INCLUDES) -L$(LIBFS_DIR) -lmlfs -L$(RDMA_CORE_DIR) -L$(RDMA_DIR) $(LDFLAGS)
+
 digest_test: digest_test.c
 	$(CC) -g -o $@ $^ -I$(INCLUDES) -L$(LIBFS_DIR) -lmlfs -L$(RDMA_CORE_DIR) -L$(RDMA_DIR) $(LDFLAGS)
 
