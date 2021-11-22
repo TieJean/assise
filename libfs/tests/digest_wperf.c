@@ -16,7 +16,7 @@
 #define KRED  "\x1B[31m"
 #define KNRM  "\x1B[0m"
 #define SIZE 4
-#define ITER_NUM 2000
+#define ITER_NUM 500
 
 int verify_write(unsigned int buffer_size);
 void write_test(unsigned int buffer_size, int fd, char c);
@@ -49,8 +49,6 @@ void write_test(unsigned int buffer_size, int fd, char c) {
         buffer[i] = c;
     }
     bytes = write(fd, buffer, buffer_size);
-    make_digest_request_async(100);
-	wait_on_digesting();
 }
 
 int main(int argc, char ** argv) {
@@ -80,8 +78,10 @@ int main(int argc, char ** argv) {
         }
         for (j = 0; j < ITER_NUM; ++j) {
             lseek(fd, 0, SEEK_SET);
-            begin = clock();
             write_test(buffer_sizes[i], fd, (char)(i + 1));
+            begin = clock();
+            make_digest_request_async(100);
+	        wait_on_digesting();
             end = clock();
             runtimes[i] += (end - begin);
         }
