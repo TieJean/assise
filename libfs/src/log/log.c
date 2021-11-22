@@ -644,7 +644,7 @@ static int persist_log_inode(struct logheader_meta *loghdr_meta, uint32_t idx)
 	if (enable_perf_stats)
 		start_tsc = asm_rdtscp();
 	addr_t pblkno = lblk2pblk(g_log_dev, logblk_no, KERNFS_ID);
-	printf("log inode pblkno:%lu, lblkno:%lu\n", pblkno, logblk_no);
+	// printf("log inode pblkno:%lu, lblkno:%lu\n", pblkno, logblk_no);
 	// log_bh = bh_get_sync_IO(g_log_dev, logblk_no, BH_NO_DATA_ALLOC);
 	log_bh = bh_get_sync_IO(g_log_dev, pblkno, BH_NO_DATA_ALLOC);
 	if (enable_perf_stats) {

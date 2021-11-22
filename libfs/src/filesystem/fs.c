@@ -1602,7 +1602,7 @@ int do_aligned_read(struct inode *ip, struct mlfs_reply *reply, offset_t off, ui
 	uint32_t bitmap_size = (io_size >> g_block_size_shift), bitmap_pos;
 	struct cache_copy_list copy_list[bitmap_size];
 	bmap_req_t bmap_req;
-	printf("inside do_aligned_read\n");
+	// printf("inside do_aligned_read\n");
 	mlfs_debug("aligned read for : offset %lu, io_size %u path: %s [%s]\n",
 						off, io_size, path, reply->remote?"remote":"local");
 
@@ -1869,7 +1869,7 @@ do_global_search:
 
 #else
 			// Assise-TODO
-			printf("do align read: am I here? %ld|%ld\n", bmap_req.dev, bmap_req.block_no);
+			// printf("do align read: am I here? %ld|%ld\n", bmap_req.dev, bmap_req.block_no);
 			bh = bh_get_sync_IO(bmap_req.dev, bmap_req.block_no, BH_NO_DATA_ALLOC);
 			bh->b_size = (bmap_req.blk_count_found << g_block_size_shift);
 			bh->b_offset = 0;

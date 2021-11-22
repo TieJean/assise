@@ -337,8 +337,8 @@ int digest_inode(uint8_t from_dev, uint8_t to_dev, int libfs_id,
 
 	mlfs_debug("[INODE] dev %u type %u inum %u size %lu\n",
 			g_root_dev, src_dinode->itype, inum, src_dinode->size);
-	printf("[INODE] dev %u type %u inum %u size %lu\n",
-			g_root_dev, src_dinode->itype, inum, src_dinode->size);
+	// printf("[INODE] dev %u type %u inum %u size %lu\n",
+	// 		g_root_dev, src_dinode->itype, inum, src_dinode->size);
 	// Inode exists only in NVM layer.
 	to_dev = g_root_dev;
 
@@ -1033,7 +1033,7 @@ static void digest_each_log_entries(uint8_t from_dev, int libfs_id, loghdr_meta_
 			case L_TYPE_INODE_UPDATE: {
 				if (enable_perf_stats) 
 					tsc_begin = asm_rdtscp();
-				printf("call digest_inode\n");
+				// printf("call digest_inode\n");
 				ret = digest_inode(from_dev,
 						g_root_dev,
 						libfs_id,
@@ -1060,7 +1060,7 @@ static void digest_each_log_entries(uint8_t from_dev, int libfs_id, loghdr_meta_
 				// for NVM bypassing test
 				//dest_dev = g_ssd_dev;
 #endif
-				printf("call digest_file\n");
+				// printf("call digest_file\n");
 				ret = digest_file(from_dev, 
 						dest_dev,
 						libfs_id,
@@ -2769,19 +2769,19 @@ void read_superblock(uint8_t dev)
 			disk_sb[dev].log_start);
 	// for debug
 	// kyh
-	printf("superblock: size %lu nblocks %lu ninodes %u\n"
-			"[inode start %lu bmap start %lu datablock start %lu log start %lu map table start %lu map table num %lu map table entry num %lu map table blk nr %lu]\n",
-			disk_sb[dev].size, 
-			disk_sb[dev].ndatablocks, 
-			disk_sb[dev].ninodes,
-			disk_sb[dev].inode_start, 
-			disk_sb[dev].bmap_start, 
-			disk_sb[dev].datablock_start,
-			disk_sb[dev].log_start,
-			disk_sb[dev].map_table_start,
-			disk_sb[dev].nmap,
-			disk_sb[dev].nmapentry,
-			disk_sb[dev].nmapblocks);
+	// printf("superblock: size %lu nblocks %lu ninodes %u\n"
+	// 		"[inode start %lu bmap start %lu datablock start %lu log start %lu map table start %lu map table num %lu map table entry num %lu map table blk nr %lu]\n",
+	// 		disk_sb[dev].size, 
+	// 		disk_sb[dev].ndatablocks, 
+	// 		disk_sb[dev].ninodes,
+	// 		disk_sb[dev].inode_start, 
+	// 		disk_sb[dev].bmap_start, 
+	// 		disk_sb[dev].datablock_start,
+	// 		disk_sb[dev].log_start,
+	// 		disk_sb[dev].map_table_start,
+	// 		disk_sb[dev].nmap,
+	// 		disk_sb[dev].nmapentry,
+	// 		disk_sb[dev].nmapblocks);
 
 	sb[dev]->ondisk = &disk_sb[dev];
 
