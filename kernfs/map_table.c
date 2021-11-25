@@ -71,6 +71,8 @@ void update_map_table(uint8_t dev, addr_t kernfs_lblk, addr_t libfs_lblk, int li
     struct buffer_head *bh_kernfs, *bh_libfs; 
     struct mlfs_map_blocks* kernfs_map = get_map_table_entry(dev, kernfs_lblk, libfs_id);
     struct mlfs_map_blocks* libfs_map = get_map_table_entry(dev, libfs_lblk, libfs_id);
+    // struct mlfs_map_blocks* kernfs_map = (struct mlfs_map_blocks*)get_map_entry_addr(dev, kernfs_lblk, libfs_id);
+    // struct mlfs_map_blocks* libfs_map = (struct mlfs_map_blocks*)get_map_table_entry(dev, libfs_lblk, libfs_id);
     addr_t kernfs_pblk = kernfs_map->m_pblk; 
     addr_t libfs_pblk = libfs_map->m_pblk;
 
@@ -147,6 +149,13 @@ void get_blkno_and_offset(uint8_t dev, int libfs_id, addr_t lblk, uint32_t *blkn
                   + lblk * sizeof(struct mlfs_map_blocks);
     *blkno = (addr >> g_block_size_shift);
     *offset_in_blk = addr % g_block_size_bytes;
+}
+
+void get_map_entry_addr(uint8_t dev, addr_t lblk, int libfs_id) {
+    uint32_t addr = (disk_sb[dev].map_table_start << g_block_size_shift) 
+                  + libfs_id * (disk_sb[dev].nmapblocks << g_block_size_shift) 
+                  + lblk * sizeof(struct mlfs_map_blocks);
+    return addr;
 }
 
 void get_map_entry_helper(uint8_t dev, uint32_t blkno, uint32_t offset_in_blk, struct mlfs_map_blocks* data) {
