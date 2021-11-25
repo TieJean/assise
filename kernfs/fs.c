@@ -215,6 +215,8 @@ void show_kernfs_stats(void)
 			g_perf_stats.digest_file_tsc / (clock_speed_mhz * 1000.0));
 	printf("- persist    : %.3f ms\n",
 			g_perf_stats.persist_time_tsc / (clock_speed_mhz * 1000.0));
+	printf("- digest file mkfs_write_opt : %.3f ms\n",
+			g_perf_stats.digest_file_write / (clock_speed_mhz * 1000.0));
 	printf("n_digest        : %lu\n", g_perf_stats.n_digest);
 	printf("n_digest_skipped: %lu (%.1f %%)\n", 
 			g_perf_stats.n_digest_skipped, 
@@ -423,6 +425,7 @@ int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_in
 	uint32_t nr_blocks = 0, nr_digested_blocks = 0;
 	offset_t cur_offset;
 	handle_t handle = {.libfs = libfs_id, .dev = to_dev};
+	uint64_t tsc_begin;
 
 	mlfs_debug("[FILE] (%d->%d) inum %d offset %lu(0x%lx) length %u\n", 
 			from_dev, to_dev, file_inum, offset, offset, length);
@@ -500,9 +503,12 @@ int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_in
 		update_slru_list_from_digest(to_dev, k, v);
 #endif
 		//mlfs_debug("File data : %s\n", bh_data->b_data);
-
+		if (enable_perf_stats) 
+			tsc_begin = asm_rdtscp();
 		ret = mlfs_write_opt(bh_data);
 		mlfs_assert(!ret);
+		if (enable_perf_stats) 
+			g_perf_stats.digest_file_write += asm_rdtscp() - tsc_begin;
 
 		bh_release(bh_data);
 
@@ -572,9 +578,12 @@ int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_in
 #endif
 
 		//mlfs_debug("File data : %s\n", bh_data->b_data);
-
+		if (enable_perf_stats) 
+			tsc_begin = asm_rdtscp();
 		ret = mlfs_write_opt(bh_data);
 		mlfs_assert(!ret);
+		if (enable_perf_stats) 
+			g_perf_stats.digest_file_write += asm_rdtscp() - tsc_begin;
 		clear_buffer_uptodate(bh_data);
 		bh_release(bh_data);
 
@@ -1667,6 +1676,7 @@ static void handle_digest_request(void *arg) // taijing
 		g_perf_stats.digest_inode_tsc = 0;
 		g_perf_stats.n_digest_skipped = 0;
 		g_perf_stats.n_digest = 0;
+		g_perf_stats.digest_file_write = 0;
 	}
 
 #ifdef DISTRIBUTED

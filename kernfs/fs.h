@@ -35,6 +35,8 @@ typedef struct mlfs_kernfs_stats {
 	uint64_t n_digest;
 	uint64_t n_digest_skipped;
 	uint64_t total_migrated_mb;
+
+	uint64_t digest_file_write;
 #ifdef MLFS_LEASE
 	uint64_t lease_rpc_local_nr;
 	uint64_t lease_rpc_remote_nr;
