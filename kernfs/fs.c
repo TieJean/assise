@@ -216,6 +216,12 @@ void show_kernfs_stats(void)
 			g_perf_stats.digest_file_tsc / (clock_speed_mhz * 1000.0));
 	printf("- persist    : %.3f ms\n",
 			g_perf_stats.persist_time_tsc / (clock_speed_mhz * 1000.0));
+	printf("- digest file mkfs_write_opt : %.3f ms\n",
+			g_perf_stats.digest_file_write / (clock_speed_mhz * 1000.0));
+	printf("- digest file bh_sync_io : %.3f ms\n",
+			g_perf_stats.bh_sync_io / (clock_speed_mhz * 1000.0));
+	printf("- digest file update_map_table : %.3f ms\n",
+			g_perf_stats.update_map_table / (clock_speed_mhz * 1000.0));
 	printf("n_digest        : %lu\n", g_perf_stats.n_digest);
 	printf("n_digest_skipped: %lu (%.1f %%)\n", 
 			g_perf_stats.n_digest_skipped, 
@@ -318,7 +324,7 @@ loghdr_meta_t *read_log_header(uint8_t from_dev, addr_t hdr_addr)
 int digest_inode(uint8_t from_dev, uint8_t to_dev, int libfs_id, 
 		uint32_t inum, addr_t blknr)
 {
-	printf("inside digest_inode\n");
+	// printf("inside digest_inode\n");
 	struct buffer_head *bh;
 	struct dinode *src_dinode;
 	struct inode *inode;
@@ -437,6 +443,7 @@ int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_in
 	uint32_t nr_blocks = 0, nr_digested_blocks = 0;
 	offset_t cur_offset;
 	handle_t handle = {.libfs = libfs_id, .dev = to_dev};
+	uint64_t tsc_begin;
 
 	mlfs_debug("[FILE] (%d->%d) inum %d offset %lu(0x%lx) length %u\n", 
 			from_dev, to_dev, file_inum, offset, offset, length);
@@ -499,12 +506,16 @@ int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_in
 
 		mlfs_assert(ret == 1);
 		addr_t kernfs_pblk, libfs_lblk, libfs_pblk;
+		// if (enable_perf_stats) 
+		// 	tsc_begin = asm_rdtscp();
 		kernfs_pblk = lblk2pblk(g_root_dev, map.m_pblk, KERNFS_ID);
 		bh_data = bh_get_sync_IO(to_dev, kernfs_pblk, BH_NO_DATA_ALLOC); 
 
 		mlfs_assert(bh_data);
 		libfs_lblk = ((data - g_bdev[from_dev]->map_base_addr) >> g_block_size_shift);
 		libfs_pblk = lblk2pblk(g_root_dev, libfs_lblk, KERNFS_ID);
+		// if (enable_perf_stats) 
+		// 	g_perf_stats.bh_sync_io += asm_rdtscp() - tsc_begin;
 			
 		bh_data->b_data = g_bdev[from_dev]->map_base_addr + (libfs_pblk << g_block_size_shift) + offset_in_block;
 		// bh_data->b_data = data + offset_in_block; // read from
@@ -523,9 +534,12 @@ int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_in
 		update_slru_list_from_digest(to_dev, k, v);
 #endif
 		//mlfs_debug("File data : %s\n", bh_data->b_data);
-
+		if (enable_perf_stats) 
+			tsc_begin = asm_rdtscp();
 		ret = mlfs_write_opt(bh_data); 
 		mlfs_assert(!ret);
+		if (enable_perf_stats) 
+			g_perf_stats.digest_file_write += asm_rdtscp() - tsc_begin;
 
 		bh_release(bh_data);
 
@@ -579,22 +593,38 @@ int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_in
 
 		// update data block
 		addr_t kernfs_pblk, libfs_lblk, libfs_pblk;
-		for(int i = 0; i < nr_block_get - 1; i++) {
-			// update map table
-			// addr_t libfs_lblk = blknr + i;
-			libfs_lblk = ((data - g_bdev[from_dev]->map_base_addr) >> g_block_size_shift) + i;
-			mlfs_assert(libfs_lblk < disk_sb[g_log_dev].log_start + (libfs_id + 1) * (g_log_size));
-			// map.m_pblk: libfs' pblk; kernfs' lblk
-			// printf("digest_file: case1 %ld | %ld | %ld | %ld |\n", map.m_pblk + i, libfs_lblk, 
-			// 	disk_sb[g_log_dev].log_start + libfs_id * (g_log_size), disk_sb[g_log_dev].log_start + (libfs_id + 1) * (g_log_size));
-			update_map_table(g_root_dev, map.m_pblk + i, libfs_lblk, KERNFS_ID); // TODO-assise: may need to change KERNFS_ID
-		}
+		
+
+		// for(int i = 0; i < nr_block_get - 1; i++) {
+		// 	// update map table
+		// 	// addr_t libfs_lblk = blknr + i;
+		// 	libfs_lblk = ((data - g_bdev[from_dev]->map_base_addr) >> g_block_size_shift) + i;
+		// 	mlfs_assert(libfs_lblk < disk_sb[g_log_dev].log_start + (libfs_id + 1) * (g_log_size));
+		// 	// map.m_pblk: libfs' pblk; kernfs' lblk
+		// 	// printf("digest_file: case1 %ld | %ld | %ld | %ld |\n", map.m_pblk + i, libfs_lblk, 
+		// 	// 	disk_sb[g_log_dev].log_start + libfs_id * (g_log_size), disk_sb[g_log_dev].log_start + (libfs_id + 1) * (g_log_size));
+		// 	if (enable_perf_stats) 
+		// 		tsc_begin = asm_rdtscp();
+		// 	update_map_table(g_root_dev, map.m_pblk + i, libfs_lblk, KERNFS_ID); // TODO-assise: may need to change KERNFS_ID
+		// 	if (enable_perf_stats) 
+		// 		g_perf_stats.update_map_table += asm_rdtscp() - tsc_begin;
+		// }
+		// if (enable_perf_stats) 
+		// 	tsc_begin = asm_rdtscp();
+		libfs_lblk = ((data - g_bdev[from_dev]->map_base_addr) >> g_block_size_shift);
+		update_map_table_loop(g_root_dev, map.m_pblk, nr_block_get - 1, libfs_lblk, KERNFS_ID);
+		// if (enable_perf_stats) 
+		// 	g_perf_stats.update_map_table += asm_rdtscp() - tsc_begin;
 		// TODO-assise: check
 		if(nr_block_get * g_block_size_bytes > length2allocate) {
 			// the last block should copy instead of remapping
 			int idx = nr_block_get - 1;
+			// if (enable_perf_stats) 
+			// 	tsc_begin = asm_rdtscp();
 			kernfs_pblk = lblk2pblk(g_root_dev, map.m_pblk + idx, KERNFS_ID);
 			bh_data = bh_get_sync_IO(to_dev, kernfs_pblk, BH_NO_DATA_ALLOC);
+			// if (enable_perf_stats) 
+			// 	g_perf_stats.bh_sync_io += asm_rdtscp() - tsc_begin;
 
 			libfs_lblk = ((data - g_bdev[from_dev]->map_base_addr) >> g_block_size_shift) + idx;
 			mlfs_assert(libfs_lblk < disk_sb[g_log_dev].log_start + (libfs_id + 1) * (g_log_size));
@@ -603,9 +633,12 @@ int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_in
 			bh_data->b_data = g_bdev[from_dev]->map_base_addr + (libfs_pblk << g_block_size_shift);
 			bh_data->b_size = length2allocate - (nr_block_get - 1) * g_block_size_bytes; 
 			bh_data->b_offset = 0;
-
+			if (enable_perf_stats) 
+				tsc_begin = asm_rdtscp();
 			ret = mlfs_write_opt(bh_data); // TODO-assise: check if this is correct
 			mlfs_assert(!ret);
+			if (enable_perf_stats) 
+				g_perf_stats.digest_file_write += asm_rdtscp() - tsc_begin;
 			clear_buffer_uptodate(bh_data);
 			bh_release(bh_data);
 		} else {
@@ -614,7 +647,12 @@ int digest_file(uint8_t from_dev, uint8_t to_dev, int libfs_id, uint32_t file_in
 			mlfs_assert(libfs_lblk < disk_sb[g_log_dev].log_start + (libfs_id + 1) * (g_log_size));
 			// printf("digest_file: case2 %ld | %ld | %ld | %ld |\n", map.m_pblk + i, libfs_lblk, 
 			// 	disk_sb[g_log_dev].log_start + libfs_id * (g_log_size), disk_sb[g_log_dev].log_start + (libfs_id + 1) * (g_log_size));
-			update_map_table(g_root_dev, map.m_pblk + idx, libfs_lblk, KERNFS_ID);	// TODO-assise: may need to change KERNFS_ID
+			// if (enable_perf_stats) 
+			// 	tsc_begin = asm_rdtscp();
+			// update_map_table(g_root_dev, map.m_pblk + idx, libfs_lblk, KERNFS_ID);	// TODO-assise: may need to change KERNFS_ID
+			update_map_table_loop(g_root_dev, map.m_pblk + idx, 1, libfs_lblk, KERNFS_ID);
+			// if (enable_perf_stats) 
+			// 	g_perf_stats.update_map_table += asm_rdtscp() - tsc_begin;
 		} 
 		// <TO-DELETE>
 		// bh_data = bh_get_sync_IO(to_dev, map.m_pblk, BH_NO_DATA_ALLOC);
@@ -1741,6 +1779,11 @@ static void handle_digest_request(void *arg) // taijing
 		g_perf_stats.digest_inode_tsc = 0;
 		g_perf_stats.n_digest_skipped = 0;
 		g_perf_stats.n_digest = 0;
+
+		g_perf_stats.digest_file_write = 0;
+		g_perf_stats.bh_sync_io = 0;
+		g_perf_stats.update_map_table = 0;
+
 	}
 
 #ifdef DISTRIBUTED

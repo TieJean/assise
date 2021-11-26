@@ -15,6 +15,7 @@ void map_table_init(uint8_t dev);
 void read_map_table(uint8_t dev);
 void write_map_table(uint8_t dev);
 void update_map_table(uint8_t dev, addr_t kernfs_lblk, addr_t libfs_lblk, int libfs_id);
+void update_map_table_loop(uint8_t dev, addr_t kernfs_lblk, addr_t blknr, addr_t libfs_lblk, int libfs_id);
 struct mlfs_map_blocks* get_map_table_entry(uint8_t dev, addr_t lblk, int libfs_id);
 void set_map_table_entry(uint8_t dev, addr_t lblk, int libfs_id, struct mlfs_map_blocks* data);
 void map_table_shutdown(uint8_t dev);

@@ -32,7 +32,7 @@ void read_map_table(uint8_t dev) {
         bh->b_size = map_table_size;
         bh->b_data = map_tables[i];
         bh_submit_read_sync_IO(bh);
-	    mlfs_io_wait(dev, 1);
+	    // mlfs_io_wait(dev, 1);
         bh_release(bh);
         cur_map_start_blk = cur_map_start_blk + disk_sb[dev].nmapblocks;
     }
@@ -47,8 +47,8 @@ void write_map_table(uint8_t dev) {
         bh = bh_get_sync_IO(dev, cur_map_start_blk, BH_NO_DATA_ALLOC);
         bh->b_size = map_table_size;
         bh->b_data = map_tables[i];
-        mlfs_write(bh);
-	    mlfs_io_wait(dev, 0);
+        mlfs_write_opt(bh);
+	    // mlfs_io_wait(dev, 0);
         bh_release(bh);
         cur_map_start_blk = ((cur_map_start_blk << g_block_size_shift) + map_table_size + (g_block_size_bytes >> 1)) >> g_block_size_shift;
     }
@@ -154,7 +154,7 @@ void get_map_entry_helper(uint8_t dev, uint32_t blkno, uint32_t offset_in_blk, s
     bh->b_size = sizeof(struct mlfs_map_blocks);
     bh->b_offset = offset_in_blk;
     bh_submit_read_sync_IO(bh);
-    mlfs_io_wait(dev, 1);
+    // mlfs_io_wait(dev, 1);
     bh_release(bh);
 }
 
@@ -166,7 +166,7 @@ void set_map_entry_helper(uint8_t dev, uint32_t blkno, uint32_t offset_in_blk, s
     bh->b_offset = offset_in_blk;
     int ret = mlfs_write_opt(bh);
     mlfs_assert(!ret);
-    mlfs_io_wait(dev, 0);
+    // mlfs_io_wait(dev, 0);
     bh_release(bh);
 }
 
