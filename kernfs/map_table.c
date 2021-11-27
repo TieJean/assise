@@ -263,13 +263,36 @@ void set_map_table_entry(uint8_t dev, addr_t lblk, int libfs_id, struct mlfs_map
 }
 
 addr_t lblk2pblk(uint8_t dev, addr_t lblk, int libfs_id) {
-    struct mlfs_map_blocks* data = get_map_table_entry(dev, lblk, libfs_id);
-    addr_t pblk = data->m_pblk; // cur mapping block
-    // if(((data->m_flags) & MLFS_MAP_CACHE) == MLFS_MAP_CACHE) {
-    //     pblk = data->m_lblk; // previous mapping block
-    // }
-    free_map_table_entry(data);
-    return pblk;
+    struct mlfs_map_blocks map_entry; 
+    struct mlfs_map_blocks* data = &map_entry;
+    int ret;
+    uint32_t blkno;
+    uint32_t offset_in_blk;
+    struct storage_operations *storage_engine;
+    size_t mlfs_map_blocks_size = sizeof(struct mlfs_map_blocks);
+    storage_engine = g_bdev[dev]->storage_engine;
+    get_blkno_and_offset(dev, libfs_id, lblk, &blkno, &offset_in_blk);
+    if (offset_in_blk) {
+        ret = storage_engine->read_unaligned(dev, (uint8_t*)data, blkno, offset_in_blk, mlfs_map_blocks_size);
+    } else {
+        ret = storage_engine->read(dev, (uint8_t*)data, blkno, mlfs_map_blocks_size);
+    }
+    if (((data->m_flags & MLFS_MAP_INIT)) == MLFS_MAP_UNINIT) {
+        data->m_lblk = lblk;
+        data->m_pblk = lblk;
+        data->m_len = g_block_size_bytes;
+        data->m_flags = data->m_flags | MLFS_MAP_INIT;
+        if (offset_in_blk) {
+            ret = storage_engine->write_opt_unaligned(dev, (uint8_t*)data, blkno, offset_in_blk, mlfs_map_blocks_size);
+        } else {
+            ret = storage_engine->write_opt(dev, (uint8_t*)data, blkno, mlfs_map_blocks_size);
+        }
+    }
+    return data->m_pblk;
+    // struct mlfs_map_blocks* data = get_map_table_entry(dev, lblk, libfs_id);
+    // addr_t pblk = data->m_pblk; // cur mapping block
+    // free_map_table_entry(data);
+    // return pblk;
 }
 int get_block_sum_pblk(uint8_t dev, addr_t pblk) {
     int sum = 0;

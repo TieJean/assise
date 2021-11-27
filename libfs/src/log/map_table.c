@@ -107,10 +107,27 @@ void update_map_table(uint8_t dev, addr_t kernfs_lblk, addr_t libfs_lblk, int li
 }
 
 void unset_map_table_entry_cache_bit(uint8_t dev, addr_t lblk, int libfs_id) {
-    struct mlfs_map_blocks* data = get_map_table_entry(dev, lblk, libfs_id);
-    // printf("unset_map_table_entry_cache_bit: %ld, %ld\n", ((data->m_flags & MLFS_MAP_UNCACHE) & data->m_flags), (data->m_flags & MLFS_MAP_CACHE) ^ MLFS_MAP_CACHE );
+    struct mlfs_map_blocks map_entry;
+    struct mlfs_map_blocks* data = &map_entry;
+    uint32_t blkno;
+    uint32_t offset_in_blk;
+    int ret;
+    struct storage_operations *storage_engine;
+    storage_engine = g_bdev[dev]->storage_engine;
+    size_t mlfs_map_blocks_size = sizeof(struct mlfs_map_blocks);
+    get_blkno_and_offset(dev, libfs_id, lblk, &blkno, &offset_in_blk);
+    if(offset_in_blk) {
+        ret = storage_engine->read_unaligned(dev, data, blkno, offset_in_blk, mlfs_map_blocks_size);
+    } else {
+        ret = storage_engine->read(dev, data, blkno, mlfs_map_blocks_size);
+    }
     data->m_flags = ((data->m_flags & MLFS_MAP_UNCACHE) & data->m_flags);
-    set_map_table_entry(dev, lblk, libfs_id, data);
+
+    if(offset_in_blk) {
+        ret = storage_engine->write_opt_unaligned(dev, data, blkno, offset_in_blk, mlfs_map_blocks_size);
+    } else {
+        ret = storage_engine->write_opt(dev, data, blkno, mlfs_map_blocks_size);
+    }
 }
 
 // TODO-assise: write
@@ -140,8 +157,8 @@ void free_map_table_entry(struct mlfs_map_blocks* blk) {
 }
 
 void get_blkno_and_offset(uint8_t dev, int libfs_id, addr_t lblk, uint32_t *blkno, uint32_t* offset_in_blk) {
-    uint32_t addr = disk_sb[dev].map_table_start * g_block_size_bytes 
-                  + libfs_id * disk_sb[dev].nmapblocks * g_block_size_bytes 
+    uint32_t addr = (disk_sb[dev].map_table_start << g_block_size_shift)
+                  + libfs_id * (disk_sb[dev].nmapblocks << g_block_size_shift)
                   + lblk * sizeof(struct mlfs_map_blocks);
     *blkno = (addr >> g_block_size_shift);
     *offset_in_blk = addr % g_block_size_bytes;
@@ -178,23 +195,77 @@ void set_map_table_entry(uint8_t dev, addr_t lblk, int libfs_id, struct mlfs_map
 }
 
 addr_t lblk2pblk(uint8_t dev, addr_t lblk, int libfs_id) {
-    struct mlfs_map_blocks* data = get_map_table_entry(dev, lblk, libfs_id);
-    addr_t pblk = data->m_pblk; // cur mapping block
-    // if(((data->m_flags) & MLFS_MAP_CACHE) == MLFS_MAP_CACHE) {
-    //     pblk = data->m_lblk; // previous mapping block
-    // }
-    free_map_table_entry(data);
-    return pblk;
+    struct mlfs_map_blocks map_entry; 
+    struct mlfs_map_blocks* data = &map_entry;
+    int ret;
+    uint32_t blkno;
+    uint32_t offset_in_blk;
+    struct storage_operations *storage_engine;
+    size_t mlfs_map_blocks_size = sizeof(struct mlfs_map_blocks);
+    storage_engine = g_bdev[dev]->storage_engine;
+    get_blkno_and_offset(dev, libfs_id, lblk, &blkno, &offset_in_blk);
+    if (offset_in_blk) {
+        ret = storage_engine->read_unaligned(dev, (uint8_t*)data, blkno, offset_in_blk, mlfs_map_blocks_size);
+    } else {
+        ret = storage_engine->read(dev, (uint8_t*)data, blkno, mlfs_map_blocks_size);
+    }
+    if (((data->m_flags & MLFS_MAP_INIT)) == MLFS_MAP_UNINIT) {
+        data->m_lblk = lblk;
+        data->m_pblk = lblk;
+        data->m_len = g_block_size_bytes;
+        data->m_flags = data->m_flags | MLFS_MAP_INIT;
+        if (offset_in_blk) {
+            ret = storage_engine->write_opt_unaligned(dev, (uint8_t*)data, blkno, offset_in_blk, mlfs_map_blocks_size);
+        } else {
+            ret = storage_engine->write_opt(dev, (uint8_t*)data, blkno, mlfs_map_blocks_size);
+        }
+    }
+    return data->m_pblk;
+    // struct mlfs_map_blocks* data = get_map_table_entry(dev, lblk, libfs_id);
+    // addr_t pblk = data->m_pblk; // cur mapping block
+    // free_map_table_entry(data);
+    // return pblk;
 }
 
 addr_t lblk2pblk4cache(uint8_t dev, addr_t lblk, int libfs_id) {
-    struct mlfs_map_blocks* data = get_map_table_entry(dev, lblk, libfs_id);
-    addr_t pblk = data->m_pblk; // cur mapping block
+    addr_t pblk;
+    struct mlfs_map_blocks map_entry; 
+    struct mlfs_map_blocks* data = &map_entry;
+    int ret;
+    uint32_t blkno;
+    uint32_t offset_in_blk;
+    struct storage_operations *storage_engine;
+    size_t mlfs_map_blocks_size = sizeof(struct mlfs_map_blocks);
+    storage_engine = g_bdev[dev]->storage_engine;
+    get_blkno_and_offset(dev, libfs_id, lblk, &blkno, &offset_in_blk);
+    if (offset_in_blk) {
+        ret = storage_engine->read_unaligned(dev, (uint8_t*)data, blkno, offset_in_blk, mlfs_map_blocks_size);
+    } else {
+        ret = storage_engine->read(dev, (uint8_t*)data, blkno, mlfs_map_blocks_size);
+    }
+    if (((data->m_flags & MLFS_MAP_INIT)) == MLFS_MAP_UNINIT) {
+        data->m_lblk = lblk;
+        data->m_pblk = lblk;
+        data->m_len = g_block_size_bytes;
+        data->m_flags = data->m_flags | MLFS_MAP_INIT;
+        if (offset_in_blk) {
+            ret = storage_engine->write_opt_unaligned(dev, (uint8_t*)data, blkno, offset_in_blk, mlfs_map_blocks_size);
+        } else {
+            ret = storage_engine->write_opt(dev, (uint8_t*)data, blkno, mlfs_map_blocks_size);
+        }
+    }
+    pblk = data->m_pblk;
     if(((data->m_flags) & MLFS_MAP_CACHE) == MLFS_MAP_CACHE) {
         pblk = data->m_lblk; // previous mapping block
     }
-    free_map_table_entry(data);
     return pblk;
+    // struct mlfs_map_blocks* data = get_map_table_entry(dev, lblk, libfs_id);
+    // addr_t pblk = data->m_pblk; // cur mapping block
+    // if(((data->m_flags) & MLFS_MAP_CACHE) == MLFS_MAP_CACHE) {
+    //     pblk = data->m_lblk; // previous mapping block
+    // }
+    // free_map_table_entry(data);
+    // return pblk;
 }
 
 void bh_submit_read_sync_IO_loop(struct buffer_head* bh, bool cache_bit_set) {
@@ -214,32 +285,22 @@ void bh_submit_read_sync_IO_loop(struct buffer_head* bh, bool cache_bit_set) {
             plogblk = lblk2pblk(g_log_dev, bh->b_blocknr + i, KERNFS_ID);
         }
 
-		// ret_bh = bh_get_sync_IO(g_log_dev, plogblk, BH_NO_DATA_ALLOC);
-		// ret_bh->b_data = bh->b_data + (i << g_block_size_shift);
-		// ret_bh->b_size = g_block_size_bytes;
 		b_data = bh->b_data + (i << g_block_size_shift);
         b_size = g_block_size_bytes;
         if (i == 0) {
             b_offset = bh->b_offset;
             b_size = (bh->b_offset + bh->b_size < g_block_size_bytes) ? bh->b_size : g_block_size_bytes - bh->b_offset;
-            // ret_bh->b_offset = bh->b_offset;
-            // ret_bh->b_size = (bh->b_offset + bh->b_size < g_block_size_bytes) ? bh->b_size : g_block_size_bytes - bh->b_offset;
         } else {
             b_offset = 0;
-            // ret_bh->b_offset = 0;
         }
 		if (bh->b_size % g_block_size_bytes != 0 && i == (bh->b_size >> g_block_size_shift)) {
             b_size = bh->b_size % g_block_size_bytes;
-			// ret_bh->b_size = bh->b_size % g_block_size_bytes;
         } 
         if(b_offset) {
             ret = storage_engine->read_unaligned(g_root_dev, b_data, plogblk, b_offset, b_size);
         } else {
             ret = storage_engine->read(g_root_dev, b_data, plogblk, b_size);
         }
-        
-		// bh_submit_read_sync_IO(ret_bh);
-		// bh_release(ret_bh);
 	}
 }
 

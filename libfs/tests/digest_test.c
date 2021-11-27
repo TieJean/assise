@@ -209,7 +209,7 @@ int main(int argc, char ** argv)
 
 	if (sum != (2 * LARGE_BUF_SIZE) + (2 * BUF_SIZE * N_UPDATES)) {
 		printf(KRED "data is corrupted : sum %lu - expect %u\n" KNRM, 
-				sum, (2 * LARGE_BUF_SIZE));
+				sum, (2 * LARGE_BUF_SIZE) + (2 * BUF_SIZE * N_UPDATES));
 		exit(-1);
 	}
 
