@@ -199,7 +199,13 @@ addr_t lblk2pblk4cache(uint8_t dev, addr_t lblk, int libfs_id) {
 
 void bh_submit_read_sync_IO_loop(struct buffer_head* bh, bool cache_bit_set) {
     addr_t plogblk;
-    struct buffer_head* ret_bh;
+    uint32_t b_offset;
+    uint32_t b_size;
+    uint8_t *b_data;
+    int ret;
+    struct storage_operations *storage_engine = g_bdev[g_log_dev]->storage_engine;
+    // struct buffer_head* ret_bh;
+    
 	for(int i = 0; i < (bh->b_size >> g_block_size_shift) + 1; i++) {
 		if (bh->b_size % g_block_size_bytes == 0 && i == (bh->b_size >> g_block_size_shift)) continue;
         if (cache_bit_set) {
@@ -207,33 +213,33 @@ void bh_submit_read_sync_IO_loop(struct buffer_head* bh, bool cache_bit_set) {
         } else {
             plogblk = lblk2pblk(g_log_dev, bh->b_blocknr + i, KERNFS_ID);
         }
-		ret_bh = bh_get_sync_IO(g_log_dev, plogblk, BH_NO_DATA_ALLOC);
-		// if (enable_perf_stats) {
-		// 	g_perf_stats.bcache_search_tsc += (asm_rdtscp() - start_tsc);
-		// 	g_perf_stats.bcache_search_nr++;
-		// }
-		ret_bh->b_data = bh->b_data + (i << g_block_size_shift);
-		ret_bh->b_size = g_block_size_bytes;
-		
+
+		// ret_bh = bh_get_sync_IO(g_log_dev, plogblk, BH_NO_DATA_ALLOC);
+		// ret_bh->b_data = bh->b_data + (i << g_block_size_shift);
+		// ret_bh->b_size = g_block_size_bytes;
+		b_data = bh->b_data + (i << g_block_size_shift);
+        b_size = g_block_size_bytes;
         if (i == 0) {
-            ret_bh->b_offset = bh->b_offset;
-            ret_bh->b_size = (bh->b_offset + bh->b_size < g_block_size_bytes) ? bh->b_size : g_block_size_bytes - bh->b_offset;
-            // printf("bh_submit_read_sync_IO_loop: case1 | %ld | %ld | %ld | %ld", bh->b_blocknr + i, plogblk, ret_bh->b_offset, ret_bh->b_size);
-            // printf("|%ld\n", get_block_sum_pblk(g_root_dev, plogblk));
+            b_offset = bh->b_offset;
+            b_size = (bh->b_offset + bh->b_size < g_block_size_bytes) ? bh->b_size : g_block_size_bytes - bh->b_offset;
+            // ret_bh->b_offset = bh->b_offset;
+            // ret_bh->b_size = (bh->b_offset + bh->b_size < g_block_size_bytes) ? bh->b_size : g_block_size_bytes - bh->b_offset;
         } else {
-            ret_bh->b_offset = 0;
-            // printf("bh_submit_read_sync_IO_loop: case2 | %ld | %ld | %ld | %ld", bh->b_blocknr + i, plogblk, ret_bh->b_offset, ret_bh->b_size);
-            // printf("|%ld\n", get_block_sum_pblk(g_root_dev, plogblk));
+            b_offset = 0;
+            // ret_bh->b_offset = 0;
         }
 		if (bh->b_size % g_block_size_bytes != 0 && i == (bh->b_size >> g_block_size_shift)) {
-			ret_bh->b_size = bh->b_size % g_block_size_bytes;
-            // printf("bh_submit_read_sync_IO_loop: case3 | %ld | %ld | %ld | %ld", bh->b_blocknr + i, plogblk, ret_bh->b_offset, ret_bh->b_size);
-            // printf("|%ld\n", get_block_sum_pblk(g_root_dev, plogblk));
+            b_size = bh->b_size % g_block_size_bytes;
+			// ret_bh->b_size = bh->b_size % g_block_size_bytes;
         } 
-		// mlfs_debug("inum %u offset %lu size %u @ blockno %lx (aligned)\n",
-		// 	loghdr->inode_no[idx], cur_offset, size, logblk_no);
-		bh_submit_read_sync_IO(ret_bh);
-		bh_release(ret_bh);
+        if(b_offset) {
+            ret = storage_engine->read_unaligned(g_root_dev, b_data, plogblk, b_offset, b_size);
+        } else {
+            ret = storage_engine->read(g_root_dev, b_data, plogblk, b_size);
+        }
+        
+		// bh_submit_read_sync_IO(ret_bh);
+		// bh_release(ret_bh);
 	}
 }
 
