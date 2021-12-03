@@ -1,0 +1,700 @@
+initialize file system
+dev-dax engine is initialized: dev_path /dev/dax0.0 size 3072 MB
+Reading root inode with inum: 1fetching node's IP address..
+Process pid is 762503
+ip address on interface 'lo' is 127.0.0.1
+cluster settings:
+--- node 0 - ip:127.0.0.1
+MLFS cluster initialized
+[Local-Server] Listening on port 12345 for connections. interrupt (^C) to exit.
+Adding connection with sockfd: 0
+Adding connection with sockfd: 1
+Adding connection with sockfd: 2
+RECV <-- MSG_INIT [pid 0]
+[add_peer_socket():80] Peer connected (ip: 127.0.0.1, pid: 762561)
+[add_peer_socket():97] Established connection with 127.0.0.1 on sock:0 of type:0 and peer:0x7fe0c720f000
+SEND --> MSG_SHM [paths: /shm_recv_0|/shm_send_0]
+start shmem_poll_loop for sockfd 0
+RECV <-- MSG_INIT [pid 2]
+RECV <-- MSG_INIT [pid 1]
+[add_peer_socket():97] Established connection with 127.0.0.1 on sock:2 of type:2 and peer:0x7fe0c720f000
+[add_peer_socket():97] Established connection with 127.0.0.1 on sock:1 of type:1 and peer:0x7fe0c720f000
+SEND --> MSG_SHM [paths: /shm_recv_2|/shm_send_2]
+start shmem_poll_loop for sockfd 2
+SEND --> MSG_SHM [paths: /shm_recv_1|/shm_send_1]
+start shmem_poll_loop for sockfd 1
+peer recv: |digest |1|1|4915|649729|649729|0
+[set_peer_digesting():159] set digesting for peer 1
+[clear_peer_digesting():172] clear digesting for peer 1
+[update_peer_digest_state():229] update peer 1 digest state: version 0 block_nr 659560
+------------------------------ storage stats
+NVM - 5.43 % used (0.12 / 2.25 GB) - # of used blocks 32021
+
+----------------------- kernfs statistics
+digest       : 5.652 ms
+- replay     : 0.000 ms
+- apply      : 0.000 ms
+-- inode digest : 0.011 ms
+-- dir digest   : 0.000 ms
+-- file digest  : 4.641 ms
+- persist    : 0.007 ms
+- digest file mkfs_write_opt : 2.450 ms
+n_digest        : 4916
+n_digest_skipped: 0 (0.0 %)
+path search    : 0.224 ms
+total migrated : 0 MB
+nr lease rpc (local)	: 0
+nr lease rpc (remote)	: 0
+nr lease migration	: 0
+nr lease contention	: 0
+--------------------------------------
+[handle_digest_request():1834] Total runtime (s): 0.004469
+peer recv: |digest |1|1|4916|659560|649729|0
+[set_peer_digesting():159] set digesting for peer 1
+[clear_peer_digesting():172] clear digesting for peer 1
+[update_peer_digest_state():229] update peer 1 digest state: version 0 block_nr 669392
+------------------------------ storage stats
+NVM - 6.26 % used (0.14 / 2.25 GB) - # of used blocks 36937
+
+----------------------- kernfs statistics
+digest       : 4.830 ms
+- replay     : 0.000 ms
+- apply      : 0.000 ms
+-- inode digest : 0.000 ms
+-- dir digest   : 0.000 ms
+-- file digest  : 3.973 ms
+- persist    : 0.003 ms
+- digest file mkfs_write_opt : 2.126 ms
+n_digest        : 4916
+n_digest_skipped: 0 (0.0 %)
+path search    : 0.188 ms
+total migrated : 0 MB
+nr lease rpc (local)	: 0
+nr lease rpc (remote)	: 0
+nr lease migration	: 0
+nr lease contention	: 0
+--------------------------------------
+[handle_digest_request():1834] Total runtime (s): 0.038384
+peer recv: |digest |1|1|4916|669392|649729|0
+[set_peer_digesting():159] set digesting for peer 1
+[clear_peer_digesting():172] clear digesting for peer 1
+[update_peer_digest_state():229] update peer 1 digest state: version 0 block_nr 679224
+------------------------------ storage stats
+NVM - 7.10 % used (0.16 / 2.25 GB) - # of used blocks 41853
+
+----------------------- kernfs statistics
+digest       : 6.039 ms
+- replay     : 0.000 ms
+- apply      : 0.000 ms
+-- inode digest : 0.000 ms
+-- dir digest   : 0.000 ms
+-- file digest  : 3.989 ms
+- persist    : 0.002 ms
+- digest file mkfs_write_opt : 2.143 ms
+n_digest        : 4916
+n_digest_skipped: 0 (0.0 %)
+path search    : 0.187 ms
+total migrated : 0 MB
+nr lease rpc (local)	: 0
+nr lease rpc (remote)	: 0
+nr lease migration	: 0
+nr lease contention	: 0
+--------------------------------------
+[handle_digest_request():1834] Total runtime (s): 0.073762
+peer recv: |digest |1|1|4915|679224|649729|682495
+[set_peer_digesting():159] set digesting for peer 1
+[clear_peer_digesting():172] clear digesting for peer 1
+[update_peer_digest_state():229] update peer 1 digest state: version 1 block_nr 656287
+------------------------------ storage stats
+NVM - 7.93 % used (0.18 / 2.25 GB) - # of used blocks 46768
+
+----------------------- kernfs statistics
+digest       : 4.789 ms
+- replay     : 0.000 ms
+- apply      : 0.000 ms
+-- inode digest : 0.000 ms
+-- dir digest   : 0.000 ms
+-- file digest  : 3.930 ms
+- persist    : 0.002 ms
+- digest file mkfs_write_opt : 2.092 ms
+n_digest        : 4915
+n_digest_skipped: 0 (0.0 %)
+path search    : 0.186 ms
+total migrated : 0 MB
+nr lease rpc (local)	: 0
+nr lease rpc (remote)	: 0
+nr lease migration	: 0
+nr lease contention	: 0
+--------------------------------------
+[handle_digest_request():1834] Total runtime (s): 0.106918
+peer recv: |digest |1|1|4916|656287|649729|0
+[set_peer_digesting():159] set digesting for peer 1
+[clear_peer_digesting():172] clear digesting for peer 1
+[update_peer_digest_state():229] update peer 1 digest state: version 1 block_nr 666119
+------------------------------ storage stats
+NVM - 8.76 % used (0.20 / 2.25 GB) - # of used blocks 51684
+
+----------------------- kernfs statistics
+digest       : 4.741 ms
+- replay     : 0.000 ms
+- apply      : 0.000 ms
+-- inode digest : 0.000 ms
+-- dir digest   : 0.000 ms
+-- file digest  : 3.885 ms
+- persist    : 0.002 ms
+- digest file mkfs_write_opt : 2.075 ms
+n_digest        : 4916
+n_digest_skipped: 0 (0.0 %)
+path search    : 0.186 ms
+total migrated : 0 MB
+nr lease rpc (local)	: 0
+nr lease rpc (remote)	: 0
+nr lease migration	: 0
+nr lease contention	: 0
+--------------------------------------
+[handle_digest_request():1834] Total runtime (s): 0.140814
+peer recv: |digest |1|1|4916|666119|649729|0
+[set_peer_digesting():159] set digesting for peer 1
+[clear_peer_digesting():172] clear digesting for peer 1
+[update_peer_digest_state():229] update peer 1 digest state: version 1 block_nr 675951
+------------------------------ storage stats
+NVM - 9.60 % used (0.22 / 2.25 GB) - # of used blocks 56600
+
+----------------------- kernfs statistics
+digest       : 4.762 ms
+- replay     : 0.000 ms
+- apply      : 0.000 ms
+-- inode digest : 0.000 ms
+-- dir digest   : 0.000 ms
+-- file digest  : 3.893 ms
+- persist    : 0.002 ms
+- digest file mkfs_write_opt : 2.078 ms
+n_digest        : 4916
+n_digest_skipped: 0 (0.0 %)
+path search    : 0.186 ms
+total migrated : 0 MB
+nr lease rpc (local)	: 0
+nr lease rpc (remote)	: 0
+nr lease migration	: 0
+nr lease contention	: 0
+--------------------------------------
+[handle_digest_request():1834] Total runtime (s): 0.174994
+peer recv: |digest |1|1|4915|675951|649729|682494
+[set_peer_digesting():159] set digesting for peer 1
+[clear_peer_digesting():172] clear digesting for peer 1
+[update_peer_digest_state():229] update peer 1 digest state: version 2 block_nr 653015
+------------------------------ storage stats
+NVM - 10.43 % used (0.23 / 2.25 GB) - # of used blocks 61515
+
+----------------------- kernfs statistics
+digest       : 4.751 ms
+- replay     : 0.000 ms
+- apply      : 0.000 ms
+-- inode digest : 0.000 ms
+-- dir digest   : 0.000 ms
+-- file digest  : 3.894 ms
+- persist    : 0.002 ms
+- digest file mkfs_write_opt : 2.057 ms
+n_digest        : 4915
+n_digest_skipped: 0 (0.0 %)
+path search    : 0.192 ms
+total migrated : 0 MB
+nr lease rpc (local)	: 0
+nr lease rpc (remote)	: 0
+nr lease migration	: 0
+nr lease contention	: 0
+--------------------------------------
+[handle_digest_request():1834] Total runtime (s): 0.208857
+peer recv: |digest |1|1|4916|653015|649729|0
+[set_peer_digesting():159] set digesting for peer 1
+[clear_peer_digesting():172] clear digesting for peer 1
+[update_peer_digest_state():229] update peer 1 digest state: version 2 block_nr 662847
+------------------------------ storage stats
+NVM - 11.26 % used (0.25 / 2.25 GB) - # of used blocks 66431
+
+----------------------- kernfs statistics
+digest       : 4.343 ms
+- replay     : 0.000 ms
+- apply      : 0.000 ms
+-- inode digest : 0.000 ms
+-- dir digest   : 0.000 ms
+-- file digest  : 3.563 ms
+- persist    : 0.003 ms
+- digest file mkfs_write_opt : 1.841 ms
+n_digest        : 4916
+n_digest_skipped: 0 (0.0 %)
+path search    : 0.190 ms
+total migrated : 0 MB
+nr lease rpc (local)	: 0
+nr lease rpc (remote)	: 0
+nr lease migration	: 0
+nr lease contention	: 0
+--------------------------------------
+[handle_digest_request():1834] Total runtime (s): 0.243337
+peer recv: |digest |1|1|4916|662847|649729|0
+[set_peer_digesting():159] set digesting for peer 1
+[clear_peer_digesting():172] clear digesting for peer 1
+[update_peer_digest_state():229] update peer 1 digest state: version 2 block_nr 672679
+------------------------------ storage stats
+NVM - 12.10 % used (0.27 / 2.25 GB) - # of used blocks 71347
+
+----------------------- kernfs statistics
+digest       : 4.346 ms
+- replay     : 0.000 ms
+- apply      : 0.000 ms
+-- inode digest : 0.000 ms
+-- dir digest   : 0.000 ms
+-- file digest  : 3.569 ms
+- persist    : 0.002 ms
+- digest file mkfs_write_opt : 1.858 ms
+n_digest        : 4916
+n_digest_skipped: 0 (0.0 %)
+path search    : 0.185 ms
+total migrated : 0 MB
+nr lease rpc (local)	: 0
+nr lease rpc (remote)	: 0
+nr lease migration	: 0
+nr lease contention	: 0
+--------------------------------------
+[handle_digest_request():1834] Total runtime (s): 0.277071
+peer recv: |digest |1|1|4915|672679|649729|682494
+[set_peer_digesting():159] set digesting for peer 1
+[clear_peer_digesting():172] clear digesting for peer 1
+[update_peer_digest_state():229] update peer 1 digest state: version 3 block_nr 649743
+------------------------------ storage stats
+NVM - 12.93 % used (0.29 / 2.25 GB) - # of used blocks 76262
+
+----------------------- kernfs statistics
+digest       : 4.309 ms
+- replay     : 0.000 ms
+- apply      : 0.000 ms
+-- inode digest : 0.000 ms
+-- dir digest   : 0.000 ms
+-- file digest  : 3.538 ms
+- persist    : 0.002 ms
+- digest file mkfs_write_opt : 1.832 ms
+n_digest        : 4915
+n_digest_skipped: 0 (0.0 %)
+path search    : 0.185 ms
+total migrated : 0 MB
+nr lease rpc (local)	: 0
+nr lease rpc (remote)	: 0
+nr lease migration	: 0
+nr lease contention	: 0
+--------------------------------------
+[handle_digest_request():1834] Total runtime (s): 0.310863
+peer recv: |digest |1|1|4916|649743|649729|0
+[set_peer_digesting():159] set digesting for peer 1
+[clear_peer_digesting():172] clear digesting for peer 1
+[update_peer_digest_state():229] update peer 1 digest state: version 3 block_nr 659575
+------------------------------ storage stats
+NVM - 13.76 % used (0.31 / 2.25 GB) - # of used blocks 81178
+
+----------------------- kernfs statistics
+digest       : 4.732 ms
+- replay     : 0.000 ms
+- apply      : 0.000 ms
+-- inode digest : 0.000 ms
+-- dir digest   : 0.000 ms
+-- file digest  : 3.931 ms
+- persist    : 0.003 ms
+- digest file mkfs_write_opt : 2.131 ms
+n_digest        : 4916
+n_digest_skipped: 0 (0.0 %)
+path search    : 0.194 ms
+total migrated : 0 MB
+nr lease rpc (local)	: 0
+nr lease rpc (remote)	: 0
+nr lease migration	: 0
+nr lease contention	: 0
+--------------------------------------
+[handle_digest_request():1834] Total runtime (s): 0.346129
+peer recv: |digest |1|1|4916|659575|649729|0
+[set_peer_digesting():159] set digesting for peer 1
+[clear_peer_digesting():172] clear digesting for peer 1
+[update_peer_digest_state():229] update peer 1 digest state: version 3 block_nr 669407
+------------------------------ storage stats
+NVM - 14.60 % used (0.33 / 2.25 GB) - # of used blocks 86094
+
+----------------------- kernfs statistics
+digest       : 4.318 ms
+- replay     : 0.000 ms
+- apply      : 0.000 ms
+-- inode digest : 0.000 ms
+-- dir digest   : 0.000 ms
+-- file digest  : 3.557 ms
+- persist    : 0.002 ms
+- digest file mkfs_write_opt : 1.866 ms
+n_digest        : 4916
+n_digest_skipped: 0 (0.0 %)
+path search    : 0.182 ms
+total migrated : 0 MB
+nr lease rpc (local)	: 0
+nr lease rpc (remote)	: 0
+nr lease migration	: 0
+nr lease contention	: 0
+--------------------------------------
+[handle_digest_request():1834] Total runtime (s): 0.379120
+peer recv: |digest |1|1|4916|669407|649729|0
+[set_peer_digesting():159] set digesting for peer 1
+[clear_peer_digesting():172] clear digesting for peer 1
+[update_peer_digest_state():229] update peer 1 digest state: version 3 block_nr 679239
+------------------------------ storage stats
+NVM - 15.43 % used (0.35 / 2.25 GB) - # of used blocks 91010
+
+----------------------- kernfs statistics
+digest       : 4.805 ms
+- replay     : 0.000 ms
+- apply      : 0.000 ms
+-- inode digest : 0.000 ms
+-- dir digest   : 0.000 ms
+-- file digest  : 3.936 ms
+- persist    : 0.002 ms
+- digest file mkfs_write_opt : 2.040 ms
+n_digest        : 4916
+n_digest_skipped: 0 (0.0 %)
+path search    : 0.205 ms
+total migrated : 0 MB
+nr lease rpc (local)	: 0
+nr lease rpc (remote)	: 0
+nr lease migration	: 0
+nr lease contention	: 0
+--------------------------------------
+[handle_digest_request():1834] Total runtime (s): 0.415158
+peer recv: |digest |1|1|4915|679239|649729|682494
+[set_peer_digesting():159] set digesting for peer 1
+[clear_peer_digesting():172] clear digesting for peer 1
+[update_peer_digest_state():229] update peer 1 digest state: version 4 block_nr 656303
+------------------------------ storage stats
+NVM - 16.26 % used (0.37 / 2.25 GB) - # of used blocks 95925
+
+----------------------- kernfs statistics
+digest       : 5.098 ms
+- replay     : 0.000 ms
+- apply      : 0.000 ms
+-- inode digest : 0.000 ms
+-- dir digest   : 0.000 ms
+-- file digest  : 4.238 ms
+- persist    : 0.002 ms
+- digest file mkfs_write_opt : 2.089 ms
+n_digest        : 4915
+n_digest_skipped: 0 (0.0 %)
+path search    : 0.221 ms
+total migrated : 0 MB
+nr lease rpc (local)	: 0
+nr lease rpc (remote)	: 0
+nr lease migration	: 0
+nr lease contention	: 0
+--------------------------------------
+[handle_digest_request():1834] Total runtime (s): 0.451292
+peer recv: |digest |1|1|4916|656303|649729|0
+[set_peer_digesting():159] set digesting for peer 1
+[clear_peer_digesting():172] clear digesting for peer 1
+[update_peer_digest_state():229] update peer 1 digest state: version 4 block_nr 666135
+------------------------------ storage stats
+NVM - 17.10 % used (0.38 / 2.25 GB) - # of used blocks 100841
+
+----------------------- kernfs statistics
+digest       : 4.831 ms
+- replay     : 0.000 ms
+- apply      : 0.000 ms
+-- inode digest : 0.000 ms
+-- dir digest   : 0.000 ms
+-- file digest  : 3.970 ms
+- persist    : 0.003 ms
+- digest file mkfs_write_opt : 2.056 ms
+n_digest        : 4916
+n_digest_skipped: 0 (0.0 %)
+path search    : 0.228 ms
+total migrated : 0 MB
+nr lease rpc (local)	: 0
+nr lease rpc (remote)	: 0
+nr lease migration	: 0
+nr lease contention	: 0
+--------------------------------------
+[handle_digest_request():1834] Total runtime (s): 0.485351
+peer recv: |digest |1|1|4916|666135|649729|0
+[set_peer_digesting():159] set digesting for peer 1
+[clear_peer_digesting():172] clear digesting for peer 1
+[update_peer_digest_state():229] update peer 1 digest state: version 4 block_nr 675967
+------------------------------ storage stats
+NVM - 17.93 % used (0.40 / 2.25 GB) - # of used blocks 105757
+
+----------------------- kernfs statistics
+digest       : 4.898 ms
+- replay     : 0.000 ms
+- apply      : 0.000 ms
+-- inode digest : 0.000 ms
+-- dir digest   : 0.000 ms
+-- file digest  : 4.036 ms
+- persist    : 0.003 ms
+- digest file mkfs_write_opt : 2.085 ms
+n_digest        : 4916
+n_digest_skipped: 0 (0.0 %)
+path search    : 0.235 ms
+total migrated : 0 MB
+nr lease rpc (local)	: 0
+nr lease rpc (remote)	: 0
+nr lease migration	: 0
+nr lease contention	: 0
+--------------------------------------
+[handle_digest_request():1834] Total runtime (s): 0.520139
+peer recv: |digest |1|1|4915|675967|649729|682494
+[set_peer_digesting():159] set digesting for peer 1
+[clear_peer_digesting():172] clear digesting for peer 1
+[update_peer_digest_state():229] update peer 1 digest state: version 5 block_nr 653031
+------------------------------ storage stats
+NVM - 18.76 % used (0.42 / 2.25 GB) - # of used blocks 110672
+
+----------------------- kernfs statistics
+digest       : 4.833 ms
+- replay     : 0.000 ms
+- apply      : 0.000 ms
+-- inode digest : 0.000 ms
+-- dir digest   : 0.000 ms
+-- file digest  : 3.978 ms
+- persist    : 0.002 ms
+- digest file mkfs_write_opt : 2.062 ms
+n_digest        : 4915
+n_digest_skipped: 0 (0.0 %)
+path search    : 0.228 ms
+total migrated : 0 MB
+nr lease rpc (local)	: 0
+nr lease rpc (remote)	: 0
+nr lease migration	: 0
+nr lease contention	: 0
+--------------------------------------
+[handle_digest_request():1834] Total runtime (s): 0.555920
+peer recv: |digest |1|1|4916|653031|649729|0
+[set_peer_digesting():159] set digesting for peer 1
+[clear_peer_digesting():172] clear digesting for peer 1
+[update_peer_digest_state():229] update peer 1 digest state: version 5 block_nr 662863
+------------------------------ storage stats
+NVM - 19.60 % used (0.44 / 2.25 GB) - # of used blocks 115588
+
+----------------------- kernfs statistics
+digest       : 4.847 ms
+- replay     : 0.000 ms
+- apply      : 0.000 ms
+-- inode digest : 0.000 ms
+-- dir digest   : 0.000 ms
+-- file digest  : 3.982 ms
+- persist    : 0.003 ms
+- digest file mkfs_write_opt : 2.062 ms
+n_digest        : 4916
+n_digest_skipped: 0 (0.0 %)
+path search    : 0.227 ms
+total migrated : 0 MB
+nr lease rpc (local)	: 0
+nr lease rpc (remote)	: 0
+nr lease migration	: 0
+nr lease contention	: 0
+--------------------------------------
+[handle_digest_request():1834] Total runtime (s): 0.591823
+peer recv: |digest |1|1|4916|662863|649729|0
+[set_peer_digesting():159] set digesting for peer 1
+[clear_peer_digesting():172] clear digesting for peer 1
+[update_peer_digest_state():229] update peer 1 digest state: version 5 block_nr 672695
+------------------------------ storage stats
+NVM - 20.43 % used (0.46 / 2.25 GB) - # of used blocks 120504
+
+----------------------- kernfs statistics
+digest       : 4.840 ms
+- replay     : 0.000 ms
+- apply      : 0.000 ms
+-- inode digest : 0.000 ms
+-- dir digest   : 0.000 ms
+-- file digest  : 3.977 ms
+- persist    : 0.002 ms
+- digest file mkfs_write_opt : 2.062 ms
+n_digest        : 4916
+n_digest_skipped: 0 (0.0 %)
+path search    : 0.228 ms
+total migrated : 0 MB
+nr lease rpc (local)	: 0
+nr lease rpc (remote)	: 0
+nr lease migration	: 0
+nr lease contention	: 0
+--------------------------------------
+[handle_digest_request():1834] Total runtime (s): 0.627698
+peer recv: |digest |1|1|4915|672695|649729|682494
+[set_peer_digesting():159] set digesting for peer 1
+[clear_peer_digesting():172] clear digesting for peer 1
+[update_peer_digest_state():229] update peer 1 digest state: version 6 block_nr 649759
+------------------------------ storage stats
+NVM - 21.26 % used (0.48 / 2.25 GB) - # of used blocks 125419
+
+----------------------- kernfs statistics
+digest       : 4.786 ms
+- replay     : 0.000 ms
+- apply      : 0.000 ms
+-- inode digest : 0.000 ms
+-- dir digest   : 0.000 ms
+-- file digest  : 3.900 ms
+- persist    : 0.002 ms
+- digest file mkfs_write_opt : 2.188 ms
+n_digest        : 4915
+n_digest_skipped: 0 (0.0 %)
+path search    : 0.190 ms
+total migrated : 0 MB
+nr lease rpc (local)	: 0
+nr lease rpc (remote)	: 0
+nr lease migration	: 0
+nr lease contention	: 0
+--------------------------------------
+[handle_digest_request():1834] Total runtime (s): 0.663497
+peer recv: |digest |1|1|4916|649759|649729|0
+[set_peer_digesting():159] set digesting for peer 1
+[clear_peer_digesting():172] clear digesting for peer 1
+[update_peer_digest_state():229] update peer 1 digest state: version 6 block_nr 659591
+------------------------------ storage stats
+NVM - 22.10 % used (0.50 / 2.25 GB) - # of used blocks 130335
+
+----------------------- kernfs statistics
+digest       : 4.869 ms
+- replay     : 0.000 ms
+- apply      : 0.000 ms
+-- inode digest : 0.000 ms
+-- dir digest   : 0.000 ms
+-- file digest  : 3.859 ms
+- persist    : 0.002 ms
+- digest file mkfs_write_opt : 1.976 ms
+n_digest        : 4916
+n_digest_skipped: 0 (0.0 %)
+path search    : 0.211 ms
+total migrated : 0 MB
+nr lease rpc (local)	: 0
+nr lease rpc (remote)	: 0
+nr lease migration	: 0
+nr lease contention	: 0
+--------------------------------------
+[handle_digest_request():1834] Total runtime (s): 0.698314
+peer recv: |digest |1|1|4916|659591|649729|0
+[set_peer_digesting():159] set digesting for peer 1
+[clear_peer_digesting():172] clear digesting for peer 1
+[update_peer_digest_state():229] update peer 1 digest state: version 6 block_nr 669423
+------------------------------ storage stats
+NVM - 22.93 % used (0.52 / 2.25 GB) - # of used blocks 135251
+
+----------------------- kernfs statistics
+digest       : 4.865 ms
+- replay     : 0.000 ms
+- apply      : 0.000 ms
+-- inode digest : 0.000 ms
+-- dir digest   : 0.000 ms
+-- file digest  : 4.009 ms
+- persist    : 0.003 ms
+- digest file mkfs_write_opt : 2.082 ms
+n_digest        : 4916
+n_digest_skipped: 0 (0.0 %)
+path search    : 0.227 ms
+total migrated : 0 MB
+nr lease rpc (local)	: 0
+nr lease rpc (remote)	: 0
+nr lease migration	: 0
+nr lease contention	: 0
+--------------------------------------
+[handle_digest_request():1834] Total runtime (s): 0.732496
+peer recv: |digest |1|1|4916|669423|649729|0
+[set_peer_digesting():159] set digesting for peer 1
+[clear_peer_digesting():172] clear digesting for peer 1
+[update_peer_digest_state():229] update peer 1 digest state: version 6 block_nr 679255
+------------------------------ storage stats
+NVM - 23.76 % used (0.53 / 2.25 GB) - # of used blocks 140167
+
+----------------------- kernfs statistics
+digest       : 4.838 ms
+- replay     : 0.000 ms
+- apply      : 0.000 ms
+-- inode digest : 0.000 ms
+-- dir digest   : 0.000 ms
+-- file digest  : 3.963 ms
+- persist    : 0.002 ms
+- digest file mkfs_write_opt : 2.051 ms
+n_digest        : 4916
+n_digest_skipped: 0 (0.0 %)
+path search    : 0.228 ms
+total migrated : 0 MB
+nr lease rpc (local)	: 0
+nr lease rpc (remote)	: 0
+nr lease migration	: 0
+nr lease contention	: 0
+--------------------------------------
+[handle_digest_request():1834] Total runtime (s): 0.766981
+peer recv: |digest |1|1|4915|679255|649729|682494
+[set_peer_digesting():159] set digesting for peer 1
+[clear_peer_digesting():172] clear digesting for peer 1
+[update_peer_digest_state():229] update peer 1 digest state: version 7 block_nr 656319
+------------------------------ storage stats
+NVM - 24.60 % used (0.55 / 2.25 GB) - # of used blocks 145082
+
+----------------------- kernfs statistics
+digest       : 4.828 ms
+- replay     : 0.000 ms
+- apply      : 0.000 ms
+-- inode digest : 0.000 ms
+-- dir digest   : 0.000 ms
+-- file digest  : 3.964 ms
+- persist    : 0.002 ms
+- digest file mkfs_write_opt : 2.047 ms
+n_digest        : 4915
+n_digest_skipped: 0 (0.0 %)
+path search    : 0.233 ms
+total migrated : 0 MB
+nr lease rpc (local)	: 0
+nr lease rpc (remote)	: 0
+nr lease migration	: 0
+nr lease contention	: 0
+--------------------------------------
+[handle_digest_request():1834] Total runtime (s): 0.801445
+peer recv: |digest |1|1|4916|656319|649729|0
+[set_peer_digesting():159] set digesting for peer 1
+[clear_peer_digesting():172] clear digesting for peer 1
+[update_peer_digest_state():229] update peer 1 digest state: version 7 block_nr 666151
+------------------------------ storage stats
+NVM - 25.43 % used (0.57 / 2.25 GB) - # of used blocks 149998
+
+----------------------- kernfs statistics
+digest       : 4.835 ms
+- replay     : 0.000 ms
+- apply      : 0.000 ms
+-- inode digest : 0.000 ms
+-- dir digest   : 0.000 ms
+-- file digest  : 3.972 ms
+- persist    : 0.002 ms
+- digest file mkfs_write_opt : 2.054 ms
+n_digest        : 4916
+n_digest_skipped: 0 (0.0 %)
+path search    : 0.227 ms
+total migrated : 0 MB
+nr lease rpc (local)	: 0
+nr lease rpc (remote)	: 0
+nr lease migration	: 0
+nr lease contention	: 0
+--------------------------------------
+[handle_digest_request():1834] Total runtime (s): 0.836058
+peer recv: |digest |1|1|4916|666151|649729|0
+[set_peer_digesting():159] set digesting for peer 1
+[clear_peer_digesting():172] clear digesting for peer 1
+[update_peer_digest_state():229] update peer 1 digest state: version 7 block_nr 675983
+------------------------------ storage stats
+NVM - 26.26 % used (0.59 / 2.25 GB) - # of used blocks 154914
+
+----------------------- kernfs statistics
+digest       : 4.831 ms
+- replay     : 0.000 ms
+- apply      : 0.000 ms
+-- inode digest : 0.000 ms
+-- dir digest   : 0.000 ms
+-- file digest  : 3.969 ms
+- persist    : 0.002 ms
+- digest file mkfs_write_opt : 2.054 ms
+n_digest        : 4916
+n_digest_skipped: 0 (0.0 %)
+path search    : 0.228 ms
+total migrated : 0 MB
+nr lease rpc (local)	: 0
+nr lease rpc (remote)	: 0
+nr lease migration	: 0
+nr lease contention	: 0
+--------------------------------
