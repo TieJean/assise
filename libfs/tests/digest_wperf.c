@@ -15,8 +15,8 @@
 #define KGRN  "\x1B[32m"
 #define KRED  "\x1B[31m"
 #define KNRM  "\x1B[0m"
-#define SIZE 4
-#define ITER_NUM 500
+#define SIZE 5
+#define ITER_NUM 100
 
 int verify_write(unsigned int buffer_size);
 void write_test(unsigned int buffer_size, int fd, char c);
@@ -57,7 +57,7 @@ int main(int argc, char ** argv) {
     double runtimes[SIZE];
     int sums[SIZE];
     // unsigned int buffer_sizes[] = {128, BLK_SIZE, 4 * BLK_SIZE, 64 * BLK_SIZE};
-    unsigned int buffer_sizes[] = {BLK_SIZE,  4 * BLK_SIZE, 64 * BLK_SIZE, 1024 * BLK_SIZE};
+    unsigned int buffer_sizes[] = {BLK_SIZE, 2 * BLK_SIZE, 128 * BLK_SIZE, 1000 * BLK_SIZE, 1800 * BLK_SIZE};
     // unsigned int buffer_sizes[] = {BLK_SIZE,  4 * BLK_SIZE, 64 * BLK_SIZE};
 
     for (i = 0; i < SIZE; ++i) { runtimes[i] = 0; }
